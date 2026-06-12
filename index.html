@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 World Cup Guide – Melbourne</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #2a3550;
+    --gold: #f5a623;
+    --gold2: #e8962a;
+    --text: #e8eaf0;
+    --muted: #7c8aab;
+    --accent: #3b82f6;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a2a4a 50%, #0a1628 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 16px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-title { display: flex; align-items: center; gap: 14px; }
+  .trophy { font-size: 32px; }
+  h1 { font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: -0.5px; }
+  h1 span { color: var(--text); font-weight: 400; font-size: 14px; display: block; }
+  .melbourne-time { text-align: right; }
+  .time-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .time-display { font-size: 20px; font-weight: 700; color: var(--gold); }
+  .date-display { font-size: 12px; color: var(--muted); }
+
+  /* NAV TABS */
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; gap: 0; }
+  .tab { padding: 14px 22px; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* LAYOUT */
+  .app { display: flex; height: calc(100vh - 112px); overflow: hidden; }
+  .schedule-panel { width: 420px; min-width: 420px; overflow-y: auto; border-right: 1px solid var(--border); }
+  .detail-panel { flex: 1; overflow-y: auto; }
+
+  /* SECTION HEADERS */
+  .section-header {
+    padding: 16px 20px 10px;
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); font-weight: 700; }
+  .section-header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* DATE GROUP */
+  .date-group { margin-bottom: 4px; }
+  .date-label {
+    padding: 8px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .date-label.today { color: var(--gold); background: rgba(245,166,35,0.08); }
+  .today-badge { background: var(--gold); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 800; }
+
+  /* MATCH CARD */
+  .match-card {
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .match-card:hover { background: var(--surface2); border-left-color: var(--border); }
+  .match-card.selected { background: var(--surface2); border-left-color: var(--gold); }
+  .match-card.live { border-left-color: var(--green); }
+  .match-meta { display: flex; justify-content: space-between; align-items: center; }
+  .match-group { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 700; }
+  .match-time { font-size: 11px; color: var(--muted); }
+  .match-time.live-time { color: var(--green); font-weight: 700; }
+  .match-teams { display: flex; align-items: center; gap: 10px; }
+  .team-display { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+  .team-display.right { flex-direction: row-reverse; }
+  .flag { font-size: 22px; flex-shrink: 0; }
+  .team-name { font-weight: 700; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .score-display { font-size: 18px; font-weight: 800; color: var(--gold); min-width: 50px; text-align: center; }
+  .vs { font-size: 11px; color: var(--muted); min-width: 30px; text-align: center; }
+  .match-venue { font-size: 11px; color: var(--muted); }
+  .rating { display: flex; gap: 2px; }
+  .star { color: var(--gold); font-size: 10px; }
+  .star.empty { color: var(--border); }
+
+  /* DETAIL PANEL */
+  .detail-empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%; color: var(--muted); gap: 16px;
+  }
+  .detail-empty .icon { font-size: 64px; }
+  .detail-empty p { font-size: 14px; }
+
+  .detail-content { padding: 0 0 40px; }
+
+  /* MATCH HERO */
+  .match-hero {
+    background: linear-gradient(135deg, #0d1928, #1a2a4a, #0d1928);
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-group { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 12px; font-weight: 700; }
+  .hero-matchup { display: flex; align-items: center; gap: 20px; margin-bottom: 16px; }
+  .hero-team { flex: 1; text-align: center; }
+  .hero-flag { font-size: 56px; display: block; margin-bottom: 8px; }
+  .hero-name { font-size: 20px; font-weight: 800; }
+  .hero-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .hero-vs { font-size: 14px; color: var(--muted); font-weight: 600; min-width: 60px; text-align: center; }
+  .hero-score { font-size: 40px; font-weight: 900; color: var(--gold); }
+  .hero-info { display: flex; gap: 20px; flex-wrap: wrap; }
+  .hero-info-item { font-size: 12px; color: var(--muted); }
+  .hero-info-item strong { color: var(--text); }
+  .hero-status { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,166,35,0.15); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 12px; margin-bottom: 12px; font-size: 12px; color: var(--gold); font-weight: 700; }
+  .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* SECTIONS */
+  .section { padding: 24px 32px; border-bottom: 1px solid var(--border); }
+  .section h3 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .section h3 span { font-size: 16px; }
+
+  /* PREDICTION BAR */
+  .prediction { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .pred-label { font-size: 12px; color: var(--muted); width: 80px; }
+  .pred-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; display: flex; }
+  .pred-bar-home { height: 100%; background: var(--accent); transition: width 0.5s; }
+  .pred-bar-draw { height: 100%; background: var(--muted); }
+  .pred-bar-away { height: 100%; background: var(--gold); }
+  .pred-pct { font-size: 12px; font-weight: 700; width: 36px; text-align: right; }
+  .home-pct { color: var(--accent); }
+  .away-pct { color: var(--gold); }
+  .draw-pct { color: var(--muted); }
+
+  /* TEAM COMPARISON */
+  .team-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .team-col { }
+  .team-col-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .team-col-header .flag { font-size: 24px; }
+  .team-col-header h4 { font-size: 15px; font-weight: 800; }
+
+  /* PLAYER CARD */
+  .player-card { background: var(--surface); border-radius: 8px; padding: 12px; margin-bottom: 8px; border: 1px solid var(--border); }
+  .player-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .player-role { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .player-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* TACTICS */
+  .tactic-item { background: var(--surface); border-radius: 8px; padding: 14px; margin-bottom: 10px; border-left: 3px solid var(--accent); }
+  .tactic-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+  .tactic-text { font-size: 13px; line-height: 1.6; }
+
+  /* TALKING POINTS */
+  .talking-points { display: flex; flex-direction: column; gap: 10px; }
+  .tp { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); border-radius: 8px; padding: 12px; }
+  .tp-icon { font-size: 18px; flex-shrink: 0; }
+  .tp-text { font-size: 13px; line-height: 1.6; }
+
+  /* STAKES */
+  .stakes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stakes-card { background: var(--surface); border-radius: 8px; padding: 14px; }
+  .stakes-flag { font-size: 28px; margin-bottom: 6px; }
+  .stakes-team { font-size: 12px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+  .stakes-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* FORMATION */
+  .formation-label { font-size: 28px; font-weight: 900; color: var(--gold); }
+  .formation-sub { font-size: 12px; color: var(--muted); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* GROUPS VIEW */
+  .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding: 20px; }
+  .group-card { background: var(--surface); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+  .group-title { background: var(--surface2); padding: 10px 14px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
+  .group-team { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--border); cursor: pointer; }
+  .group-team:hover { background: var(--surface2); }
+  .group-team .flag { font-size: 18px; }
+  .group-team-name { font-size: 13px; font-weight: 600; flex: 1; }
+  .group-team-rank { font-size: 11px; color: var(--muted); }
+
+  .hidden { display: none !important; }
+
+  /* LANGUAGE TOGGLE */
+  .lang-toggle { display: flex; gap: 4px; }
+  .lang-btn { padding: 6px 14px; border: 1px solid var(--border); background: transparent; color: var(--muted); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all 0.2s; }
+  .lang-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+  .lang-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+
+  @media (max-width: 768px) {
+    .app { flex-direction: column; height: auto; }
+    .schedule-panel { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-title">
+    <span class="trophy">🏆</span>
+    <div>
+      <h1>2026 World Cup Guide <span>Melbourne Viewing Guide</span></h1>
+    </div>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+  </div>
+  <div class="melbourne-time">
+    <div class="time-label">Melbourne AEST</div>
+    <div class="time-display" id="clock">--:--</div>
+    <div class="date-display" id="datedisp">--</div>
+  </div>
+</header>
+
+<nav>
+  <div class="tab active" id="tab-today" onclick="switchTab('today')">⚡ Today</div>
+  <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">📅 Schedule</div>
+  <div class="tab" id="tab-groups" onclick="switchTab('groups')">🌍 Groups</div>
+</nav>
+
+<div class="app">
+  <!-- LEFT: SCHEDULE LIST -->
+  <div class="schedule-panel" id="schedulePanel">
+    <div id="matchList"></div>
+  </div>
+
+  <!-- RIGHT: DETAIL PANEL -->
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-empty" id="detailEmpty">
+      <span class="icon">⚽</span>
+      <p>Select a match to see players, tactics & what to watch</p>
+    </div>
+    <div class="detail-content hidden" id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  TEAM DATA
+// ══════════════════════════════════════
+const TEAMS = {
+  MEX: { name: "Mexico", flag: "🇲🇽", group: "A", rank: 15, manager: "Javier Aguirre",
+    formation: "4-3-3",
+    style: "Counter-attacking with compact defensive shape. Quick vertical transitions through the midfield, with wingers hugging the touchline to create overloads. Relies on home-crowd energy.",
+    players: [
+      { name: "Santiago Giménez", jersey: "9", role: "Striker", desc: "Clinical centre-forward who left Feyenoord for AC Milan. Pure poacher with intelligent movement in the box — Mexico's best finisher in a generation." },
+      { name: "Hirving 'Chucky' Lozano", jersey: "22", role: "Right Winger", desc: "Electric pace and trickery. At his best he drags defenders out of position and creates space for runners. Can win a game on his own in 10 minutes." },
+      { name: "Guillermo Ochoa", jersey: "13", role: "Goalkeeper", desc: "The legendary 40-year-old keeper. His reflexes and experience make him a difference-maker — has saved Mexico at multiple World Cups." }
+    ],
+    narrative: "The host nation curse — Mexico hasn't made a World Cup quarter-final since 1986. Playing on home soil at the iconic Estadio Azteca, the pressure and passion will be immense.",
+    stakes: "Playing at Azteca where the Hand of God happened. The nation demands more than a Round of 32 exit. This is their best shot in 40 years." },
+
+  RSA: { name: "South Africa", flag: "🇿🇦", group: "A", rank: 71,
+    formation: "4-4-2",
+    style: "Organized and hard-working. Compact defensive block with fast breaks. Not there to make up numbers — proved it by qualifying from Africa's toughest group.",
+    players: [
+      { name: "Percy Tau", jersey: "10", role: "Forward", desc: "Al Ahly's creative spark. Comfortable on either wing, combines dribbling with intelligent link-up play." },
+      { name: "Ronwen Williams", jersey: "1", role: "Goalkeeper", desc: "One of Africa's best shot-stoppers. His reflexes kept South Africa alive during qualification." }
+    ],
+    narrative: "2010 hosts are back! South Africa hosted the tournament 16 years ago. A nostalgic return, now they want to prove they belong.",
+    stakes: "Historic comeback story — no team has been as emotionally significant to host a tournament and now qualify on merit." },
+
+  KOR: { name: "South Korea", flag: "🇰🇷", group: "A", rank: 24,
+    formation: "4-2-3-1",
+    style: "Disciplined and well-organized. Hard-pressing when needed, quick transitions with technically gifted attackers.",
+    players: [
+      { name: "Son Heung-min", jersey: "7", role: "Forward/Captain", desc: "The captain and star. Premier League elite at Tottenham — left foot like a laser, leadership when it matters. Can single-handedly change a game." },
+      { name: "Lee Jae-sung", jersey: "14", role: "Midfielder", desc: "The engine in midfield. Press-resistant and a tireless runner." }
+    ],
+    narrative: "Son's potential final World Cup, carrying a nation's hopes. South Korea's 2002 semi-final run at home still the high point — can lightning strike again?",
+    stakes: "Son turns 34 during this tournament. Last realistic shot at World Cup glory for South Korea's best ever player." },
+
+  CZE: { name: "Czech Republic", flag: "🇨🇿", group: "A", rank: 37,
+    formation: "4-2-3-1",
+    style: "Pragmatic European style. Organized defensively, dangerous from set-pieces. Eliminated Italy in qualifying — no pushover.",
+    players: [
+      { name: "Tomáš Souček", jersey: "17", role: "Midfielder", desc: "West Ham powerhouse. Exceptional in the air, scores important goals, covers every blade of grass." },
+      { name: "Antonín Barák", jersey: "11", role: "Attacking Mid", desc: "Creative link between midfield and attack. Technical ability and vision to open defenses." }
+    ],
+    narrative: "Knocked out Italy — who were 4-time world champions — from qualifying. Already achieved something historic. Playing with freedom.",
+    stakes: "First World Cup since 2006. The dark horse of Group A who could cause real upsets." },
+
+  CAN: { name: "Canada", flag: "🇨🇦", group: "B", rank: 27, manager: "Jesse Marsch",
+    formation: "4-3-3",
+    style: "High energy, high press, physical. Jesse Marsch's teams are relentless runners. Attack-minded with overlapping full-backs and direct wingers.",
+    players: [
+      { name: "Alphonso Davies", jersey: "3", role: "Left Back/Winger", desc: "The rocket. Bayern Munich's explosive left back has pace that makes defenders look foolish. Can go from his own box to the opponent's in seconds. Don't blink." },
+      { name: "Jonathan David", jersey: "9", role: "Striker", desc: "Prolific scorer who dominated Ligue 1 at Lille. Pure instinct inside the box — one of the most clinical forwards in the world right now." },
+      { name: "Tajon Buchanan", jersey: "11", role: "Right Winger", desc: "Electric on the ball with pace to burn. Has grown into a genuine top-level player at Inter Milan." }
+    ],
+    narrative: "Canada's first World Cup on home soil. First tournament ever in 2022, now hosting. The golden generation is real — Davies and David are legitimate stars.",
+    stakes: "Opening match of Canada's tournament at BMO Field Toronto. The country watching, the pressure is real — and so is the talent." },
+
+  BIH: { name: "Bosnia & Herzegovina", flag: "🇧🇦", group: "B", rank: 50,
+    formation: "4-3-3",
+    style: "Physically imposing. Won't be bullied. Direct and aggressive with a strong attacking mindset despite their defensive base.",
+    players: [
+      { name: "Edin Džeko", jersey: "9", role: "Striker", desc: "The legend returns — or his replacement era has begun. Bosnia's all-time scorer at 38, still a threat with his clever movement and chest control." },
+      { name: "Sead Kolašinac", jersey: "5", role: "Left Back", desc: "Aggressive, physical presence. His overlapping runs give Bosnia width in attack." }
+    ],
+    narrative: "Eliminated Italy in the playoff — that win alone made this squad immortal in Bosnia. First major tournament since 2014 World Cup.",
+    stakes: "They've already beaten Italy to get here. Playing with nothing to lose, which makes them dangerous." },
+
+  QAT: { name: "Qatar", flag: "🇶🇦", group: "B", rank: 58,
+    formation: "4-3-3",
+    style: "Possession-based, technically sound. The 2022 hosts struggled at home but this squad has now qualified properly, giving them experience.",
+    players: [
+      { name: "Akram Afif", jersey: "11", role: "Winger", desc: "Qatar's most dangerous attacker. Quick, direct and can score from outside the box. Won the Golden Ball at the 2023 Asian Cup." },
+      { name: "Almoez Ali", jersey: "9", role: "Striker", desc: "Strong and aerially dominant — a handful for any defender in the air." }
+    ],
+    narrative: "First time Qatar qualified on merit. A chance to prove 2022 wasn't just about being hosts.",
+    stakes: "The whole Gulf region watching. Proving themselves to a skeptical world." },
+
+  SUI: { name: "Switzerland", flag: "🇨🇭", group: "B", rank: 17,
+    formation: "4-2-3-1",
+    style: "Mechanically disciplined, hard to beat. Tactical intelligence is their trademark. Won't let you breathe in midfield.",
+    players: [
+      { name: "Granit Xhaka", jersey: "10", role: "Midfielder", desc: "Bayer Leverkusen's relentless midfield engine — reads the game beautifully and passes with precision. The heart of Switzerland." },
+      { name: "Breel Embolo", jersey: "7", role: "Striker", desc: "Strong, direct, dangerous in behind. Monaco striker who can hold the ball up and bring others into play." }
+    ],
+    narrative: "Consistent overachievers. Reached the quarterfinals in 2022. The world keeps underestimating Switzerland.",
+    stakes: "A chance to go further than any Swiss team in history." },
+
+  BRA: { name: "Brazil", flag: "🇧🇷", group: "C", rank: 5, manager: "Carlo Ancelotti",
+    formation: "4-2-3-1",
+    style: "Reinvented under Ancelotti — no traditional No.9. The Seleção relies on fluid attacking movement, explosive wide play and intense pressing. When the front three click, nobody in the world can stop them.",
+    players: [
+      { name: "Vinícius Júnior", jersey: "7", role: "Left Winger", desc: "One of the best players in the world. Terrifying pace, skill and unpredictability — his step-overs and cutting inside are a nightmare for any right back. If he's in form, Brazil become unplayable." },
+      { name: "Raphinha", jersey: "11", role: "Right Winger", desc: "Barcelona captain. Technical brilliance, direct running, chips in with goals. The creative force behind Brazil's high-octane attack." },
+      { name: "Rodrygo", jersey: "9", role: "Attacking Mid", desc: "The composed one. Less explosive than Vini but deadly in the final third. Scores big goals in big moments." },
+      { name: "Casemiro", jersey: "5", role: "Defensive Mid", desc: "The anchor. Manchester United's warrior sits in front of the defence and destroys attacks before they develop. Without him Brazil look vulnerable." }
+    ],
+    narrative: "Brazil's last win was 2002. Six-time champions with the most decorated history in football — they carry the weight of expectation every four years.",
+    stakes: "Ancelotti has transformed the mood. If Vini is at his Real Madrid best, Brazil win this tournament. Watch every dribble." },
+
+  MAR: { name: "Morocco", flag: "🇲🇦", group: "C", rank: 11, manager: "Walid Regragui",
+    formation: "4-1-4-1",
+    style: "Compact defensive organization, then lightning fast on the counter. Regragui's Morocco are exceptionally hard to break down — and punish you when you try to chase the game.",
+    players: [
+      { name: "Achraf Hakimi", jersey: "2", role: "Right Back/Wing", desc: "PSG's wing-back is one of the most attack-minded defenders alive. His overlapping runs create a permanent overload on the right side — genuinely a threat to score in every game." },
+      { name: "Hakim Ziyech", jersey: "7", role: "Attacking Mid", desc: "The flair player — his left foot is a magic wand. Creates goals from nothing with clever dribbling and precise through-balls." },
+      { name: "Sofyan Amrabat", jersey: "4", role: "Midfielder", desc: "The enforcer. Breaks up play relentlessly and drives forward. Became a global star at the 2022 World Cup." }
+    ],
+    narrative: "First African team to reach a World Cup semi-final — in 2022 they beat Spain, Portugal and Belgium before falling to France. The world was stunned. They're back to do it again.",
+    stakes: "Can Africa's finest go one step further and reach a World Cup final? The continent will be watching." },
+
+  HTI: { name: "Haiti", flag: "🇭🇹", group: "C", rank: 84,
+    formation: "4-4-2",
+    style: "Defensive and disciplined. Work rate over technical quality. Their strength is resilience and making the game ugly.",
+    players: [
+      { name: "Frantzdy Pierrot", jersey: "9", role: "Forward", desc: "Athletic and powerful. Can cause problems in the air and with his direct running." }
+    ],
+    narrative: "First World Cup since 1974! Huge achievement for a football-mad nation that has overcome enormous hardship.",
+    stakes: "The underdog story of the tournament. Every point they get is a miracle — and they know it." },
+
+  SCO: { name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "C", rank: 36,
+    formation: "4-3-3",
+    style: "Combative and physical. High pressing when possible, organized defensive shape when not. Set-pieces are a genuine weapon.",
+    players: [
+      { name: "Scott McTominay", jersey: "8", role: "Midfielder", desc: "Napoli's goal-scoring midfielder who has transformed Scotland's ambitions. Bundled in crucial goals during qualifying and leads by example." },
+      { name: "Andy Robertson", jersey: "3", role: "Left Back", desc: "Liverpool's legendary left-back is Scotland's captain. His overlapping runs and deliveries are world-class." }
+    ],
+    narrative: "Last World Cup in 1998 — 28 year wait! Scotland in Group C with Brazil is an almost poetic draw.",
+    stakes: "In Group C with Brazil — the dream would be to sneak through. But facing Brazil is once in a lifetime. Enjoy it." },
+
+  USA: { name: "United States", flag: "🇺🇸", group: "D", rank: 14, manager: "Mauricio Pochettino",
+    formation: "4-3-3",
+    style: "Athletic, pressing and increasingly technical under Pochettino. The USMNT runs more ground per game than almost any team in the world. Quick vertical passing and dangerous set-pieces.",
+    players: [
+      { name: "Christian Pulisic", jersey: "10", role: "Captain / Attacking Mid", desc: "AC Milan's American hero. The first US player to genuinely star in Europe's elite. Direct, two-footed, brave — when he's in form he's one of the best in the tournament." },
+      { name: "Gio Reyna", jersey: "7", role: "Attacking Mid", desc: "Borussia Dortmund's technically gifted playmaker — the most naturally talented American footballer ever. When fit, he's a potential tournament star." },
+      { name: "Tyler Adams", jersey: "4", role: "Defensive Mid", desc: "The engine room. His pressing, positioning and passing have earned him a spot in top European clubs. Runs the entire midfield." }
+    ],
+    narrative: "Host nation with genuine ambitions — not just there to make up numbers. The 2022 team reached the Round of 16. This group is more experienced and Pochettino has added tactical discipline.",
+    stakes: "Playing at SoFi Stadium in LA for their opener. 100,000 passionate Americans. This is the biggest sporting event the US has hosted since 1994." },
+
+  PRY: { name: "Paraguay", flag: "🇵🇾", group: "D", rank: 39,
+    formation: "4-4-2",
+    style: "South American grit. Combative, physical and defensively organized. Won't roll over for anyone — USA will need to earn every inch.",
+    players: [
+      { name: "Miguel Almirón", jersey: "10", role: "Attacking Mid", desc: "Newcastle's energetic midfielder — press resistance, pace, and the ability to pop up with important goals. A genuine threat if given space." },
+      { name: "Ángel Romero", jersey: "9", role: "Forward", desc: "Experienced and clever. Knows how to hold the ball up and bring teammates into play." }
+    ],
+    narrative: "Paraguay punches above its weight consistently. At their best — 2010 World Cup quarter-finalists.",
+    stakes: "The opening game for both US and Paraguay. A tight, tense match is virtually guaranteed." },
+
+  AUS: { name: "Australia", flag: "🇦🇺", group: "D", rank: 23,
+    formation: "4-3-3",
+    style: "High energy, physical pressing. Graham Arnold's Socceroos work as a collective unit. Fast and direct when they get the ball forward.",
+    players: [
+      { name: "Mathew Leckie", jersey: "11", role: "Right Winger", desc: "The veteran who scored THAT goal against Denmark in 2022. Relentless running, direct and can produce moments of magic when it counts." },
+      { name: "Nestory Irankunda", jersey: "17", role: "Winger", desc: "The exciting youngster — 19 year old Bayern Munich attacker who is Australia's most exciting talent in years." },
+      { name: "Mitchell Duke", jersey: "9", role: "Striker", desc: "The traditional No.9 — strong in the air and a focal point for Australia's attacks. More clinical than he looks." }
+    ],
+    narrative: "The 2022 heroics — beating Denmark, taking it to England in the Round of 16, reaching the last 8 before falling to Argentina. That team inspired a nation. Now they want more. MELBOURNE TAKE NOTE.",
+    stakes: "Australia are in Group D with the USA. The Socceroos vs USA is the match that could define whether Australia advances. Arguably the most important match for Australian football in decades." },
+
+  TUR: { name: "Turkey", flag: "🇹🇷", group: "D", rank: 28,
+    formation: "4-2-3-1",
+    style: "Dynamic and passionate. Technical midfield combined with direct attacking play. Can switch tempo quickly.",
+    players: [
+      { name: "Hakan Çalhanoğlu", jersey: "8", role: "Midfielder", desc: "Inter Milan's midfield maestro — incredible range of passing, scores from distance and dictates tempo. One of Europe's best midfielders right now." },
+      { name: "Arda Güler", jersey: "10", role: "Attacking Mid", desc: "Real Madrid's 20-year-old prodigy — technically gifted with an old head on young shoulders. Could be a breakout star of this tournament." }
+    ],
+    narrative: "Third place in 2002 — Turkey's best World Cup. Now returning for the first time since then with an exciting generation.",
+    stakes: "Güler could become the story of the group stage. Turkey are the wildcard of Group D." },
+
+  GER: { name: "Germany", flag: "🇩🇪", group: "E", rank: 12, manager: "Julian Nagelsmann",
+    formation: "4-2-3-1",
+    style: "Rebuilt under Nagelsmann — more attacking, more creative, less mechanical than the old Germany. High pressing with technical quality through the spine of the team.",
+    players: [
+      { name: "Florian Wirtz", jersey: "10", role: "Attacking Mid", desc: "Bayer Leverkusen's genius. At just 22, he's arguably the most naturally gifted German player in 30 years. His dribbling, vision and finishing are extraordinary. Watch him constantly." },
+      { name: "Jamal Musiala", jersey: "10", role: "Attacking Mid", desc: "Bayern's graceful technician — silky dribbling in tight spaces, brave on the ball and scores important goals. Alongside Wirtz, Germany have two of the world's most exciting young players." },
+      { name: "Joshua Kimmich", jersey: "6", role: "Midfielder", desc: "The conductor of the orchestra. His positioning, pressing and range of passing make Germany tick." }
+    ],
+    narrative: "Failed to advance from the group stage in 2018 AND 2022 — humiliation for a 4-time world champion. Nagelsmann has rebuilt the excitement. Germany enter this tournament with real belief again.",
+    stakes: "Germany need to make amends for two consecutive group-stage exits. With Wirtz and Musiala, they have the talent. The question is whether they can deliver under pressure." },
+
+  CIV: { name: "Ivory Coast", flag: "🇨🇮", group: "E", rank: 42,
+    formation: "4-4-2",
+    style: "Physical and direct. Dangerous from set-pieces and powerful athletes throughout the side.",
+    players: [
+      { name: "Sébastien Haller", jersey: "9", role: "Striker", desc: "Dortmund's powerful striker. Survived cancer to return as an elite player — his story is extraordinary. Target man with great technique." },
+      { name: "Franck Kessié", jersey: "5", role: "Midfielder", desc: "A box-to-box machine — his power and engine in midfield can overwhelm opponents." }
+    ],
+    narrative: "AFCON champions in 2024 — a new golden generation emerging.",
+    stakes: "Could be the African dark horse in what looks like a winnable group." },
+
+  ECU: { name: "Ecuador", flag: "🇪🇨", group: "E", rank: 31,
+    formation: "4-4-2",
+    style: "Organized, direct, physical. South American fighting spirit with a pragmatic approach.",
+    players: [
+      { name: "Moisés Caicedo", jersey: "10", role: "Midfielder", desc: "Chelsea's dynamic midfield engine — one of the best young midfielders in the world. His ball-winning and quick distribution make him elite." },
+      { name: "Enner Valencia", jersey: "13", role: "Striker", desc: "The veteran captain. Scored at two previous World Cups and his leadership and physicality remain invaluable." }
+    ],
+    narrative: "South America's rising force. A young team with a world-class midfielder in Caicedo.",
+    stakes: "Caicedo is the biggest name on the team — watch him dominate midfield battles." },
+
+  NED: { name: "Netherlands", flag: "🇳🇱", group: "F", rank: 7, manager: "Ronald Koeman",
+    formation: "4-3-3",
+    style: "Total football heritage meets modern pressing. The Dutch play with technical quality, aggressive pressing and fluid attacking movement. The 4-3-3 is in their DNA.",
+    players: [
+      { name: "Virgil van Dijk", jersey: "4", role: "Centre-back / Captain", desc: "Arguably the world's best defender. His reading of the game, aerial dominance and composure make him a pleasure to watch — defenders are rarely this commanding." },
+      { name: "Cody Gakpo", jersey: "7", role: "Forward", desc: "Liverpool's left-sided attacker — creative, powerful and scores crucial goals. One of the most dynamic forwards in the tournament." },
+      { name: "Tijjani Reijnders", jersey: "14", role: "Midfielder", desc: "AC Milan's metronomic midfielder — links defence to attack with elegant simplicity." }
+    ],
+    narrative: "Three World Cup finals (1974, 1978, 2010) and never won it. The Dutch call it the 'Oranje Trauma'. Could this finally be their year?",
+    stakes: "The most decorated team never to have won it. Van Dijk at 34 — this is his last real shot. The Dutch deserve to finally win." },
+
+  JPN: { name: "Japan", flag: "🇯🇵", group: "F", rank: 18,
+    formation: "4-2-3-1",
+    style: "Technical, disciplined and incredibly well-drilled. Japan's collective intelligence is unmatched in Asia — they press in coordinated waves and are technically superb.",
+    players: [
+      { name: "Takefusa Kubo", jersey: "8", role: "Attacking Mid", desc: "Real Sociedad's technically gifted creator. Lightning quick, clever in tight spaces and creates goals from nothing." },
+      { name: "Kaoru Mitoma", jersey: "9", role: "Left Winger", desc: "Brighton's dribbling machine — his low centre of gravity and skill make him almost impossible to dispossess. A genuine star." }
+    ],
+    narrative: "Beat Germany and Spain in 2022 group stage — nobody should be taking Japan lightly.",
+    stakes: "Japan are genuinely capable of a deep run. Their technical quality and team cohesion can match anyone." },
+
+  BEL: { name: "Belgium", flag: "🇧🇪", group: "G", rank: 8,
+    formation: "4-3-3",
+    style: "New generation — the 'Golden Generation' era is over, replaced by younger talent. Fast transitions and technical quality remain.",
+    players: [
+      { name: "Lois Openda", jersey: "9", role: "Striker", desc: "RB Leipzig's electric striker. His pace behind defenses and clinical finishing have made him one of Europe's most dangerous forwards." },
+      { name: "Amadou Onana", jersey: "5", role: "Midfielder", desc: "Aston Villa's physically imposing and technically capable midfielder — covers enormous ground and starts attacks." }
+    ],
+    narrative: "Belgium's golden generation (De Bruyne, Lukaku, Hazard) never won a major trophy. Now a new group has the chance to actually deliver.",
+    stakes: "Can the next generation succeed where the greatest Belgian players ever failed?" },
+
+  ESP: { name: "Spain", flag: "🇪🇸", group: "H", rank: 1, manager: "Luis de la Fuente",
+    formation: "4-3-3",
+    style: "Positional play mastery — the most technically accomplished team in the tournament. Short passing, intelligent movement, high press. Euro 2024 champions and clear tournament favourites.",
+    players: [
+      { name: "Lamine Yamal", jersey: "19", role: "Right Winger", desc: "18 years old and already the best young player in the world. Scored the wonder-goal vs France in Euro 2024. His skill, composure and creativity are jaw-dropping — you won't believe he's a teenager." },
+      { name: "Pedri", jersey: "8", role: "Central Midfielder", desc: "The midfield maestro — his ability to receive in tight spaces, turn defenders and pick passes is technically breathtaking. Pure joy to watch." },
+      { name: "Rodri", jersey: "16", role: "Defensive Midfielder", desc: "Ballon d'Or winner. Spain's defensive shield and primary orchestrator. Rarely loses the ball, reads the game a step ahead of everyone." },
+      { name: "Álvaro Morata", jersey: "7", role: "Striker", desc: "AC Milan's captain — selfless pressing, intelligent movement and has the big-game experience to deliver." }
+    ],
+    narrative: "World Cup winners in 2010, 4-time European champions. Coming off a stunning Euro 2024 triumph. Spain are the #1 ranked side and clear favourites.",
+    stakes: "Can the greatest Spanish generation win a second World Cup? Their technical football is the purest in the world right now." },
+
+  URU: { name: "Uruguay", flag: "🇺🇾", group: "H", rank: 16,
+    formation: "4-3-3",
+    style: "La Garra Charrúa — the fighting spirit. Tactically sophisticated, defensively ferocious and with world-class attacking talent.",
+    players: [
+      { name: "Federico Valverde", jersey: "15", role: "Midfielder", desc: "Real Madrid's tireless engine — covers every blade of grass, scores long-range goals and has the biggest motor in midfield football. Absolutely elite." },
+      { name: "Darwin Núñez", jersey: "9", role: "Striker", desc: "Liverpool's explosive centre-forward. Pacey, powerful and can overwhelm any defence when he's at full throttle." }
+    ],
+    narrative: "Two-time world champions (1930, 1950) who consistently overperform their size. La Celeste are never easy to beat.",
+    stakes: "Uruguay vs Spain could be the best group-stage match of the tournament. Two tactically brilliant teams." },
+
+  FRA: { name: "France", flag: "🇫🇷", group: "I", rank: 3, manager: "Didier Deschamps",
+    formation: "4-3-3",
+    style: "The perfect blend of technical quality and physical power. France can play possession football or destroy teams on the counter. Their depth is unmatched — stars rotate without quality loss.",
+    players: [
+      { name: "Kylian Mbappé", jersey: "10", role: "Centre Forward", desc: "The fastest man in world football and arguably the best. Just 5 goals from breaking the all-time World Cup scoring record. His acceleration, finishing and vision make him different from anyone else. Watch him every single second he has the ball." },
+      { name: "Antoine Griezmann", jersey: "7", role: "Attacking Mid", desc: "The creative brain behind France. His clever movement between the lines, creativity and clutch performances in major moments make him one of the most important players in world football." },
+      { name: "Marcus Thuram", jersey: "9", role: "Striker / Second Forward", desc: "Inter Milan's powerhouse. His strength, pace and intelligent movement make him the perfect partner for Mbappé." }
+    ],
+    narrative: "2018 World Cup winners. Lost the 2022 final on penalties. Deschamps's side are always dangerous. If Mbappé fires, France don't lose.",
+    stakes: "Mbappé's defining World Cup? He's been in the final twice. Now he has the team to finish the job. A France-Spain final would be a classic." },
+
+  SEN: { name: "Senegal", flag: "🇸🇳", group: "I", rank: 20,
+    formation: "4-3-3",
+    style: "Athletic, powerful and technically capable. When the Lions of Teranga press with intensity they're very hard to play through.",
+    players: [
+      { name: "Sadio Mané", jersey: "10", role: "Forward", desc: "The legendary attacker — 31 years old but still capable of brilliance. His career at Liverpool was extraordinary and he carries the nation's hopes." },
+      { name: "Ismaïla Sarr", jersey: "23", role: "Winger", desc: "Crystal Palace's explosive winger. Pure pace and directness — can punish any defence caught flat." }
+    ],
+    narrative: "Lost to England on penalties in the 2022 Round of 16. Africa's most consistent performers alongside Morocco.",
+    stakes: "Group I is incredibly competitive — France vs Senegal is a top-tier group match." },
+
+  ARG: { name: "Argentina", flag: "🇦🇷", group: "J", rank: 2, manager: "Lionel Scaloni",
+    formation: "4-3-3",
+    style: "Tactically flexible and hard to beat. Scaloni's Argentina are defensively disciplined and lethal on the break. They grind games out when needed and open up when they must.",
+    players: [
+      { name: "Lionel Messi", jersey: "10", role: "Captain / Forward", desc: "THE greatest player who ever lived — and now a World Cup winner. Possibly his last tournament. At 38 he's playing on another plane, but his passing, vision and set-pieces remain otherworldly. Every touch will be historic. Don't take your eyes off him." },
+      { name: "Julián Álvarez", jersey: "9", role: "Striker", desc: "The 2022 tournament's breakout star. Athletic, intelligent movement, clinical finishing. At 24, this is his World Cup to announce himself to the world." },
+      { name: "Enzo Fernández", jersey: "24", role: "Midfielder", desc: "Chelsea's engine — the modern midfield complete player. Defends, attacks, scores, assists. Crucial to Argentina's system." }
+    ],
+    narrative: "Defending champions — winners in 2022, ending a 36-year wait. The iconic image of Messi lifting the trophy. Can they become the first back-to-back winners since Brazil in 1958-62?",
+    stakes: "Messi's farewell tour. If this is his last World Cup, every moment is precious. He's won everything — but can he win it twice? The entire world is watching." },
+
+  NOR: { name: "Norway", flag: "🇳🇴", group: "I", rank: 29,
+    formation: "4-3-3",
+    style: "Direct, physical and frightening in front of goal. When Haaland has the ball in dangerous areas, something usually happens.",
+    players: [
+      { name: "Erling Haaland", jersey: "9", role: "Striker", desc: "The scoring machine. Manchester City's goal-scoring robot who has broken every record put in front of him. His athleticism, finishing and sheer physical presence make him the most feared striker in world football. Any time he gets the ball in the box — stand up." }
+    ],
+    narrative: "First World Cup since 1998! Haaland has never played in a major international tournament until now. The world gets to finally see the Haaland experience.",
+    stakes: "Haaland vs Mbappé in the same group (Group I). Two of the world's best players going head to head in group stage — must watch." },
+
+  POR: { name: "Portugal", flag: "🇵🇹", group: "K", rank: 6, manager: "Roberto Martínez",
+    formation: "4-3-3",
+    style: "Technical quality throughout. Wide attacking play, clever interplay between midfield and attack. Martínez has built a genuine team mentality around more than just Ronaldo.",
+    players: [
+      { name: "Cristiano Ronaldo", jersey: "7", role: "Captain / Forward", desc: "The most decorated player in football history. At 41, possibly the final chapter of the greatest career ever. Still capable of moments of genius and almost certainly still motivated. His set-piece delivery, movement and finishing remain elite. History watching." },
+      { name: "Rafael Leão", jersey: "11", role: "Left Winger", desc: "AC Milan's electric attacker — when he's in full flow he's unplayable. Pace, skill and an eye for goal make him Portugal's most dangerous weapon." },
+      { name: "Bernardo Silva", jersey: "10", role: "Midfielder", desc: "Manchester City's technical master — intelligent positioning, passing and goalscoring. The heartbeat of the team." }
+    ],
+    narrative: "Won Euro 2016, lost on penalties to Morocco in 2022 quarter-final. The one trophy that has eluded Ronaldo. Can he finally win a World Cup in his last attempt?",
+    stakes: "Ronaldo's final World Cup. At 41, this is it. The entire Portuguese nation, and much of the world, wants him to finally lift the ultimate prize." },
+
+  COL: { name: "Colombia", flag: "🇨🇴", group: "K", rank: 13,
+    formation: "4-2-3-1",
+    style: "Exciting, technical and confident after reaching the Copa América final in 2024. Fast transitions and creative attacking play.",
+    players: [
+      { name: "Luis Díaz", jersey: "7", role: "Left Winger", desc: "Liverpool's electric winger. His directness, pace and ability to beat defenders creates danger every time he touches the ball." },
+      { name: "James Rodríguez", jersey: "10", role: "Attacking Mid", desc: "The 2014 Golden Boot winner makes a potential World Cup return — Colombia's most elegant passer and creator." }
+    ],
+    narrative: "Copa América runners-up in 2024 — the most in-form South American nation coming into this tournament.",
+    stakes: "Colombia are genuinely capable of making the semi-finals. Luis Díaz is electric." },
+
+  ENG: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "L", rank: 4, manager: "Gareth Southgate",
+    formation: "4-3-3",
+    style: "Defensively solid and well-organized. The strength is in the individual quality — England don't have a rigid playing style but their front three and midfield are world class. Set-pieces are a major weapon.",
+    players: [
+      { name: "Harry Kane", jersey: "9", role: "Striker / Captain", desc: "England's all-time top scorer at Bayern Munich. His intelligent movement, hold-up play and clinical finishing make him one of the best in world football. Carries enormous pressure with grace." },
+      { name: "Jude Bellingham", jersey: "5", role: "Midfielder", desc: "Real Madrid's box-to-box sensation — at 22 he's arguably the best midfielder in the world. Electric in possession, goal-scoring from midfield, relentless pressing. England's heartbeat." },
+      { name: "Declan Rice", jersey: "4", role: "Defensive Mid", desc: "Arsenal's midfield general — his ball-winning and progressive passing give England control and security. World-class." }
+    ],
+    narrative: "Won in 1966. Reached the 2018 semi-final, the 2021 Euro final, the 2024 Euro final — always the bridesmaid. The 'It's coming home' meme is eternal. The golden generation needs to deliver.",
+    stakes: "60 years of hurt. Kane, Bellingham and Rice are the best generation England have had in that time. If they don't win it now, when? England vs Croatia in the group (a 2018 semi-final rematch) to kick things off." },
+
+  CRO: { name: "Croatia", flag: "🇭🇷", group: "L", rank: 10,
+    formation: "4-3-3",
+    style: "Technically gifted and tactically disciplined. Modric orchestrates everything from deep — the Croatian way is intelligent, patient possession before decisive moments.",
+    players: [
+      { name: "Luka Modrić", jersey: "10", role: "Midfielder / Captain", desc: "The 39-year-old genius. Ballon d'Or winner, 2018 World Cup Golden Ball winner. Still arguably playing — his touch, vision and reading of the game are timeless. Watching Modrić play is watching a master craftsman. Possibly his final tournament." },
+      { name: "Mateo Kovačić", jersey: "8", role: "Midfielder", desc: "Manchester City's technical dynamo — relentless pressing and precise passing make him the perfect complement to Modrić." }
+    ],
+    narrative: "2018 runners-up, 2022 third place. Croatia with a population the size of Melbourne (4 million!) consistently reaching World Cup semi-finals. Modric's farewell is at hand.",
+    stakes: "How does Modric's story end? England vs Croatia echoes the 2018 semi-final. Croatia won that one." }
+};
+
+// ══════════════════════════════════════
+//  MATCH SCHEDULE (UTC times)
+// ══════════════════════════════════════
+// score: [homeGoals, awayGoals] or null
+// rating: 1-5 "watch rating" for casual viewers
+
+const MATCHES = [
+  // ─── MATCHDAY 1 ───
+  // Group A — June 11
+  { id:1, group:"A", md:1, utc:"2026-06-11T20:00Z", home:"MEX", away:"RSA", venue:"Mexico City", score:[2,0], rating:3,
+    preview:"Mexico's iconic opening at Estadio Azteca. The hosts delivered — Giménez on the scoresheet. A nervy but thrilling opening night for El Tri." },
+  { id:2, group:"A", md:1, utc:"2026-06-12T02:00Z", home:"KOR", away:"CZE", venue:"Guadalajara", score:null, rating:3,
+    preview:"Son Heung-min's World Cup adventure begins. Can the Spurs captain lead South Korea past a Czech side that just eliminated Italy? A tactical battle worth following." },
+
+  // Group B — June 12
+  { id:3, group:"B", md:1, utc:"2026-06-12T19:00Z", home:"CAN", away:"BIH", venue:"Toronto", score:null, rating:4,
+    preview:"Canada's tournament begins on home soil in front of a packed BMO Field. Davies, David and Buchanan against a Bosnia side that killed Italy's dream. Opening ceremony day." },
+  // Group D — June 12
+  { id:4, group:"D", md:1, utc:"2026-06-13T01:00Z", home:"USA", away:"PRY", venue:"Los Angeles", score:null, rating:4,
+    preview:"The USA's World Cup opener on home soil. SoFi Stadium will be electric. Pulisic leads the hosts against a stubborn Paraguay side. High stakes, massive atmosphere." },
+
+  // Group C — June 13
+  { id:5, group:"C", md:1, utc:"2026-06-13T16:00Z", home:"HTI", away:"SCO", venue:"Philadelphia", score:null, rating:3,
+    preview:"Haiti's first World Cup since 1974 — a dream scenario for the underdogs. Scotland look to upset the balance in a group with Brazil. A must-win for the Scots." },
+  { id:6, group:"C", md:1, utc:"2026-06-13T22:00Z", home:"BRA", away:"MAR", venue:"New York/NJ", score:null, rating:5,
+    preview:"The match of Matchday 1. Brazil's explosive attacking trio against the team that shocked Europe in 2022. Vinícius vs Hakimi — a battle of the best in world football." },
+  // Group B extra + Group D extra
+  { id:7, group:"B", md:1, utc:"2026-06-13T19:00Z", home:"QAT", away:"SUI", venue:"San Francisco", score:null, rating:3,
+    preview:"Switzerland's tactical discipline against Qatar's flair. The Swiss are under-hyped — Xhaka in midfield is world class." },
+  { id:8, group:"D", md:1, utc:"2026-06-14T01:00Z", home:"AUS", away:"TUR", venue:"Kansas City", score:null, rating:4,
+    preview:"SOCCEROOS alert! Australia vs Turkey — a defining game for Australian football. If the Socceroos can replicate their 2022 energy here, they can get a result against Turkey's dangerous Çalhanoğlu and Güler." },
+
+  // Group E — June 14
+  { id:9, group:"E", md:1, utc:"2026-06-14T17:00Z", home:"GER", away:"CUW", venue:"Houston", score:null, rating:3,
+    preview:"Germany's opener — Wirtz and Musiala finally get their World Cup. Curaçao making their debut. Watch the German front line click into gear." },
+  { id:10, group:"E", md:1, utc:"2026-06-14T23:00Z", home:"CIV", away:"ECU", venue:"Philadelphia", score:null, rating:3,
+    preview:"West Africa vs South America. Haller vs Caicedo — two of Europe's best in very different positions." },
+
+  // Group F — June 14
+  { id:11, group:"F", md:1, utc:"2026-06-14T20:00Z", home:"NED", away:"JPN", venue:"Dallas", score:null, rating:4,
+    preview:"Dutch Total Football heritage vs Japan's technical collectivism. Van Dijk commanding the back four against Mitoma's electric dribbling — a genuine clash of styles." },
+  { id:12, group:"F", md:1, utc:"2026-06-15T02:00Z", home:"SWE", away:"TUN", venue:"Guadalupe", score:null, rating:2,
+    preview:"Sweden return after missing 2022. Tunisia are well-organized but limited attacking-wise." },
+
+  // Group H — June 15
+  { id:13, group:"H", md:1, utc:"2026-06-15T17:00Z", home:"ESP", away:"CPV", venue:"Atlanta", score:null, rating:3,
+    preview:"Spain's campaign begins. Watch Yamal and Pedri tear apart Cape Verde's compact structure. This is where Spain's possession machine gets into gear." },
+  { id:14, group:"H", md:1, utc:"2026-06-15T22:00Z", home:"KSA", away:"URU", venue:"Miami", score:null, rating:4,
+    preview:"Saudi Arabia shocked Argentina in 2022. Now they face Uruguay — Valverde and Núñez vs an improving Saudi side. Don't be surprised by the result." },
+
+  // Group G — June 15
+  { id:15, group:"G", md:1, utc:"2026-06-15T22:00Z", home:"BEL", away:"EGY", venue:"Seattle", score:null, rating:3,
+    preview:"New Belgium against Egypt. Openda's pace vs Egyptian organization. Belgium are rebuilding but talented." },
+  { id:16, group:"G", md:1, utc:"2026-06-16T04:00Z", home:"IRN", away:"NZL", venue:"Los Angeles", score:null, rating:2,
+    preview:"Iran vs New Zealand — the lowest-ranked team in the tournament. An opportunity for Iran to bank 3 points." },
+
+  // Group I — June 16
+  { id:17, group:"I", md:1, utc:"2026-06-16T19:00Z", home:"FRA", away:"SEN", venue:"New York/NJ", score:null, rating:5,
+    preview:"Mbappé's World Cup begins. France vs Senegal is a blockbuster — Mané vs Mbappé, African flair vs European power. This could be the best group stage match of the tournament." },
+  { id:18, group:"I", md:1, utc:"2026-06-16T22:00Z", home:"IRQ", away:"NOR", venue:"Boston", score:null, rating:5,
+    preview:"Haaland's World Cup debut! Norway's machine vs Iraq — every Haaland touch inside the box could lead to a goal. Watch the world's most ruthless finisher finally on the biggest stage." },
+
+  // Group J — June 16
+  { id:19, group:"J", md:1, utc:"2026-06-17T01:00Z", home:"ARG", away:"ALG", venue:"Kansas City", score:null, rating:5,
+    preview:"MESSI. Argentina's defending champions begin their title defence. Algeria are no pushovers (AFCON winners) but Messi on his potential final World Cup stage is unmissable. Every touch is history." },
+  { id:20, group:"J", md:1, utc:"2026-06-17T01:00Z", home:"AUT", away:"JOR", venue:"San Francisco", score:null, rating:2,
+    preview:"Austria vs Jordan — a chance for Austria to pick up points before facing Argentina." },
+
+  // Group K — June 17
+  { id:21, group:"K", md:1, utc:"2026-06-17T17:00Z", home:"POR", away:"COD", venue:"Houston", score:null, rating:4,
+    preview:"Ronaldo's last World Cup opener. Can the 41-year-old still deliver on the biggest stage? Portugal vs DR Congo — Leão will provide the spark, but all eyes are on CR7." },
+  { id:22, group:"K", md:1, utc:"2026-06-18T02:00Z", home:"UZB", away:"COL", venue:"Mexico City", score:null, rating:3,
+    preview:"Colombia's explosive Díaz and Rodríguez against Uzbekistan in their World Cup debut. Colombia should dominate." },
+
+  // Group L — June 17
+  { id:23, group:"L", md:1, utc:"2026-06-17T20:00Z", home:"ENG", away:"CRO", venue:"Dallas", score:null, rating:5,
+    preview:"A 2018 World Cup semi-final rematch. Croatia beat England in extra time that day — Southgate's greatest wound. Bellingham, Kane and Rice vs Modric's final dance. Tactical masterclass guaranteed." },
+  { id:24, group:"L", md:1, utc:"2026-06-17T23:00Z", home:"GHA", away:"PAN", venue:"Toronto", score:null, rating:2,
+    preview:"Ghana vs Panama — both hoping to spring a surprise in Group L." },
+
+  // ─── MATCHDAY 2 ───
+  // Group A — June 18
+  { id:25, group:"A", md:2, utc:"2026-06-18T17:00Z", home:"MEX", away:"KOR", venue:"Guadalajara", score:null, rating:4,
+    preview:"Mexico vs South Korea — Son Heung-min facing the hosts. A win here effectively sends Mexico through. The home pressure intensifies." },
+  { id:26, group:"A", md:2, utc:"2026-06-18T20:00Z", home:"CZE", away:"RSA", venue:"Kansas City", score:null, rating:3,
+    preview:"Both teams needing points. The Czech Republic will look to control possession; South Africa will look to absorb and counter." },
+  // Group B — June 18
+  { id:27, group:"B", md:2, utc:"2026-06-18T23:00Z", home:"CAN", away:"QAT", venue:"Vancouver", score:null, rating:4,
+    preview:"Canada should win this — but Davies vs Qatar's defence will be a fascinating mismatch in pace and power. Can Canada put the group to bed?" },
+  { id:28, group:"B", md:2, utc:"2026-06-19T02:00Z", home:"SUI", away:"BIH", venue:"Seattle", score:null, rating:3,
+    preview:"Switzerland vs Bosnia — two technically capable European sides in a must-not-lose encounter." },
+
+  // Group C — June 19
+  { id:29, group:"C", md:2, utc:"2026-06-19T17:00Z", home:"BRA", away:"HTI", venue:"Atlanta", score:null, rating:3,
+    preview:"Brazil expected to dominate, but Haiti's resilience could make this interesting for 60 minutes. Watch how Haiti try to make it ugly." },
+  { id:30, group:"C", md:2, utc:"2026-06-19T20:00Z", home:"SCO", away:"MAR", venue:"Los Angeles", score:null, rating:4,
+    preview:"Scotland need a result against Morocco — a replay of the 2022 shock specialists. Robertson vs Hakimi is a full-back battle for the ages." },
+  // Group D — June 19
+  { id:31, group:"D", md:2, utc:"2026-06-19T23:00Z", home:"USA", away:"AUS", venue:"Dallas", score:null, rating:5,
+    preview:"MASSIVE FOR MELBOURNE. USA vs Australia — if both teams won their openers, this is for Group D qualification. Pulisic vs Leckie, two of CONCACAF/OFC's finest. The Socceroos could define Australian football history here." },
+  { id:32, group:"D", md:2, utc:"2026-06-20T02:00Z", home:"TUR", away:"PRY", venue:"Miami", score:null, rating:3,
+    preview:"Turkey vs Paraguay — Güler's skills against South American tenacity." },
+
+  // Group E — June 20
+  { id:33, group:"E", md:2, utc:"2026-06-20T17:00Z", home:"GER", away:"CIV", venue:"Boston", score:null, rating:4,
+    preview:"Germany vs Ivory Coast — a potential classic. Wirtz and Musiala on one side; Haller and Kessié on the other. Germany need the win to stay on course." },
+  { id:34, group:"E", md:2, utc:"2026-06-20T20:00Z", home:"ECU", away:"CUW", venue:"Houston", score:null, rating:2,
+    preview:"Ecuador vs Curaçao — Caicedo should dominate midfield." },
+  // Group F — June 20
+  { id:35, group:"F", md:2, utc:"2026-06-20T23:00Z", home:"NED", away:"SWE", venue:"Philadelphia", score:null, rating:4,
+    preview:"Netherlands vs Sweden — European giants in a crunch game. Van Dijk leading from the back, Gakpo leading from the front." },
+  { id:36, group:"F", md:2, utc:"2026-06-21T02:00Z", home:"TUN", away:"JPN", venue:"Dallas", score:null, rating:3,
+    preview:"Japan need this win to take command of Group F. Mitoma and Kubo on the attack." },
+
+  // Group G — June 21
+  { id:37, group:"G", md:2, utc:"2026-06-21T17:00Z", home:"BEL", away:"IRN", venue:"San Francisco", score:null, rating:3,
+    preview:"Belgium vs Iran — Openda leading the charge, Belgium looking to establish themselves at the top of Group G." },
+  { id:38, group:"G", md:2, utc:"2026-06-21T20:00Z", home:"NZL", away:"EGY", venue:"Toronto", score:null, rating:2,
+    preview:"New Zealand fighting for their World Cup life. Egypt will look to control possession." },
+  // Group H — June 21
+  { id:39, group:"H", md:2, utc:"2026-06-21T23:00Z", home:"ESP", away:"KSA", venue:"Miami", score:null, rating:4,
+    preview:"Spain should dominate but Saudi Arabia love a giant-killing (see: Argentina 2022). Yamal, Pedri and Rodri against a resolute Saudi shape — can they keep Spain quiet?" },
+  { id:40, group:"H", md:2, utc:"2026-06-22T02:00Z", home:"URU", away:"CPV", venue:"Boston", score:null, rating:3,
+    preview:"Uruguay vs Cape Verde — Valverde and Núñez should have too much quality." },
+
+  // Group I — June 22
+  { id:41, group:"I", md:2, utc:"2026-06-22T17:00Z", home:"FRA", away:"IRQ", venue:"Atlanta", score:null, rating:4,
+    preview:"Mbappé vs Iraq. France expected to win but Mbappé's stats — goals, assists, moments of brilliance — will be the story." },
+  { id:42, group:"I", md:2, utc:"2026-06-22T20:00Z", home:"NOR", away:"SEN", venue:"New York/NJ", score:null, rating:5,
+    preview:"Haaland vs Senegal — a cracking match between two contrasting teams. The battle of the big personalities: Haaland's goals vs Mané's experience." },
+  // Group J — June 22
+  { id:43, group:"J", md:2, utc:"2026-06-22T23:00Z", home:"ARG", away:"AUT", venue:"Kansas City", score:null, rating:4,
+    preview:"Argentina vs Austria — Messi and the champions should handle Austria but Çalhanoglu-calibre Austria isn't a walkover. Álvarez and Enzo Fernández will be key." },
+  { id:44, group:"J", md:2, utc:"2026-06-23T02:00Z", home:"JOR", away:"ALG", venue:"Seattle", score:null, rating:3,
+    preview:"Algeria needing a win here to stay in the tournament." },
+
+  // Group K — June 23
+  { id:45, group:"K", md:2, utc:"2026-06-23T17:00Z", home:"POR", away:"UZB", venue:"Houston", score:null, rating:4,
+    preview:"Portugal vs Uzbekistan — Ronaldo on the hunt for goals in his final World Cup. Leão the star but all eyes on CR7." },
+  { id:46, group:"K", md:2, utc:"2026-06-23T20:00Z", home:"COL", away:"COD", venue:"Philadelphia", score:null, rating:3,
+    preview:"Colombia vs DR Congo — Luis Díaz looking to tear apart the defence." },
+  // Group L — June 23
+  { id:47, group:"L", md:2, utc:"2026-06-23T23:00Z", home:"ENG", away:"GHA", venue:"Atlanta", score:null, rating:4,
+    preview:"England vs Ghana — Bellingham and Kane in full swing. England need to win to keep the pressure off. Ghana will defend and counter." },
+  { id:48, group:"L", md:2, utc:"2026-06-24T02:00Z", home:"PAN", away:"CRO", venue:"Los Angeles", score:null, rating:4,
+    preview:"Croatia vs Panama — Modric looking to keep his tournament alive. A must-win for the Croats." },
+
+  // ─── MATCHDAY 3 (simultaneous kickoffs per group) ───
+  // Group A — June 24
+  { id:49, group:"A", md:3, utc:"2026-06-24T20:00Z", home:"CZE", away:"MEX", venue:"Guadalajara", score:null, rating:4,
+    preview:"Mexico must win or draw to advance — the pressure of the host nation in the final group game. Son's South Korea could be watching anxiously." },
+  { id:50, group:"A", md:3, utc:"2026-06-24T20:00Z", home:"RSA", away:"KOR", venue:"Kansas City", score:null, rating:3,
+    preview:"South Africa vs South Korea — both teams needing to win. Son's final chance to carry Korea through." },
+  // Group B — June 24
+  { id:51, group:"B", md:3, utc:"2026-06-24T23:00Z", home:"SUI", away:"CAN", venue:"Vancouver", score:null, rating:4,
+    preview:"Canada need a result to guarantee top spot. Switzerland are always dangerous. A classic." },
+  { id:52, group:"B", md:3, utc:"2026-06-24T23:00Z", home:"BIH", away:"QAT", venue:"Seattle", score:null, rating:3,
+    preview:"Bosnia looking to confirm their place in the knockout rounds." },
+  // Group C — June 24
+  { id:53, group:"C", md:3, utc:"2026-06-25T02:00Z", home:"SCO", away:"BRA", venue:"New York/NJ", score:null, rating:4,
+    preview:"Scotland vs Brazil — the Tartan Army's Everest. McTominay and Robertson vs Vinícius and Raphinha. How many will Brazil score?" },
+  { id:54, group:"C", md:3, utc:"2026-06-25T02:00Z", home:"MAR", away:"HTI", venue:"Philadelphia", score:null, rating:3,
+    preview:"Morocco should advance — but Haiti's defensive resilience could give them moments to cherish." },
+
+  // Group D — June 25
+  { id:55, group:"D", md:3, utc:"2026-06-25T20:00Z", home:"TUR", away:"USA", venue:"Dallas", score:null, rating:5,
+    preview:"USA must avoid defeat. Turkey's Güler and Çalhanoğlu will test Pulisic's leadership. High-pressure group finale." },
+  { id:56, group:"D", md:3, utc:"2026-06-25T20:00Z", home:"PRY", away:"AUS", venue:"Los Angeles", score:null, rating:5,
+    preview:"THE SOCCEROOS DECIDER. If Australia need a win here to advance, every Australian will be watching at whatever ungodly AEST hour. Leckie, Irankunda — deliver." },
+
+  // Group E — June 25
+  { id:57, group:"E", md:3, utc:"2026-06-25T23:00Z", home:"ECU", away:"GER", venue:"Miami", score:null, rating:4,
+    preview:"Ecuador vs Germany — the German machine looking to dominate and advance. Wirtz has a point to prove." },
+  { id:58, group:"E", md:3, utc:"2026-06-25T23:00Z", home:"CUW", away:"CIV", venue:"Kansas City", score:null, rating:2,
+    preview:"Curaçao vs Ivory Coast — Haller targeting goals to give Ivory Coast hope." },
+  // Group F — June 25
+  { id:59, group:"F", md:3, utc:"2026-06-26T02:00Z", home:"TUN", away:"NED", venue:"Boston", score:null, rating:3,
+    preview:"Netherlands should advance. Can Tunisia frustrate them?" },
+  { id:60, group:"F", md:3, utc:"2026-06-26T02:00Z", home:"JPN", away:"SWE", venue:"Houston", score:null, rating:4,
+    preview:"Japan vs Sweden — both could advance. Mitoma vs Sweden's solidity. A genuinely open game." },
+
+  // Group G — June 26
+  { id:61, group:"G", md:3, utc:"2026-06-26T20:00Z", home:"NZL", away:"BEL", venue:"Toronto", score:null, rating:3,
+    preview:"Belgium looking to confirm top spot. New Zealand hoping for a miracle." },
+  { id:62, group:"G", md:3, utc:"2026-06-26T20:00Z", home:"EGY", away:"IRN", venue:"San Francisco", score:null, rating:3,
+    preview:"Battle for second place in Group G." },
+  // Group H — June 26
+  { id:63, group:"H", md:3, utc:"2026-06-26T23:00Z", home:"URU", away:"ESP", venue:"Miami", score:null, rating:5,
+    preview:"Uruguay vs Spain — the group winner at stake. Valverde and Núñez vs Yamal and Pedri. A potential all-time classic group game." },
+  { id:64, group:"H", md:3, utc:"2026-06-26T23:00Z", home:"CPV", away:"KSA", venue:"Atlanta", score:null, rating:3,
+    preview:"Cape Verde vs Saudi Arabia — both chasing a knockout round place." },
+
+  // Group I — June 27
+  { id:65, group:"I", md:3, utc:"2026-06-27T20:00Z", home:"NOR", away:"FRA", venue:"New York/NJ", score:null, rating:5,
+    preview:"Haaland vs Mbappé. The two most devastating finishers in world football meeting in group stage. One of the must-watch matches of the tournament. Get up for this one." },
+  { id:66, group:"I", md:3, utc:"2026-06-27T20:00Z", home:"SEN", away:"IRQ", venue:"Philadelphia", score:null, rating:3,
+    preview:"Senegal vs Iraq — Mané looking to cement second place." },
+  // Group J — June 27
+  { id:67, group:"J", md:3, utc:"2026-06-27T23:00Z", home:"JOR", away:"ARG", venue:"Los Angeles", score:null, rating:4,
+    preview:"Argentina's group finale. Messi and Álvarez looking to finish top — Jordan will try to make history." },
+  { id:68, group:"J", md:3, utc:"2026-06-27T23:00Z", home:"ALG", away:"AUT", venue:"Seattle", score:null, rating:3,
+    preview:"Algeria vs Austria — both fighting for the precious third-placed spots." },
+
+  // Group K — June 27
+  { id:69, group:"K", md:3, utc:"2026-06-28T02:00Z", home:"COL", away:"POR", venue:"Dallas", score:null, rating:5,
+    preview:"Colombia vs Portugal — could decide the group winner. Díaz vs Ronaldo, a mouthwatering South American-European clash. CR7's final group match ever." },
+  { id:70, group:"K", md:3, utc:"2026-06-28T02:00Z", home:"COD", away:"UZB", venue:"Houston", score:null, rating:2,
+    preview:"DR Congo vs Uzbekistan — both hoping to sneak into the knockout rounds." },
+  // Group L — June 27
+  { id:71, group:"L", md:3, utc:"2026-06-28T02:00Z", home:"PAN", away:"ENG", venue:"Boston", score:null, rating:3,
+    preview:"England vs Panama — Kane and Bellingham looking to finish the job." },
+  { id:72, group:"L", md:3, utc:"2026-06-28T02:00Z", home:"CRO", away:"GHA", venue:"Philadelphia", score:null, rating:4,
+    preview:"Croatia vs Ghana — Modric chasing his final World Cup chapter. Croatia need a win to have any hope of advancing." }
+];
+
+// PREDICTION DATA (home win %, draw %, away win %)
+const PREDICTIONS = {
+  "MEX-RSA": [72, 18, 10], "KOR-CZE": [45, 30, 25], "CAN-BIH": [55, 25, 20],
+  "USA-PRY": [55, 25, 20], "HTI-SCO": [20, 25, 55], "BRA-MAR": [65, 20, 15],
+  "QAT-SUI": [25, 30, 45], "AUS-TUR": [40, 28, 32], "GER-CUW": [88, 8, 4],
+  "CIV-ECU": [38, 32, 30], "NED-JPN": [52, 28, 20], "SWE-TUN": [48, 28, 24],
+  "ESP-CPV": [90, 7, 3], "KSA-URU": [28, 30, 42], "BEL-EGY": [58, 25, 17],
+  "IRN-NZL": [52, 28, 20], "FRA-SEN": [60, 22, 18], "IRQ-NOR": [20, 22, 58],
+  "ARG-ALG": [70, 18, 12], "AUT-JOR": [62, 22, 16], "POR-COD": [72, 18, 10],
+  "UZB-COL": [20, 22, 58], "ENG-CRO": [58, 25, 17], "GHA-PAN": [40, 32, 28],
+  "MEX-KOR": [42, 30, 28], "CZE-RSA": [38, 32, 30], "CAN-QAT": [72, 18, 10],
+  "SUI-BIH": [45, 30, 25], "BRA-HTI": [92, 5, 3], "SCO-MAR": [28, 25, 47],
+  "USA-AUS": [52, 28, 20], "TUR-PRY": [45, 30, 25], "GER-CIV": [58, 25, 17],
+  "ECU-CUW": [75, 17, 8], "NED-SWE": [52, 28, 20], "TUN-JPN": [25, 28, 47],
+  "BEL-IRN": [65, 22, 13], "NZL-EGY": [28, 32, 40], "ESP-KSA": [82, 12, 6],
+  "URU-CPV": [72, 18, 10], "FRA-IRQ": [78, 14, 8], "NOR-SEN": [42, 30, 28],
+  "ARG-AUT": [60, 25, 15], "JOR-ALG": [28, 32, 40], "POR-UZB": [78, 14, 8],
+  "COL-COD": [60, 25, 15], "ENG-GHA": [65, 22, 13], "PAN-CRO": [22, 25, 53],
+  "CZE-MEX": [30, 28, 42], "RSA-KOR": [30, 28, 42], "SUI-CAN": [38, 30, 32],
+  "BIH-QAT": [55, 25, 20], "SCO-BRA": [8, 12, 80], "MAR-HTI": [75, 17, 8],
+  "TUR-USA": [38, 28, 34], "PRY-AUS": [35, 30, 35], "ECU-GER": [20, 22, 58],
+  "CUW-CIV": [15, 20, 65], "TUN-NED": [18, 22, 60], "JPN-SWE": [42, 30, 28],
+  "NZL-BEL": [12, 18, 70], "EGY-IRN": [38, 32, 30], "URU-ESP": [28, 25, 47],
+  "CPV-KSA": [32, 30, 38], "NOR-FRA": [32, 25, 43], "SEN-IRQ": [62, 22, 16],
+  "JOR-ARG": [8, 12, 80], "ALG-AUT": [35, 30, 35], "COL-POR": [35, 28, 37],
+  "COD-UZB": [42, 30, 28], "PAN-ENG": [12, 18, 70], "CRO-GHA": [55, 25, 20]
+};
+
+// ══════════════════════════════════════
+//  UTILITY FUNCTIONS
+// ══════════════════════════════════════
+function toAEST(utcStr) {
+  const d = new Date(utcStr);
+  return new Date(d.getTime() + 10 * 3600000); // UTC+10
+}
+
+function formatAESTDate(utcStr) {
+  const d = toAEST(utcStr);
+  return d.toLocaleDateString('en-AU', { weekday:'short', day:'numeric', month:'short', timeZone:'UTC' });
+}
+
+function formatAESTTime(utcStr) {
+  const d = toAEST(utcStr);
+  return d.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'UTC' });
+}
+
+function isToday(utcStr) {
+  const melbNow = new Date(Date.now() + 10 * 3600000);
+  const melbMatch = toAEST(utcStr);
+  return melbNow.toISOString().slice(0,10) === melbMatch.toISOString().slice(0,10);
+}
+
+function isLive(utcStr) {
+  const now = new Date();
+  const matchTime = new Date(utcStr);
+  const diff = (now - matchTime) / 60000;
+  return diff >= 0 && diff <= 105;
+}
+
+function isPast(utcStr) {
+  return new Date() > new Date(new Date(utcStr).getTime() + 105*60000);
+}
+
+function stars(n) {
+  return '★'.repeat(n) + '☆'.repeat(5-n);
+}
+
+// ══════════════════════════════════════
+//  CLOCK
+// ══════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  const melb = new Date(now.toLocaleString('en-US', { timeZone: 'Australia/Melbourne' }));
+  document.getElementById('clock').textContent = melb.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
+  document.getElementById('datedisp').textContent = melb.toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long' });
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ══════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════
+let activeTab = 'today';
+let selectedMatchId = null;
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const tabs = ['today','schedule','groups'];
+    t.classList.toggle('active', tabs[i] === tab);
+  });
+  renderSchedulePanel();
+  if (tab === 'groups') {
+    document.getElementById('detailPanel').classList.add('hidden');
+    document.getElementById('schedulePanel').style.width = '100%';
+    document.getElementById('schedulePanel').style.minWidth = '100%';
+  } else {
+    document.getElementById('detailPanel').classList.remove('hidden');
+    document.getElementById('schedulePanel').style.width = '420px';
+    document.getElementById('schedulePanel').style.minWidth = '420px';
+  }
+}
+
+// ══════════════════════════════════════
+//  SCHEDULE PANEL
+// ══════════════════════════════════════
+function renderSchedulePanel() {
+  const list = document.getElementById('matchList');
+  list.innerHTML = '';
+
+  if (activeTab === 'groups') {
+    renderGroupsView(list);
+    return;
+  }
+
+  let matches = [...MATCHES];
+  if (activeTab === 'today') {
+    matches = matches.filter(m => isToday(m.utc));
+  }
+
+  // Group by date
+  const byDate = {};
+  matches.forEach(m => {
+    const dateKey = formatAESTDate(m.utc);
+    if (!byDate[dateKey]) byDate[dateKey] = [];
+    byDate[dateKey].push(m);
+  });
+
+  const todayStr = formatAESTDate(new Date().toISOString());
+
+  if (activeTab === 'today' && matches.length === 0) {
+    list.innerHTML = `<div style="padding:40px 20px;text-align:center;color:var(--muted)"><div style="font-size:40px;margin-bottom:12px">📺</div><p style="font-size:14px">${u('noMatches')}</p><p style="font-size:12px;margin-top:8px">${u('noMatchesSub')}</p></div>`;
+    return;
+  }
+
+  const hdr = document.createElement('div');
+  hdr.className = 'section-header';
+  hdr.innerHTML = activeTab === 'today'
+    ? `<h2>${u('todayHdr')}</h2><p>${u('todaySub')}</p>`
+    : `<h2>${u('schedHdr')}</h2><p>${u('schedSub')}</p>`;
+  list.appendChild(hdr);
+
+  Object.entries(byDate).forEach(([dateKey, dayMatches]) => {
+    const isT = dateKey === todayStr;
+    const dg = document.createElement('div');
+    dg.className = 'date-group';
+
+    const dl = document.createElement('div');
+    dl.className = 'date-label' + (isT ? ' today' : '');
+    dl.innerHTML = `<span>${dateKey}${isT ? ' – ' + u('today') : ''}</span>${isT ? '<span class="today-badge">LIVE</span>' : ''}`;
+    dg.appendChild(dl);
+
+    dayMatches.forEach(m => {
+      const t1 = getTeam(m.home);
+      const t2 = getTeam(m.away);
+      if (!t1 || !t2) return;
+      const live = isLive(m.utc);
+      const past = isPast(m.utc);
+      const card = document.createElement('div');
+      card.className = 'match-card' + (live ? ' live' : '') + (selectedMatchId === m.id ? ' selected' : '');
+      card.onclick = () => selectMatch(m.id);
+
+      const scoreStr = m.score ? `${m.score[0]}–${m.score[1]}` : '';
+      const timeStr = live ? u('live') : (past && m.score ? scoreStr : formatAESTTime(m.utc));
+      const timeClass = live ? 'match-time live-time' : 'match-time';
+
+      card.innerHTML = `
+        <div class="match-meta">
+          <span class="match-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</span>
+          <span class="${timeClass}">${timeStr}</span>
+        </div>
+        <div class="match-teams">
+          <div class="team-display">
+            <span class="flag">${t1.flag}</span>
+            <span class="team-name">${t1.name}</span>
+          </div>
+          ${m.score && !live ? `<span class="score-display">${m.score[0]}–${m.score[1]}</span>` : `<span class="vs">vs</span>`}
+          <div class="team-display right">
+            <span class="team-name">${t2.name}</span>
+            <span class="flag">${t2.flag}</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="match-venue">📍 ${venue(m.venue)}</span>
+          <span style="font-size:11px;color:var(--gold)">${stars(m.rating)}</span>
+        </div>`;
+      dg.appendChild(card);
+    });
+
+    list.appendChild(dg);
+  });
+}
+
+// ══════════════════════════════════════
+//  GROUPS VIEW
+// ══════════════════════════════════════
+const GROUP_TEAMS = {
+  A:['MEX','RSA','KOR','CZE'], B:['CAN','BIH','QAT','SUI'],
+  C:['BRA','MAR','HTI','SCO'], D:['USA','PRY','AUS','TUR'],
+  E:['GER','CIV','ECU','CUW'], F:['NED','JPN','SWE','TUN'],
+  G:['BEL','EGY','IRN','NZL'], H:['ESP','CPV','KSA','URU'],
+  I:['FRA','SEN','IRQ','NOR'], J:['ARG','ALG','AUT','JOR'],
+  K:['POR','COD','UZB','COL'], L:['ENG','CRO','GHA','PAN']
+};
+
+function renderGroupsView(container) {
+  const panel = document.createElement('div');
+  panel.className = 'groups-grid';
+  Object.entries(GROUP_TEAMS).forEach(([grp, codes]) => {
+    const gc = document.createElement('div');
+    gc.className = 'group-card';
+    gc.innerHTML = `<div class="group-title">Group ${grp}</div>`;
+    codes.forEach(code => {
+      const t = getTeam(code);
+      if (!t) {
+        gc.innerHTML += `<div class="group-team"><span class="flag">🏳️</span><span class="group-team-name">${code}</span></div>`;
+        return;
+      }
+      gc.innerHTML += `<div class="group-team" onclick="viewTeam('${code}')">
+        <span class="flag">${t.flag}</span>
+        <span class="group-team-name">${t.name}</span>
+        <span class="group-team-rank">${t.rank ? '#'+t.rank : ''}</span>
+      </div>`;
+    });
+    panel.appendChild(gc);
+  });
+  container.appendChild(panel);
+}
+
+// ══════════════════════════════════════
+//  MATCH DETAIL
+// ══════════════════════════════════════
+function selectMatch(id) {
+  selectedMatchId = id;
+  renderSchedulePanel();
+
+  const m = MATCHES.find(x => x.id === id);
+  const t1 = getTeam(m.home);
+  const t2 = getTeam(m.away);
+  if (!t1 || !t2) return;
+
+  document.getElementById('detailEmpty').classList.add('hidden');
+  const dc = document.getElementById('detailContent');
+  dc.classList.remove('hidden');
+
+  const live = isLive(m.utc);
+  const past = isPast(m.utc);
+  const predKey = `${m.home}-${m.away}`;
+  const pred = PREDICTIONS[predKey] || [33, 33, 34];
+
+  const statusHTML = live
+    ? `<div class="hero-status"><span class="live-dot"></span> ${u('liveNow')}</div>`
+    : past && m.score
+    ? `<div class="hero-status" style="color:var(--muted);border-color:var(--muted)">${u('fullTime')}</div>`
+    : `<div class="hero-status" style="color:var(--accent);border-color:var(--accent)">🕐 ${formatAESTDate(m.utc)} ${formatAESTTime(m.utc)} ${u('aest')}</div>`;
+
+  const scoreHTML = m.score
+    ? `<span class="hero-score">${m.score[0]}–${m.score[1]}</span>`
+    : `<span class="hero-vs">vs</span>`;
+
+  dc.innerHTML = `
+    <div class="match-hero">
+      ${statusHTML}
+      <div class="hero-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</div>
+      <div class="hero-matchup">
+        <div class="hero-team">
+          <span class="hero-flag">${t1.flag}</span>
+          <div class="hero-name">${t1.name}</div>
+          <div class="hero-sub">${t1.formation || ''}</div>
+        </div>
+        ${scoreHTML}
+        <div class="hero-team">
+          <span class="hero-flag">${t2.flag}</span>
+          <div class="hero-name">${t2.name}</div>
+          <div class="hero-sub">${t2.formation || ''}</div>
+        </div>
+      </div>
+      <div class="hero-info">
+        <div class="hero-info-item">📍 <strong>${venue(m.venue)}</strong></div>
+        <div class="hero-info-item">⭐ ${u('watchRating')}: <strong>${stars(m.rating)}</strong></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span>📖</span> ${u('preview')}</h3>
+      <p style="font-size:14px;line-height:1.7;color:var(--text)">${lang === 'zh' && PREVIEWS_ZH[m.id] ? PREVIEWS_ZH[m.id] : m.preview}</p>
+    </div>
+
+    <div class="section">
+      <h3><span>🎯</span> ${u('predict')}</h3>
+      <div class="prediction">
+        <span class="pred-label" style="color:var(--accent)">${t1.name}</span>
+        <div class="pred-bar-wrap"><div class="pred-bar-home" style="width:${pred[0]}%"></div></div>
+        <span class="pred-pct home-pct">${pred[0]}%</span>
+      </div>
+      <div class="prediction">
+        <span class="pred-label">${u('draw')}</span>
+        <div class="pred-bar-wrap"><div class="pred-bar-draw" style="width:${pred[1]}%"></div></div>
+        <span class="pred-pct draw-pct">${pred[1]}%</span>
+      </div>
+      <div class="prediction">
+        <span class="pred-label" style="color:var(--gold)">${t2.name}</span>
+        <div class="pred-bar-wrap"><div class="pred-bar-away" style="width:${pred[2]}%"></div></div>
+        <span class="pred-pct away-pct">${pred[2]}%</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span>⭐</span> ${u('stars')}</h3>
+      <div class="team-columns">
+        <div class="team-col">
+          <div class="team-col-header">
+            <span class="flag">${t1.flag}</span>
+            <h4>${t1.name}</h4>
+          </div>
+          ${(t1.players || []).map(p => `
+            <div class="player-card">
+              <div class="player-name">${p.name}</div>
+              <div class="player-role">${p.role}${p.jersey ? `<span style="font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0">· #${p.jersey}</span>` : ''}</div>
+              <div class="player-desc">${p.desc}</div>
+            </div>`).join('')}
+        </div>
+        <div class="team-col">
+          <div class="team-col-header">
+            <span class="flag">${t2.flag}</span>
+            <h4>${t2.name}</h4>
+          </div>
+          ${(t2.players || []).map(p => `
+            <div class="player-card">
+              <div class="player-name">${p.name}</div>
+              <div class="player-role">${p.role}${p.jersey ? `<span style="font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0">· #${p.jersey}</span>` : ''}</div>
+              <div class="player-desc">${p.desc}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span>♟️</span> ${u('tactics')}</h3>
+      <div class="tactic-item">
+        <div class="tactic-label">${t1.flag} ${t1.name} · ${t1.formation || 'N/A'}</div>
+        <div class="tactic-text">${t1.style || 'Tactical information coming soon.'}</div>
+      </div>
+      <div class="tactic-item" style="border-left-color:var(--gold)">
+        <div class="tactic-label" style="color:var(--gold)">${t2.flag} ${t2.name} · ${t2.formation || 'N/A'}</div>
+        <div class="tactic-text">${t2.style || 'Tactical information coming soon.'}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span>🎭</span> ${u('stakes')}</h3>
+      <div class="stakes-grid">
+        <div class="stakes-card">
+          <div class="stakes-flag">${t1.flag}</div>
+          <div class="stakes-team">${t1.name}</div>
+          <div class="stakes-text">${t1.stakes || t1.narrative || ''}</div>
+        </div>
+        <div class="stakes-card">
+          <div class="stakes-flag">${t2.flag}</div>
+          <div class="stakes-team">${t2.name}</div>
+          <div class="stakes-text">${t2.stakes || t2.narrative || ''}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3><span>👁️</span> ${u('watchFor')}</h3>
+      <div class="talking-points">
+        <div class="tp"><span class="tp-icon">⚡</span><span class="tp-text"><strong>${u('keyDuel')}</strong> ${(t1.players && t1.players[0]) ? t1.players[0].name : t1.name} vs ${(t2.players && t2.players[0]) ? t2.players[0].name : t2.name} ${u('keyDuelSuffix')}</span></div>
+        <div class="tp"><span class="tp-icon">♟️</span><span class="tp-text"><strong>${u('tacticalBattle')}</strong> ${lang === 'zh'
+          ? `${t1.name}：${t1.style ? t1.style.split('。')[0] + '。' : ''} ${t2.name}：${t2.style ? t2.style.split('。')[0] + '。' : ''}`
+          : `${t1.name} want to ${t1.style ? t1.style.split('.')[0].toLowerCase() : 'win'}. ${t2.name} will look to ${t2.style ? t2.style.split('.')[0].toLowerCase() : 'win'}. One style will dominate.`}</span></div>
+        <div class="tp"><span class="tp-icon">📖</span><span class="tp-text"><strong>${t1.name} ${u('context')}</strong> ${t1.narrative || ''}</span></div>
+        <div class="tp"><span class="tp-icon">📖</span><span class="tp-text"><strong>${t2.name} ${u('context')}</strong> ${t2.narrative || ''}</span></div>
+        <div class="tp"><span class="tp-icon">⏱️</span><span class="tp-text"><strong>${u('critical')}</strong> ${u('criticalText')}</span></div>
+      </div>
+    </div>`;
+  dc.scrollTop = 0;
+  dc.parentElement.scrollTop = 0;
+  document.getElementById('detailPanel').scrollTop = 0;
+}
+
+function viewTeam(code) {
+  // Find first match for this team
+  const m = MATCHES.find(x => x.home === code || x.away === code);
+  if (m) {
+    switchTab('schedule');
+    setTimeout(() => selectMatch(m.id), 100);
+  }
+}
+
+// ══════════════════════════════════════
+//  CHINESE MATCH PREVIEWS
+// ══════════════════════════════════════
+const PREVIEWS_ZH = {
+  2:  '孙兴慜的世界杯之旅正式启程。热刺队长能否带领韩国击败刚刚淘汰意大利的捷克？一场值得关注的战术博弈。',
+  3:  '加拿大在主场揭幕战，BMO球场座无虚席。戴维斯、大卫和布坎南迎战击碎意大利梦想的波黑。',
+  4:  '美国在主场开场。SoFi球场气氛爆棚，普利西奇率东道主迎战顽强的巴拉圭，压力巨大，盛况空前。',
+  5:  '海地自1974年后首次重返世界杯，这是梦幻登场。苏格兰同样渴望首战告捷，B组局势扑朔迷离。',
+  6:  '第一轮最大焦点！巴西爆炸性三叉戟对阵2022年的造浪者摩洛哥。维尼修斯对哈基米——两位世界最佳的巅峰对决。',
+  7:  '瑞士战术纪律对阵卡塔尔的创造力。阿菲夫能否找到突破口？查卡和恩博洛如何主导这场比赛？',
+  8:  '袋鼠军团出击！澳大利亚对土耳其——居勒和恰尔汉奥卢是考验。莱基和伊兰坤达能否发挥关键作用？',
+  9:  '德国揭幕战！维尔茨和穆西亚拉终于迎来世界杯首秀。库拉索是D组最弱对手，德国渴望开门红。',
+  10: '西非对阵南美。阿勒对决凯塞多——两位世界顶级球员在E组第一战正面交锋。',
+  11: '荷兰全攻全守传统对阵日本技术集体。范戴克对阵三笘薰——防守大师迎战突破机器的绝佳看点。',
+  12: '瑞典阔别世界杯后强势回归，伊萨克领衔出战。突尼斯组织严密，但这场比赛谁更需要三分？',
+  13: '西班牙启程。看亚马尔和佩德里如何摧毁佛得角。罗德里掌控中场节奏，这或许是小组赛最单方面的碾压。',
+  14: '沙特阿拉伯2022年击败阿根廷，现在迎战乌拉圭。巴尔韦德和努涅斯磨刀霍霍，沙特还能再造奇迹吗？',
+  15: '新生代比利时对阵埃及。奥彭达的速度对阵埃及有组织的防守。萨拉赫在哪？他的上场时间将左右一切。',
+  16: '伊朗对阵锦标赛排名最低的新西兰。阿兹蒙是伊朗的主要进攻威胁，三分几乎是伊朗的最低要求。',
+  17: '姆巴佩的世界杯大幕开启。法国对塞内加尔是真正的大战——马内和萨尔面对全速运转的姆巴佩。',
+  18: '哈兰德的世界杯首秀！挪威的进球机器对阵伊拉克——每一次他触球，都是全世界瞩目的时刻。',
+  19: '梅西！卫冕冠军阿根廷开启卫冕征程，对阵阿尔及利亚。马赫雷斯能否压制世界上最伟大的球员？',
+  20: '奥地利对约旦——奥地利抢分的绝佳机会。萨比策和阿拉巴需要展示实力，但不能掉以轻心。',
+  21: '罗纳尔多最后一届世界杯的首战。41岁的他能否依然改变比赛？葡萄牙面对刚果（金），他的历史时刻或已临近。',
+  22: '哥伦比亚的路易斯·迪亚斯和哈梅斯对阵乌兹别克斯坦——南美技术与中亚韧性的碰撞。',
+  23: '2018年世界杯半决赛重演！克罗地亚当年击败英格兰。贝林厄姆和凯恩渴望复仇，莫德里奇带来什么？',
+  24: '加纳对巴拿马——两队都希望在L组制造惊喜。库杜斯是加纳最大的亮点，全场焦点。',
+  25: '墨西哥对韩国——孙兴慜直面东道主。双方都渴望胜利，A组排名这场至关重要。',
+  26: '捷克和南非都需要积分。捷克将凭借欧洲实力占优，苏切克和巴拉克是关键人物。',
+  27: '加拿大应该赢这场，戴维斯对阵卡塔尔防线的速度错位令人期待。加拿大能否早早锁定晋级？',
+  28: '瑞士对波黑——两支欧洲技术型球队之间不能输的对决。',
+  29: '巴西预计压制海地，但海地的防守韧性可能令人吃惊。巴西攻击线如何破开铁桶阵？',
+  30: '苏格兰需要一场好结果对抗摩洛哥——2022年北非黑马的再度检验。罗伯逊和麦克托米奈能否力挽狂澜？',
+  31: '墨尔本球迷必看！美国对澳大利亚——如果双方首战都赢，这将决定D组头名。绝对是本轮最值得关注的比赛。',
+  32: '土耳其对巴拉圭——居勒的技术对阵南美的韧劲。D组局势悬念丛生。',
+  33: '德国对科特迪瓦——潜在经典之战。维尔茨和穆西亚拉对阵阿勒和凯西。E组已提前进入生死时刻。',
+  34: '厄瓜多尔对库拉索——凯塞多将统治中场。厄瓜多尔需要大胜来提升净胜球差距。',
+  35: '荷兰对瑞典——欧洲强队的关键对决。范戴克对阵伊萨克是最大看点。',
+  36: '日本需要这场胜利来掌控F组命运。三笘和久保将制造威胁，突尼斯能守住阵地吗？',
+  37: '比利时对伊朗——奥彭达全速出击，比利时寻求G组控制权。',
+  38: '新西兰为世界杯生存而战。埃及将依靠萨拉赫制造关键进球，这是萨拉赫最重要的时刻之一。',
+  39: '西班牙应该主导比赛，但沙特阿拉伯酷爱制造冷门。亚马尔在H组能否延续欧洲杯的神奇表现？',
+  40: '乌拉圭对佛得角——巴尔韦德和努涅斯实力碾压，乌拉圭应轻松拿下三分。',
+  41: '姆巴佩对伊拉克。法国预计轻松拿下，但姆巴佩的统计数字——距世界杯历史最多进球仅差5球。',
+  42: '哈兰德对塞内加尔——两支截然不同风格的强队之间的精彩对决。马内和萨尔能否压制挪威的进球机器？',
+  43: '阿根廷对奥地利——梅西和卫冕冠军应该掌控这场比赛，但萨比策的奥地利不会轻易就范。',
+  44: '阿尔及利亚需要在这里获胜才能保持晋级希望。马赫雷斯能否发挥决定性作用？',
+  45: '葡萄牙对乌兹别克斯坦——罗纳尔多在他最后的世界杯上全力猎球。莱昂和贝尔纳多·席尔瓦创造机会，41岁的他如何把握？',
+  46: '哥伦比亚对刚果（金）——路易斯·迪亚斯全力撕裂对方防线。哈梅斯的传球将是哥伦比亚的创造力来源。',
+  47: '英格兰对加纳——贝林厄姆和凯恩全速运转。库杜斯是加纳唯一能撼动英格兰防线的武器。',
+  48: '克罗地亚对巴拿马——莫德里奇维系着他最后的世界杯生命。这位39岁的天才还能再现魔法吗？',
+  49: '墨西哥必须拿分才能晋级——东道主的压力在此刻达到顶峰。捷克将提供严峻考验，苏切克是最大威胁。',
+  50: '南非对韩国——双方都需要胜利。孙兴慜在世界杯可能的最后告别中，能否带来改变全局的表现？',
+  51: '加拿大需要一场好结果来锁定头名。瑞士组织严密，这是真正的欧洲式考验。',
+  52: '波黑争取确认出线名额，卡塔尔也将殊死一搏。B组末轮悬念犹存。',
+  53: '苏格兰对巴西——苏格兰球迷的最高峰。麦克托米奈和罗伯逊对阵维尼修斯和拉菲尼亚，巴西会打多少个？',
+  54: '摩洛哥应该晋级，但海地的防守韧性可能令比分难以拉开。非洲黑马C组收官。',
+  55: '美国必须避免失败。土耳其的居勒和恰尔汉奥卢将在D组最惊险的夜晚向普利西奇们发起挑战。',
+  56: '袋鼠军团生死战！如果澳大利亚需要一场胜利才能出线，这将是他们近年来最重要的比赛。墨尔本球迷请屏息以待。',
+  57: '厄瓜多尔对德国——德国机器在E组寻求统治地位。凯塞多能否压制德国强大的中场？',
+  58: '库拉索对科特迪瓦——阿勒瞄准进球为科特迪瓦锁定出线。库拉索的每一次触球都是历史。',
+  59: '荷兰应该出线。突尼斯能否凭借组织的防守令强敌头疼？',
+  60: '日本对瑞典——双方都有出线机会。三笘对阵瑞典坚实防线是最大看点。',
+  61: '比利时争取锁定头名。新西兰期待奇迹，但G组终究由强队主宰。',
+  62: '埃及对伊朗——G组第二名之争。萨拉赫需要发挥，阿兹蒙何尝不是？',
+  63: '乌拉圭对西班牙——争夺H组头名。巴尔韦德和努涅斯将挑战佩德里和亚马尔的统治，一场真正的巅峰对决。',
+  64: '佛得角对沙特阿拉伯——双方都在争抢宝贵的附加赛名额，H组末轮最大悬念。',
+  65: '哈兰德对姆巴佩。世界上两位最致命的射手在I组提前相遇，这是整届小组赛最令人期待的对决。',
+  66: '塞内加尔对伊拉克——马内锁定第二名的关键一战。',
+  67: '阿根廷小组赛收官。梅西和阿尔瓦雷斯志在高分晋级，约旦守门神迎来最严峻挑战。',
+  68: '阿尔及利亚对奥地利——双方为宝贵的第三名名额而战。马赫雷斯和萨比策决定J组最后命运。',
+  69: '哥伦比亚对葡萄牙——可能决定K组头名。路易斯·迪亚斯对阵莱昂，罗纳尔多对阵哈梅斯，这是小组赛最精彩的压轴大戏之一。',
+  70: '刚果（金）对乌兹别克斯坦——双方都在努力争取附加赛名额，K组末轮暗战。',
+  71: '英格兰对巴拿马——凯恩和贝林厄姆志在大胜冲净胜球，L组头名之争。',
+  72: '克罗地亚对加纳——莫德里奇追逐他的最后一个世界杯章节。库杜斯能否为加纳带来惊喜？'
+};
+
+// ══════════════════════════════════════
+//  LANGUAGE
+// ══════════════════════════════════════
+let lang = 'en';
+
+const UI = {
+  en: {
+    tabToday:'⚡ Today', tabSched:'📅 Schedule', tabGroups:'🌍 Groups',
+    todayHdr:'⚡ Today\'s Games', todaySub:'Melbourne time (AEST, UTC+10)',
+    schedHdr:'📅 Full Schedule', schedSub:'All times in Melbourne AEST',
+    noMatches:'No matches scheduled for today in Melbourne time.',
+    noMatchesSub:'Switch to Schedule to browse all games.',
+    live:'🔴 LIVE', liveNow:'LIVE NOW', fullTime:'⏱ FULL TIME',
+    today:'TODAY', group:'Group', mdPre:'Matchday ', mdPost:'',
+    draw:'Draw', watchRating:'Watch Rating', aest:'AEST',
+    preview:'Match Preview', predict:'Prediction', stars:'Star Players to Watch',
+    tactics:'How Each Team Plays', stakes:'What\'s at Stake', watchFor:'Things to Watch For',
+    keyDuel:'Key Duel:', tacticalBattle:'Tactical battle:', context:'context:',
+    critical:'Critical moments:',
+    criticalText:'The first 15 minutes set the tone. Any red card reshapes the game entirely. In knockout elimination pressure, the final 10 minutes of the third group game are always electric.',
+    keyDuelSuffix:'— the head-to-head matchup that could decide the game.',
+    selectMsg:'Select a match to see players, tactics & what to watch'
+  },
+  zh: {
+    tabToday:'⚡ 今天', tabSched:'📅 赛程', tabGroups:'🌍 分组',
+    todayHdr:'⚡ 今日赛事', todaySub:'墨尔本时间（AEST，UTC+10）',
+    schedHdr:'📅 完整赛程', schedSub:'所有时间均为墨尔本时间（AEST）',
+    noMatches:'今天墨尔本时间没有安排比赛。',
+    noMatchesSub:'切换到「赛程」查看所有比赛。',
+    live:'🔴 直播中', liveNow:'直播中', fullTime:'⏱ 全场结束',
+    today:'今天', group:'小组', mdPre:'第', mdPost:'轮',
+    draw:'平局', watchRating:'观赏指数', aest:'澳东时间',
+    preview:'赛前预览', predict:'赛果预测', stars:'明星球员',
+    tactics:'球队战术风格', stakes:'本场焦点', watchFor:'观赛重点',
+    keyDuel:'关键对决：', tacticalBattle:'战术博弈：', context:'背景：',
+    critical:'关键时刻：',
+    criticalText:'开场15分钟定下基调。任何红牌都会彻底改变比赛走势。小组赛第三轮末尾10分钟，晋级压力下往往高潮迭起。',
+    keyDuelSuffix:'—— 这场对决可能左右整场比赛走势。',
+    selectMsg:'点击比赛查看球员介绍、战术分析和观赛指南'
+  }
+};
+function u(k) { return (UI[lang] || UI.en)[k] || UI.en[k]; }
+
+const VENUES_ZH = {
+  'Atlanta':'亚特兰大', 'Boston':'波士顿', 'Dallas':'达拉斯',
+  'Guadalajara':'瓜达拉哈拉', 'Guadalupe':'瓜达卢佩', 'Houston':'休斯顿',
+  'Kansas City':'堪萨斯城', 'Los Angeles':'洛杉矶', 'Mexico City':'墨西哥城',
+  'Miami':'迈阿密', 'New York/NJ':'纽约/新泽西', 'Philadelphia':'费城',
+  'San Francisco':'旧金山', 'Seattle':'西雅图', 'Toronto':'多伦多', 'Vancouver':'温哥华'
+};
+function venue(v) { return lang === 'zh' && VENUES_ZH[v] ? VENUES_ZH[v] : v; }
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  document.getElementById('tab-today').textContent = u('tabToday');
+  document.getElementById('tab-schedule').textContent = u('tabSched');
+  document.getElementById('tab-groups').textContent = u('tabGroups');
+  renderSchedulePanel();
+  if (selectedMatchId) selectMatch(selectedMatchId);
+}
+
+function getTeam(code) {
+  const base = TEAMS[code];
+  if (!base) return null;
+  if (lang === 'zh' && TEAMS_ZH[code]) return { ...base, ...TEAMS_ZH[code] };
+  return base;
+}
+
+// ══════════════════════════════════════
+//  CHINESE TEAM DATA (mainland China standard player names)
+// ══════════════════════════════════════
+const TEAMS_ZH = {
+  MEX:{ name:'墨西哥',style:'反击型打法，防守阵型紧凑。依靠快速的垂直传递穿透中场，边锋贴边创造数量优势，借助主场氛围爆发。',
+    players:[{name:'圣地亚哥·希门尼斯',role:'中锋',jersey:'9',desc:'米兰AC新援，禁区嗅觉敏锐，墨西哥近年来最出色的前锋。'},
+      {name:'"查基"洛萨诺',role:'右边锋',jersey:'22',desc:'电光火石般的速度和盘带，状态好时可一人改变比赛走势。'},
+      {name:'纪尧姆·奥乔亚',role:'守门员',jersey:'13',desc:'40岁的传奇门将，多届世界杯都有神级发挥，经验无可替代。'}],
+    narrative:'东道主的诅咒——墨西哥自1986年起再未晋级世界杯八强。在历史上的阿兹特卡球场主场出战，压力与激情并存。',
+    stakes:'举国期盼突破16强魔咒，40年的等待在这里。' },
+
+  RSA:{ name:'南非',
+    style:'组织严密，工作努力。防守阵型紧凑，快速反击。不是来凑数的——从非洲最艰难的小组出线已证明实力。',
+    players:[{name:'珀西·陶',role:'前锋',jersey:'10',desc:'南非最具威胁的进攻球员，速度快，善于联系配合。'},
+      {name:'龙文·威廉姆斯',role:'守门员',jersey:'1',desc:'非洲最优秀的门将之一，反应迅速，在资格赛中多次力挽狂澜。'}],
+    narrative:'2010年东道主回来了！南非16年前举办了世界杯，如今凭实力重返赛场。',
+    stakes:'用实力赢得入场券，向世界证明自己。' },
+
+  KOR:{ name:'韩国',
+    style:'纪律严明，组织有序。需要时高位逼抢，依靠技术出众的攻击手快速转换。',
+    players:[{name:'孙兴慜',role:'前锋/队长',jersey:'7',desc:'热刺队长，左脚如激光，是亚洲历史上最出色的球员之一。状态好时能一人改变比赛。这届可能是他最后的世界杯。'},
+      {name:'李在成',role:'中场',jersey:'14',desc:'中场发动机，抗压能力强，不知疲倦的奔跑者。'}],
+    narrative:'孙兴慜最后的世界杯？他承载着全国的期待。',stakes:'34岁的孙兴慜，最后的大舞台。' },
+
+  CZE:{ name:'捷克',
+    style:'务实的欧洲打法，防守严密，定位球威胁巨大。预选赛淘汰意大利，绝非软柿子。',
+    players:[{name:'托马斯·苏切克',role:'中场',jersey:'17',desc:'西汉姆联的力量型中场，空中对抗出色，贡献关键进球。'},
+      {name:'安托宁·巴拉克',role:'进攻中场',jersey:'11',desc:'技术细腻，视野开阔，能打开对方防线。'}],
+    narrative:'刚淘汰了意大利，已创造历史。带着自由心态出战。',stakes:'A组最大黑马，随时可能引爆冷门。' },
+
+  CAN:{ name:'加拿大',style:'高强度、高逼抢、身体对抗激烈。永不停歇的跑动机器，进攻思路明确，边路频繁套边。',
+    players:[{name:'阿方索·戴维斯',role:'左后卫/边锋',jersey:'3',desc:'拜仁慕尼黑的火箭，速度让对方后卫汗颜。可以在瞬间从本方禁区冲入对方禁区——精彩进攻时绝对不要眨眼。'},
+      {name:'乔纳森·大卫',role:'前锋',jersey:'9',desc:'曾在法甲里尔高产射手，禁区嗅觉极佳，是当今世界最高效的前锋之一。'},
+      {name:'塔荣·布坎南',role:'右边锋',jersey:'11',desc:'国际米兰效力，速度极快，已成长为真正的顶级球员。'}],
+    narrative:'加拿大首次在本土举办世界杯，黄金一代名副其实——戴维斯和大卫是真正的世界级球星。',
+    stakes:'开幕战在多伦多BMO球场，举国目光聚焦。' },
+
+  BIH:{ name:'波黑',
+    style:'身体强悍，以强对强。打法直接，进攻意图明确，防守底盘稳固仍保持强烈的进攻意识。',
+    players:[{name:'埃丁·哲科',role:'中锋',jersey:'9',desc:'38岁的传奇，波黑历史最佳射手。凭借聪明的走位和胸部停球依然是禁区威胁。'},
+      {name:'赛亚德·科拉西纳茨',role:'左后卫',jersey:'5',desc:'进攻性强，身体对抗出色，套边助攻为波黑提供宽度。'}],
+    narrative:'附加赛淘汰意大利——光凭这个，这支球队已永载史册。',stakes:'无所畏惧，反而更加危险。' },
+
+  QAT:{ name:'卡塔尔',
+    style:'注重控球，技术合理。2022年东道主在主场折戟，但本届已真正靠实力晋级，积累了宝贵经验。',
+    players:[{name:'阿克拉姆·阿菲夫',role:'边锋',jersey:'11',desc:'卡塔尔最危险的进攻球员，速度快，能远射，2023年亚洲杯金球奖。'},
+      {name:'阿尔莫兹·阿里',role:'中锋',jersey:'9',desc:'身体强壮，空中对抗出色，是防守球员的心腹大患。'}],
+    narrative:'首次通过正常资格赛晋级！有机会向怀疑者证明实力。',stakes:'海湾地区的期待，证明自己不只是主场福利。' },
+
+  SUI:{ name:'瑞士',
+    style:'机械式纪律，极难被击败。战术智慧是他们的招牌，中场绝不给对手喘息空间。',
+    players:[{name:'格拉尼特·查卡',role:'中场',jersey:'10',desc:'勒沃库森的中场发动机，解读比赛超群，传球精准，是瑞士队的心脏。'},
+      {name:'布雷尔·恩博洛',role:'前锋',jersey:'7',desc:'摩纳哥前锋，强壮直接，做球出色，牵制对方防线。'}],
+    narrative:'一贯的超额发挥者。2022年晋级八强，世界总是低估瑞士。',stakes:'有机会创造瑞士历史上最好的世界杯成绩。' },
+
+  BRA:{ name:'巴西',style:'安切洛蒂麾下焕然一新——无固定中锋，依靠流动进攻走位、爆炸性边路突破和高强度逼抢。前三线一旦进入状态，世界上没有任何球队能够阻止。',
+    players:[{name:'维尼修斯·儒尼奥尔',role:'左边锋',jersey:'7',desc:'当今足球界最出色的球员之一。令人胆寒的速度、技术和不可预测性——他的过人和内切是任何后卫的噩梦。状态好时无人能挡。'},
+      {name:'拉菲尼亚',role:'右边锋',jersey:'11',desc:'巴塞罗那队长，技术精湛，直接突破，时常贡献进球和助攻。巴西高强度进攻体系的创造力核心。'},
+      {name:'罗德里戈',role:'进攻中场',jersey:'9',desc:'沉稳的那位——能在关键时刻打进关键球。'},
+      {name:'卡塞米罗',role:'后腰',jersey:'5',desc:'防守锚点。这位曼联战士站在防线之前，将进攻消弭于无形。没有他，巴西后防会相当脆弱。'}],
+    narrative:'巴西上次夺冠是2002年。五星巴西承载着最悠久的世界杯历史，每四年都要肩负举国期待。',
+    stakes:'如果维尼修斯进入皇马状态，巴西就能赢得冠军。关注他的每一次盘带。' },
+
+  MAR:{ name:'摩洛哥',style:'极度紧凑的防守组织，然后以闪电速度展开反击。雷格拉吉的摩洛哥极难被攻破——对手越是强攻，他们反击的空间越大。',
+    players:[{name:'阿什拉夫·哈基米',role:'右后卫/边路',jersey:'2',desc:'巴黎圣日耳曼的攻击型后卫，是目前最具进攻性的边路球员之一，每场比赛都有机会得分。'},
+      {name:'哈基姆·齐耶赫',role:'进攻中场',jersey:'7',desc:'天才型选手——他的左脚是魔法棒，能从无到有制造进球机会。'},
+      {name:'索菲安·阿姆拉巴特',role:'中场',jersey:'4',desc:'无休止地破坏对手进攻并带球前进，2022年世界杯一战成名于全球。'}],
+    narrative:'第一支进入世界杯四强的非洲球队——2022年连克西班牙、葡萄牙、比利时，震惊全球。他们回来了，要走得更远。',
+    stakes:'非洲能否拥有第一支世界杯决赛球队？整个非洲大陆都在注视。' },
+
+  HTI:{ name:'海地',style:'防守谨慎，纪律严明。以工作强度弥补技术差距，韧劲和让比赛变得难看是他们的杀手锏。',
+    players:[{name:'弗朗兹迪·皮埃罗',role:'前锋',jersey:'9',desc:'身体强健，能在空中和直线冲刺中制造问题。'}],
+    narrative:'自1974年后首次参加世界杯！对于这个热爱足球的国家而言，这是巨大的成就。',stakes:'本届最励志的故事，每一分都是奇迹。' },
+
+  SCO:{ name:'苏格兰',
+    style:'对抗性强，身体壮硕。有机会就高位逼抢，否则保持防守阵型。定位球是真实威胁。',
+    players:[{name:'斯科特·麦克托米奈',role:'中场',jersey:'8',desc:'那不勒斯进球型中场，改变了苏格兰的雄心。预选赛中贡献关键进球，领袖气质十足。'},
+      {name:'安迪·罗伯逊',role:'左后卫',jersey:'3',desc:'利物浦传奇左后卫兼队长，助攻和传中均属世界级。'}],
+    narrative:'1998年后首次参加世界杯——28年的等待！苏格兰和巴西同组，堪称命运的诗意安排。',
+    stakes:'C组有巴西——对苏格兰来说是千载难逢的对阵机会，好好享受。' },
+
+  USA:{ name:'美国',style:'运动能力强，逼抢积极，在博切蒂诺麾下愈加技术化。快速纵向传球配合危险定位球。',
+    players:[{name:'克里斯蒂安·普利西奇',role:'队长/进攻中场',jersey:'10',desc:'AC米兰的美国英雄，第一位真正在欧洲顶级联赛闪耀的美国球员。直接、双脚均衡、无所畏惧——状态好时是本届最出色的球员之一。'},
+      {name:'乔瓦尼·雷纳',role:'进攻中场',jersey:'7',desc:'多特蒙德技术型创造者——史上天赋最高的美国球员。健康时是潜在的世界杯明星。'},
+      {name:'泰勒·亚当斯',role:'后腰',jersey:'4',desc:'发动机核心，他的逼抢、位置感和传球使他跻身欧洲顶级球队，掌控整条中场。'}],
+    narrative:'以东道主身份怀抱真实雄心——2022年晋级16强，这支球队经验更丰富，博切蒂诺增添了战术纪律性。',
+    stakes:'在洛杉矶SoFi球场首战，美国自1994年以来最大的体育赛事。' },
+
+  PRY:{ name:'巴拉圭',
+    style:'南美斗志，对抗性强，身体硬朗，防守严密。不会轻易认输——对手需要一寸一寸地争夺每一个机会。',
+    players:[{name:'米格尔·阿尔米龙',role:'进攻中场',jersey:'10',desc:'纽卡斯尔精力充沛的中场——抗压好，速度快，能在关键时刻打进进球。'},
+      {name:'安赫尔·罗梅罗',role:'前锋',jersey:'9',desc:'经验丰富，擅长背身拿球和分球配合。'}],
+    narrative:'巴拉圭一贯超额发挥，2010年世界杯曾进入八强。',stakes:'开幕战双方都背水一战，紧张激烈板上钉钉。' },
+
+  AUS:{ name:'澳大利亚',style:'高强度逼抢，身体对抗激烈，整体作战。快速直接，一旦球到脚下立即向前推进。',
+    players:[{name:'马修·莱基',role:'右边锋',jersey:'11',desc:'2022年对阵丹麦那粒"奇迹之球"的射手。不知疲倦的奔跑，直接，能在关键时刻发挥奇效。墨尔本球迷的最爱。'},
+      {name:'内斯托里·伊兰坤达',role:'边锋',jersey:'17',desc:'19岁的拜仁慕尼黑新星，是澳大利亚多年来最令人兴奋的新秀。'},
+      {name:'米切尔·杜克',role:'前锋',jersey:'9',desc:'传统9号中锋，空中对抗出色，是澳大利亚进攻的支点。'}],
+    narrative:'2022年的奇迹——击败丹麦，进入八强。那支球队鼓舞了一个国家。现在他们要更进一步。墨尔本球迷特别注意！',
+    stakes:'澳大利亚对阵美国，可能决定袋鼠军团是否晋级。这或许是澳大利亚足球史上最重要的比赛。' },
+
+  TUR:{ name:'土耳其',
+    style:'充满活力，热情奔放。技术型中场配合直接进攻，可以快速切换比赛节奏。',
+    players:[{name:'哈坎·恰尔汗奥卢',role:'中场',jersey:'8',desc:'国际米兰中场大师，传球范围极广，掌控节奏，是目前欧洲最好的中场之一。'},
+      {name:'阿尔达·居勒尔',role:'进攻中场',jersey:'10',desc:'皇马20岁天才——技术精湛，老成持重。可能成为本届世界杯的一匹黑马。'}],
+    narrative:'2002年获得第三名。如今这一激动人心的新生代带着同样的野心回来了。',
+    stakes:'居勒尔可能成为小组赛的最大亮点。D组最大悬念。' },
+
+  GER:{ name:'德国',style:'纳格尔斯曼麾下重建——更具进攻性，更有创造力。通过中轴线的技术质量实现高位逼抢。',
+    players:[{name:'弗洛里安·维尔茨',role:'进攻中场',jersey:'10',desc:'勒沃库森的天才，仅22岁，可能是30年来天赋最高的德国球员。盘带、视野和射门出神入化。时刻关注他。'},
+      {name:'贾马尔·穆西亚拉',role:'进攻中场',jersey:'10',desc:'拜仁慕尼黑优雅的技术型球员——在狭小空间盘带如行云流水，能打进关键球。与维尔茨一起是世界上最令人兴奋的年轻搭档。'},
+      {name:'约书亚·基米希',role:'中场',jersey:'6',desc:'乐队指挥。他的位置感、逼抢和传球范围是德国运转的基础。'}],
+    narrative:'2018和2022连续小组赛出局——对四届世界冠军而言奇耻大辱。纳格尔斯曼重建了激情，德国带着真正的信念回来了。',
+    stakes:'德国需要弥补两届小组赛出局的耻辱。维尔茨和穆西亚拉提供了足够的天赋。' },
+
+  CIV:{ name:'科特迪瓦',
+    style:'身体强悍，打法直接。定位球威胁巨大，全队运动能力出众。',
+    players:[{name:'塞巴斯蒂安·阿勒',role:'前锋',jersey:'9',desc:'多特蒙德强力前锋，曾战胜癌症重返顶级赛场，故事令人动容。靶子型前锋，技术细腻。'},
+      {name:'弗兰克·凯西',role:'中场',jersey:'5',desc:'全能型中场机器，力量和节奏能让对手喘不过气。'}],
+    narrative:'2024年非洲杯冠军——新一个黄金一代正在崛起。',stakes:'E组暗黑之马，有机会走远。' },
+
+  ECU:{ name:'厄瓜多尔',
+    style:'组织严密，打法直接，身体对抗强。南美斗志加务实打法。',
+    players:[{name:'摩伊塞斯·凯塞多',role:'中场',jersey:'10',desc:'切尔西动感中场，世界上最好的年轻中场之一。他的球权争夺和快速分球都属精英水准。'},
+      {name:'恩纳尔·巴伦西亚',role:'前锋',jersey:'13',desc:'老队长，曾在两届世界杯进球，领导力和身体对抗无可替代。'}],
+    narrative:'南美洲的崛起之师，拥有凯塞多这位世界级中场。',stakes:'观看凯塞多在中场的主宰表演。' },
+
+  NED:{ name:'荷兰',style:'全攻全守传统遇上现代逼抢，技术质量、积极逼抢和流畅进攻移动。4-3-3已融入他们的基因。',
+    players:[{name:'维吉尔·范戴克',role:'中后卫/队长',jersey:'4',desc:'可以说是世界上最好的后卫。他对比赛的解读、空中统治力和沉稳令人赏心悦目——后卫极少有这般霸气。'},
+      {name:'科迪·加克波',role:'前锋',jersey:'7',desc:'利物浦左路进攻球员——有创造力，强壮，能打关键球。本届最具爆发力的前锋之一。'},
+      {name:'蒂亚尼·赖恩德斯',role:'中场',jersey:'14',desc:'AC米兰的节拍器型中场，以优雅的简洁连接防线与进攻。'}],
+    narrative:'三次世界杯决赛（1974、1978、2010）从未夺冠。荷兰人称之为"橙色创伤"。这一次能否终结？',
+    stakes:'最有资格夺冠却从未夺冠的球队。34岁的范戴克——这是他真正意义上最后的机会。' },
+
+  JPN:{ name:'日本',
+    style:'技术细腻，纪律严明，备战充分。日本的整体智慧在亚洲无与伦比——协调一致的波浪式逼抢，技术全面出色。',
+    players:[{name:'久保建英',role:'进攻中场',jersey:'8',desc:'皇家社会技术型创造者，速度极快，善于在狭小空间活动，能无中生有制造进球机会。'},
+      {name:'三笘薰',role:'左边锋',jersey:'9',desc:'布莱顿的盘带机器，重心低，球技精湛，几乎无法被断球。真正的明星球员。'}],
+    narrative:'2022年小组赛连克德国和西班牙——任何人都不应轻视日本。',stakes:'日本具备深度晋级的实力，技术和团队凝聚力足以匹敌任何球队。' },
+
+  BEL:{ name:'比利时',
+    style:'新生代崛起，"黄金一代"已成历史，年轻面孔接棒。快速转换和技术质量仍是核心。',
+    players:[{name:'洛伊斯·奥彭达',role:'前锋',jersey:'9',desc:'RB莱比锡的电光石火型前锋，对方身后的速度和临门一脚使他成为欧洲最危险的前锋之一。'},
+      {name:'阿马杜·奥纳纳',role:'中场',jersey:'5',desc:'阿斯顿维拉强壮且技术全面的中场，覆盖面极广，善于发动进攻。'}],
+    narrative:'黄金一代从未赢得大赛。现在新一代有机会真正实现突破。',stakes:'下一代能否完成黄金一代未竟的事业？' },
+
+  ESP:{ name:'西班牙',style:'位置球掌控大师——本届技术最全面的球队。短传配合，智能跑位，高位逼抢。2024年欧洲杯冠军，本届最有力的夺冠热门。',
+    players:[{name:'拉明·亚马尔',role:'右边锋',jersey:'19',desc:'18岁，已是世界上最出色的年轻球员。2024年欧洲杯对阵法国时打进惊天世界波。他的技术、沉稳和创造力令人叹为观止——很难相信他还是个少年。'},
+      {name:'佩德里',role:'中场核心',jersey:'8',desc:'中场大师——他在狭小空间接球、晃开防守和选择传球路线的能力堪称享受。'},
+      {name:'罗德里',role:'后腰',jersey:'16',desc:'金球奖得主。西班牙的防守盾牌和首席调度者，极少失误，总比对手早一步读懂比赛。'},
+      {name:'阿尔瓦罗·莫拉塔',role:'前锋',jersey:'7',desc:'AC米兰队长，无私逼抢，聪明走位，大赛经验丰富。'}],
+    narrative:'2010年世界杯冠军，四届欧洲冠军。刚完成震撼人心的2024欧洲杯夺冠。西班牙是排名第一的夺冠热门。',
+    stakes:'最伟大的西班牙一代能否赢得第二个世界杯？他们目前的足球是世界上最纯粹的。' },
+
+  URU:{ name:'乌拉圭',
+    style:'乌拉圭铁血精神。战术老练，防守凶悍，拥有世界级进攻人才。',
+    players:[{name:'费德里科·巴尔韦德',role:'中场',jersey:'15',desc:'皇马不知疲倦的发动机，跑遍每一寸草皮，能打世界波，拥有中场球员中最大的"发动机"。绝对精英。'},
+      {name:'达尔文·努涅斯',role:'前锋',jersey:'9',desc:'利物浦爆炸型中锋，速度极快，力量强大，全力运转时能让任何防线崩溃。'}],
+    narrative:'"查鲁亚精神"——永不放弃。两届世界杯冠军，一贯超越其国家体量发挥。',
+    stakes:'乌拉圭对阵西班牙可能是小组赛最精彩的比赛。' },
+
+  FRA:{ name:'法国',style:'技术质量与身体力量的完美融合。可以打控球足球，也可以在反击中摧毁对手。球员深度无与伦比，轮换无需牺牲质量。',
+    players:[{name:'基利安·姆巴佩',role:'中锋',jersey:'10',desc:'世界足坛速度最快、也最出色的球员之一。距离打破世界杯历史最多进球纪录仅差5球。他的加速度、射门和视野使他与众不同——他持球的每一秒都要盯紧。'},
+      {name:'安托万·格列兹曼',role:'进攻中场',jersey:'7',desc:'法国的创造性大脑，聪明的线间跑位和大场面发挥使他成为世界足坛最重要的球员之一。'},
+      {name:'马科斯·图拉姆',role:'前锋',jersey:'9',desc:'国际米兰的强力前锋，力量、速度和聪明走位使他成为姆巴佩的完美搭档。'}],
+    narrative:'2018年世界杯冠军。2022年决赛点球不敌阿根廷。只要姆巴佩进入状态，法国就不会输球。',
+    stakes:'姆巴佩的决定性世界杯？他曾两次进入决赛，这次他拥有赢球的球队。' },
+
+  SEN:{ name:'塞内加尔',
+    style:'强壮有力，技术娴熟。当塞内加尔雄狮高强度逼抢时，极难被正面穿越。',
+    players:[{name:'萨迪奥·马内',role:'前锋',jersey:'10',desc:'传奇进攻球员，31岁但仍能展现非凡才华。他在利物浦的职业生涯辉煌无比，承载着全国人民的希望。'},
+      {name:'伊斯梅拉·萨尔',role:'边锋',jersey:'23',desc:'水晶宫的爆炸型边锋，纯粹的速度和直接突破，能惩罚任何防守平移的防线。'}],
+    narrative:'2022年16强点球不敌英格兰。塞内加尔是非洲最稳定的球队之一。',
+    stakes:'I组竞争极其激烈——法国对阵塞内加尔是顶级小组赛对决。' },
+
+  IRQ:{ name:'伊拉克',
+    style:'中东式防守反击，组织严密。依靠快速转换制造威胁，整体协作是核心。',
+    players:[{name:'艾曼·侯赛因',role:'前锋',jersey:'9',desc:'伊拉克的进球机器兼队长。'}],
+    narrative:'自1986年后首次参加世界杯！伊拉克在亚洲预选赛中创造惊喜，完成了了不起的成就。',
+    stakes:'I组有法国和哈兰德的挪威——对他们而言堪称死亡之组。' },
+
+  NOR:{ name:'挪威',
+    style:'打法直接，身体强悍，禁区前令人生畏。哈兰德一旦拿到危险区域的球，必有威胁。',
+    players:[{name:'厄林·哈兰德',role:'前锋',jersey:'9',desc:'进球机器。曼城前锋打破了他面前的每一项进球纪录。他的身体素质、射门本能和禁区统治力使他成为世界上最令守门员胆寒的中锋。每次他在禁区得球——请起立。'}],
+    narrative:'自1998年后首次参加世界杯！哈兰德从未出现在大型国际赛事，直到现在。世界终于能看到哈兰德体验了。',
+    stakes:'哈兰德对姆巴佩——同在I组。世界上两位最可怕的射手在小组赛就狭路相逢，必看之战。' },
+
+  ARG:{ name:'阿根廷',style:'战术灵活，难以攻克。防守纪律严明，反击致命。需要时能打防守反击，必要时能开放进攻。',
+    players:[{name:'莱昂内尔·梅西',role:'队长/前锋',jersey:'10',desc:'史上最伟大的球员，如今更是世界杯冠军。38岁的他或许迎来最后一届世界杯，但他的传球、视野和定位球依然超凡入圣。他的每一次触球都是历史——不要移开视线。'},
+      {name:'胡利安·阿尔瓦雷斯',role:'前锋',jersey:'9',desc:'2022年世界杯最大惊喜，灵动、聪明的跑位，射门精准。24岁，这届世界杯是他向世界宣告自己的舞台。'},
+      {name:'恩佐·费尔南德斯',role:'中场',jersey:'24',desc:'切尔西的发动机——防守、进攻、射门、助攻无所不能，对阿根廷体系至关重要。'}],
+    narrative:'卫冕冠军——2022年赢得世界杯，结束了36年的等待。梅西高举奖杯的那一幕成为永恒。',
+    stakes:'梅西的告别之旅。如果这是他最后一届世界杯，每一刻都弥足珍贵。全世界都在看。' },
+
+  ALG:{ name:'阿尔及利亚',
+    style:'技术流北非球队，过渡衔接流畅，高位逼抢有一定威胁，依靠技术和速度打开局面。',
+    players:[{name:'里亚德·马赫雷斯',role:'边锋',jersey:'7',desc:'魔法师——他的左脚是魔法棒。从任何角度都能内切射门，随时构成威胁。'}],
+    narrative:'曾赢得非洲杯，现在与梅西的阿根廷同组——故事自己会写。',
+    stakes:'阿尔及利亚对阵梅西——在最大舞台上直面球王。J组何等精彩。' },
+
+  AUT:{ name:'奥地利',
+    style:'积极逼抢，充满激情。进攻意图明确，中场到前场之间衔接迅速。',
+    players:[{name:'马塞尔·萨比策',role:'中场',jersey:'7',desc:'多特蒙德积极型中场，逼抢不止，能打进关键球。'},
+      {name:'大卫·阿拉巴',role:'后卫',jersey:'8',desc:'皇马球星为奥地利防线带来世界级质量。'}],
+    narrative:'自1998年后首次参赛——新生代的黄金机会。',
+    stakes:'J组有阿根廷，必须在阿尔及利亚和约旦身上积分。' },
+
+  JOR:{ name:'约旦',
+    style:'防守严密，工作努力。依靠整体团队协作弥补个人质量差距，是亚洲出线的一匹黑马。',
+    players:[{name:'亚赞·纳亚马特',role:'前锋',jersey:'9',desc:'约旦最主要的进攻威胁，跑动积极，反击时危险。'}],
+    narrative:'世界杯首秀！约旦首次晋级，是中东足球的历史性突破。',
+    stakes:'J组有阿根廷、阿尔及利亚和奥地利，每一分都是奇迹。' },
+
+  POR:{ name:'葡萄牙',style:'全队技术质量出色，宽边进攻，中场与进攻线之间的配合默契。马丁内斯建立了真正的团队精神，不再只依赖罗纳尔多。',
+    players:[{name:'克里斯蒂亚诺·罗纳尔多',role:'队长/前锋',jersey:'7',desc:'足球史上荣誉最多的球员。41岁，这或许是他辉煌职业生涯的最终篇章。仍能在关键时刻迸发天才之作，定位球、走位和射门依然属于精英水准。历史在见证。'},
+      {name:'拉斐尔·莱奥',role:'左边锋',jersey:'11',desc:'AC米兰的电光石火型进攻球员——全速运转时无可阻挡。速度、技巧和进球能力使他成为葡萄牙最危险的武器。'},
+      {name:'贝尔纳多·席尔瓦',role:'中场',jersey:'10',desc:'曼城技术大师，聪明的位置感、传球和进球能力，是球队的心脏。'}],
+    narrative:'赢得2016年欧洲杯，2022年八强点球不敌摩洛哥。罗纳尔多唯一缺少的就是世界杯冠军，这是他最后的机会。',
+    stakes:'罗纳尔多最后的世界杯，41岁的终章。葡萄牙全国，以及很大一部分球迷，希望他最终能举起这座奖杯。' },
+
+  COL:{ name:'哥伦比亚',
+    style:'进取积极，技术全面，2024年美洲杯决赛经验加持，充满自信。快速转换和富有创意的进攻是核心。',
+    players:[{name:'路易斯·迪亚斯',role:'左边锋',jersey:'7',desc:'利物浦的电光石火型边锋，直接突破、速度和过人每次持球都会制造危险。'},
+      {name:'哈梅斯·罗德里格斯',role:'进攻中场',jersey:'10',desc:'2014年世界杯金靴得主，哥伦比亚最优雅的传球者和创造者。'}],
+    narrative:'2024年美洲杯亚军——本届最亮眼的南美洲球队。',
+    stakes:'哥伦比亚真正有能力冲击四强，路易斯·迪亚斯状态惊人。' },
+
+  ENG:{ name:'英格兰',style:'防守稳固，组织严密。优势在于个人质量——前三线和中场均属世界级，定位球是重要武器。',
+    players:[{name:'哈里·凯恩',role:'前锋/队长',jersey:'9',desc:'英格兰历史最佳射手，效力拜仁慕尼黑。他的跑位、背身拿球和射门使他跻身世界最优秀前锋之列。承载巨大压力，但从容应对。'},
+      {name:'朱德·贝林厄姆',role:'中场',jersey:'5',desc:'皇马的全能型奇才——22岁，可以说已是世界上最好的中场。持球时充满爆炸性，能从中场打进进球，逼抢不知疲倦。英格兰的核心。'},
+      {name:'德克兰·莱斯',role:'后腰',jersey:'4',desc:'阿森纳的中场将军——他的断球和向前传球给英格兰带来控制权和安全感。世界级。'}],
+    narrative:'1966年夺冠，此后再未举起大力神杯。2018年四强，2021年和2024年欧洲杯决赛——永远是陪跑。黄金一代必须兑现了。',
+    stakes:'60年的痛。凯恩、贝林厄姆和莱斯是这段时间里英格兰最强的一代。如果他们现在不能赢，更待何时？' },
+
+  CRO:{ name:'克罗地亚',
+    style:'技术出众，战术严谨。莫德里奇从深处掌控一切——克罗地亚式打法是耐心控球后的致命一击。',
+    players:[{name:'卢卡·莫德里奇',role:'中场/队长',jersey:'10',desc:'39岁的天才。金球奖得主，2018年世界杯金球奖得主。他的触球、视野和比赛阅读依然超越时间的艺术。观看莫德里奇踢球就是欣赏一位大师的杰作。这可能是他最后一届世界杯。'},
+      {name:'马泰奥·科瓦奇',role:'中场',jersey:'8',desc:'曼城技术型发电机——不停逼抢和精准传球使他成为莫德里奇的完美搭档。'}],
+    narrative:'2018年亚军，2022年第三名。克罗地亚仅有400万人口（与墨尔本相当！），却持续进入世界杯四强。莫德里奇的谢幕之作即将上演。',
+    stakes:'莫德里奇的故事如何落幕？英格兰对阵克罗地亚呼应了2018年半决赛，那次克罗地亚赢了。' },
+
+  GHA:{ name:'加纳',style:'身体强悍，进攻激情。快速边路和富有创意的中场相结合，有能力掀翻强队。',
+    players:[{name:'穆罕默德·库杜斯',role:'进攻中场',jersey:'10',desc:'西汉姆联的爆炸型进攻球员，西非最闪耀的新秀之一。直接、有技术、能打关键球。'}],
+    narrative:'L组有英格兰和克罗地亚，但加纳曾击败过美国（2010年）。',stakes:'库杜斯可能成为本届非洲最耀眼的新星。' },
+
+  PAN:{ name:'巴拿马',style:'防守为主，整体性强。极难被攻破，靠有限的资源最大化整体输出。',
+    players:[{name:'伊斯梅尔·迪亚斯',role:'前锋',jersey:'9',desc:'积极的前锋，能在对方身后制造麻烦。'}],
+    narrative:'仅是第二次参加世界杯，2018年首秀三场皆负，但他们回来了。',stakes:'L组有英格兰、克罗地亚和加纳，每一分至关重要。' },
+
+  EGY:{ name:'埃及',style:'防守型，战术清晰。整体结构严密，依靠反击和定位球制造威胁，萨拉赫是唯一的核弹头。',
+    players:[{name:'穆罕默德·萨拉赫',role:'前锋/队长',jersey:'11',desc:'利物浦的传奇前锋——如果他上场，埃及就有机会对抗任何人。34岁的他速度、射门和创造力依然属于顶级。'}],
+    narrative:'萨拉赫的世界杯！埃及自1990年后首次参赛，对非洲足球意义深远。',stakes:'萨拉赫即便34岁也是世界顶尖水准，他持球的每一刻都值得关注。' },
+
+  KSA:{ name:'沙特阿拉伯',style:'技术型亚洲球队，组织流畅，强调整体协作，曾在2022年击败阿根廷，不可小觑。',
+    players:[{name:'萨利赫·沙赫里',role:'前锋',jersey:'11',desc:'2022年打进那粒对阵阿根廷历史性进球的前锋。身体强壮，直接，跑位聪明。'}],
+    narrative:'2022年击败阿根廷已成为世界杯传奇，他们将试图再次创造奇迹。',stakes:'H组有西班牙和乌拉圭，但沙特阿拉伯已证明他们能在任何一天击败任何人。' },
+
+  IRN:{ name:'伊朗',style:'防守纪律严明，反击迅速。整体团队凝聚力强，防守优先，靠定位球和反击建功。',
+    players:[{name:'萨尔达尔·阿兹蒙',role:'前锋',jersey:'9',desc:'"波斯梅西"，技术精湛，射门精准。伊朗最好的球员，也是最主要的进攻威胁。'}],
+    narrative:'伊朗自1998年起参加了每一届世界杯，热爱足球的国家，复杂的政治背景。',stakes:'G组与比利时和埃及同组，有机会争夺出线权。' },
+
+  SWE:{ name:'瑞典',style:'以整体为核心，拥有多名效力欧洲顶级联赛的球员。组织严密，直接进攻，依靠前锋个人能力决定比赛。',
+    players:[{name:'亚历山大·伊萨克',role:'前锋',jersey:'9',desc:'纽卡斯尔的电光石火型前锋——聪明的走位、速度和出色的射门，欧洲最危险的前锋之一。'}],
+    narrative:'缺席2022年，带着伊萨克领衔的阵容强势回归。',stakes:'伊萨克状态惊人——如果他爆发，瑞典有机会击败日本和荷兰。' },
+
+  TUN:{ name:'突尼斯',style:'北非式防守反击，依靠速度和整体协作弥补个人质量差距，定位球是重要武器。',
+    players:[{name:'瓦比·哈兹里',role:'前锋',jersey:'10',desc:'经验丰富的前锋，能无中生有创造机会。'}],
+    narrative:'非洲的定期参赛队伍，组织稳固，进攻有限。',stakes:'F组有荷兰和日本，需要击败瑞典方有出线可能。' },
+
+  NZL:{ name:'新西兰',style:'集体作战，努力拼搏。大洋洲征程磨练出坚韧精神和整体意识，身体对抗不输任何人。',
+    players:[{name:'利贝拉托·卡萨斯',role:'左后卫',jersey:'3',desc:'南安普顿不知疲倦的左后卫，是新西兰旅欧的最佳球员。'}],
+    narrative:'本届世界杯排名最低的球队，但他们凭实力从大洋洲获得了资格证。',stakes:'对新西兰而言，登上这个舞台本身就是足球史上最伟大的成就，享受每一刻。' },
+
+  CPV:{ name:'佛得角',style:'激情四射的非洲式踢法，身体强悍。以技术和团队精神令强队措手不及，是本届最大的惊喜之一。',
+    players:[{name:'瑞安·门德斯',role:'边锋',jersey:'7',desc:'最有威胁的进攻球员，速度快，直接突破。'}],
+    narrative:'首次参加世界杯！来自大西洋的50万岛国人民踏上世界最大的舞台。',stakes:'佛得角对阵西班牙——足球界最伟大的以弱胜强故事之一。' },
+
+  COD:{ name:'刚果（金）',style:'身体对抗激烈，运动能力出众，充满激情。拥有在非洲强队竞争中磨练出的韧劲。',
+    players:[{name:'塞德里克·巴库马布',role:'前锋',jersey:'9',desc:'曾效力欧亚多国联赛的经验丰富前锋，临门一脚精准。'}],
+    narrative:'自1974年（以扎伊尔名义）后首次参加世界杯，非洲足球的沉睡巨人。',stakes:'K组与葡萄牙同组——面对罗纳尔多的故事将流传后世。' },
+
+  UZB:{ name:'乌兹别克斯坦',style:'快速、技术流，中亚新面孔。控球与快速转换并重，是本届最令人期待的黑马之一。',
+    players:[{name:'艾尔多尔·肖穆罗多夫',role:'前锋',jersey:'9',desc:'罗马中锋，直接、强壮，是球队的进球点。'}],
+    narrative:'世界杯首秀！丝绸之路的国家踏上最大的舞台。',stakes:'与葡萄牙和哥伦比亚同组——难以置信的曝光机会。' },
+
+  CUW:{ name:'库拉索',style:'小国气质，但不畏强敌。整体纪律性强，快速防守反击是主要武器。',
+    players:[{name:'莱安德罗·巴库纳',role:'中场',jersey:'8',desc:'在荷兰踢球的经验丰富中场，是球队领袖，也是技术最好的球员。'}],
+    narrative:'世界杯首秀！一个比墨尔本CBD还小的岛屿，17万人口，却有一支世界杯球队，这就是足球的魔力。',stakes:'每一次触球都是历史，好好品味这个故事。' }
+};
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+// Add Curaçao stub
+TEAMS['CUW'] = { name:"Curaçao", flag:"🇨🇼", group:"E", rank:82,
+  formation:"4-4-2",
+  style:"Physical and hardworking. World Cup debutants bringing Caribbean flair and passion. No tactical pressure — pure joy of being here.",
+  players:[{ name:"Leandro Bacuna", role:"Midfielder", desc:"Experienced midfielder who plays in the Netherlands — a leader and the most technically capable player on the squad." }],
+  narrative:"Making their World Cup debut! 170,000 people from an island smaller than Melbourne's CBD have a team at the World Cup.",
+  stakes:"Every touch is historic. Soak up this story." };
+
+TEAMS['CPV'] = { name:"Cape Verde", flag:"🇨🇻", group:"H", rank:68,
+  formation:"4-4-2",
+  style:"Compact, defensive, dangerous on set pieces. The islands produce hardworking, physical players.",
+  players:[{ name:"Ryan Mendes", role:"Winger", desc:"The most dangerous attacking threat — quick and direct." }],
+  narrative:"First World Cup! 500,000 islanders in the Atlantic ocean — a tiny nation on the world's biggest stage.",
+  stakes:"Cape Verde vs Spain — one of football's great David vs Goliath stories." };
+
+TEAMS['COD'] = { name:"DR Congo", flag:"🇨🇩", group:"K", rank:74,
+  formation:"4-3-3",
+  style:"Athletic and direct. Physical presences throughout who can overwhelm teams with energy.",
+  players:[{ name:"Cédric Bakambu", role:"Striker", desc:"Experienced striker who has played across Europe and Asia. Clinical finisher." }],
+  narrative:"Back at the World Cup for the first time since 1974 (as Zaire). A sleeping giant of African football.",
+  stakes:"Group K with Portugal — facing Ronaldo will be a story for generations." };
+
+TEAMS['UZB'] = { name:"Uzbekistan", flag:"🇺🇿", group:"K", rank:66,
+  formation:"4-4-2",
+  style:"Well-organized Central Asian style. Hard working collective.",
+  players:[{ name:"Eldor Shomurodov", role:"Striker", desc:"Roma's striker — direct, physical and a finisher." }],
+  narrative:"World Cup debutants! The Silk Road nation reaches the biggest stage.",
+  stakes:"Drawn into a group with Portugal and Colombia — extraordinary exposure." };
+
+TEAMS['NZL'] = { name:"New Zealand", flag:"🇳🇿", group:"G", rank:85,
+  formation:"5-4-1",
+  style:"Ultra-defensive. The lowest-ranked team in the tournament. Will defend in banks of five and hope to nick something on the break.",
+  players:[{ name:"Liberato Cacace", role:"Left Back", desc:"Southampton's tireless left back — New Zealand's best player in Europe." }],
+  narrative:"The lowest-ranked team in the tournament. But OFC's qualification spot means they're here legitimately.",
+  stakes:"For New Zealand this is the greatest achievement in their football history. Enjoy every moment." };
+
+TEAMS['IRN'] = { name:"Iran", flag:"🇮🇷", group:"G", rank:32,
+  formation:"4-1-4-1",
+  style:"Defensive and organized. Hard to break down, dangerous on counter-attack with Sardar Azmoun leading the line.",
+  players:[{ name:"Sardar Azmoun", role:"Striker", desc:"The 'Persian Messi' — technically gifted and clinical. Iran's best player and their main threat." }],
+  narrative:"Iran have reached every World Cup since 1998. A passionate footballing nation with a complex political backdrop.",
+  stakes:"Group G with Belgium and Egypt is winnable." };
+
+TEAMS['IRQ'] = { name:"Iraq", flag:"🇮🇶", group:"I", rank:63,
+  formation:"4-4-2",
+  style:"Organized and physical. Asian football style — collective discipline.",
+  players:[{ name:"Aymen Hussein", role:"Striker", desc:"Iraq's prolific striker and team captain." }],
+  narrative:"First World Cup since 1986! Iraq shocked Asia by qualifying. A remarkable achievement.",
+  stakes:"Drawn in Group I with France and Haaland's Norway — the group of death for them." };
+
+TEAMS['ALG'] = { name:"Algeria", flag:"🇩🇿", group:"J", rank:35,
+  formation:"4-3-3",
+  style:"Technical, disciplined and hard to beat. Won the Africa Cup of Nations and are no pushovers for Argentina.",
+  players:[{ name:"Riyad Mahrez", role:"Winger", desc:"The magician — Saudi Arabian football's most technically gifted player. His ability to cut inside and score from distance makes him dangerous from any angle." }],
+  narrative:"Won AFCON 2019. Given a draw against Argentina — the story writes itself.",
+  stakes:"Algeria vs Messi's Argentina — facing the GOAT on the grandest stage. What a group game." };
+
+TEAMS['AUT'] = { name:"Austria", flag:"🇦🇹", group:"J", rank:25,
+  formation:"4-3-3",
+  style:"High-pressing, technical European style. Rangnick's Austria play with intensity and organization.",
+  players:[{ name:"Marcel Sabitzer", role:"Midfielder", desc:"Dortmund's energetic midfielder — relentless pressing and can score crucial goals." },
+    { name:"David Alaba", role:"Defender", desc:"The Real Madrid star brings world-class quality to Austria's defence." }],
+  narrative:"First World Cup since 1998 — a golden chance for a new generation.",
+  stakes:"In Group J with Argentina, they need maximum points from Algeria and Jordan." };
+
+TEAMS['JOR'] = { name:"Jordan", flag:"🇯🇴", group:"J", rank:66,
+  formation:"4-5-1",
+  style:"Ultra-defensive. Will sit deep and hope for set-piece moments or counter-attacks.",
+  players:[{ name: "Yazan Al-Naimat", role:"Striker", desc:"Jordan's main attacking threat — mobile and dangerous on the counter." }],
+  narrative:"World Cup debut! Jordan's first ever qualification is a historic moment for the Middle East outside Qatar.",
+  stakes:"A group including Argentina, Algeria and Austria. Every point is a miracle." };
+
+TEAMS['GHA'] = { name:"Ghana", flag:"🇬🇭", group:"L", rank:72,
+  formation:"4-2-3-1",
+  style:"Athletic and direct. Strong physically, rely on individual quality.",
+  players:[{ name:"Mohammed Kudus", role:"Attacking Mid", desc:"West Ham's explosive attacker — one of West Africa's brightest talents. Direct, skillful and scores important goals." }],
+  narrative:"Group L with England and Croatia is tough, but Ghana have caused upsets before (beating USA in 2010).",
+  stakes:"Kudus could be the breakout African star of this tournament." };
+
+TEAMS['PAN'] = { name:"Panama", flag:"🇵🇦", group:"L", rank:30,
+  formation:"5-4-1",
+  style:"Defensive and hard to break down. CONCACAF warriors who compete with everything they have.",
+  players:[{ name:"Ismael Díaz", role:"Forward", desc:"Energetic forward who can cause problems in behind." }],
+  narrative:"Only their second World Cup. Made their debut in 2018 and lost all 3 games — but they're back.",
+  stakes:"Group L with England, Croatia and Ghana — every point counts." };
+
+TEAMS['EGY'] = { name:"Egypt", flag:"🇪🇬", group:"G", rank:34,
+  formation:"4-2-3-1",
+  style:"Organized and disciplined. Set-piece threat and dangerous on the counter.",
+  players:[{ name:"Mohamed Salah", role:"Forward/Captain", desc:"Liverpool's legendary forward — if he's playing, Egypt have a chance against anyone. His pace, finishing and creativity are world-class even at 34." }],
+  narrative:"Salah's World Cup! Egypt haven't qualified since 1990 — this is massive for African football.",
+  stakes:"Salah is one of the world's best — even at 34, watch him every time he has the ball." };
+
+TEAMS['TUN'] = { name:"Tunisia", flag:"🇹🇳", group:"F", rank:33,
+  formation:"4-3-3",
+  style:"Organized and compact. Won't give up space easily.",
+  players:[{ name:"Wahbi Khazri", role:"Forward", desc:"Experienced forward who can create moments from nothing." }],
+  narrative:"Regular African qualifier. Tough but limited in attack.",
+  stakes:"Group F with Netherlands and Japan — need to beat Sweden." };
+
+TEAMS['SWE'] = { name:"Sweden", flag:"🇸🇪", group:"F", rank:22,
+  formation:"4-4-2",
+  style:"Organized, compact, disciplined. The post-Ibrahimović era has built something solid if unspectacular.",
+  players:[{ name:"Alexander Isak", role:"Striker", desc:"Newcastle's electric striker — intelligent movement, pace and excellent finishing. One of Europe's most dangerous strikers." }],
+  narrative:"Missed 2022, now back with Isak leading the line. Could surprise in Group F.",
+  stakes:"Isak is sensational — if he fires, Sweden can beat Japan and Netherlands on their day." };
+
+TEAMS['KSA'] = { name:"Saudi Arabia", flag:"🇸🇦", group:"H", rank:53,
+  formation:"4-5-1",
+  style:"Disciplined and defensive. Will sit deep and try to hit on the counter. Remember — they beat Argentina in 2022.",
+  players:[{ name:"Saleh Al-Shehri", role:"Striker", desc:"The striker who scored against Argentina in 2022. Physical, direct and makes intelligent runs." }],
+  narrative:"That Argentina result in 2022 is now in World Cup legend. They will try to recreate the magic.",
+  stakes:"Group H with Spain and Uruguay — but Saudi Arabia have proven they can beat anyone on a day." };
+
+TEAMS['SCN'] = TEAMS['SCO']; // alias fix
+TEAMS['CUW'] = TEAMS['CUW']; // already set
+
+renderSchedulePanel();
+</script>
+</body>
+</html>
