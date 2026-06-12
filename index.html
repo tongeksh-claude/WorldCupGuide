@@ -33,10 +33,17 @@
   .trophy { font-size: 32px; }
   h1 { font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: -0.5px; }
   h1 span { color: var(--text); font-weight: 400; font-size: 14px; display: block; }
-  .melbourne-time { text-align: right; }
+  .melbourne-time { text-align: right; width: 160px; flex-shrink: 0; }
   .time-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .time-display { font-size: 20px; font-weight: 700; color: var(--gold); }
+  .time-display { font-size: 17px; font-weight: 500; color: var(--gold); }
   .date-display { font-size: 12px; color: var(--muted); }
+  .location-wrapper { position: relative; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; margin-bottom: 4px; }
+  .location-icon { flex-shrink: 0; display: block; }
+  .location-name { font-size: 12px; color: var(--text); }
+  .location-select {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+    -webkit-appearance: none; appearance: none;
+  }
 
   /* NAV TABS */
   nav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 24px; display: flex; gap: 0; }
@@ -203,10 +210,16 @@
   .hidden { display: none !important; }
 
   /* LANGUAGE TOGGLE */
-  .lang-toggle { display: flex; gap: 4px; }
-  .lang-btn { padding: 6px 14px; border: 1px solid var(--border); background: transparent; color: var(--muted); border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: 700; transition: all 0.2s; }
-  .lang-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
-  .lang-btn:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+  .lang-toggle {
+    display: inline-flex; border: 1px solid var(--border); border-radius: 20px; overflow: hidden;
+  }
+  .lang-btn {
+    padding: 5px 13px; border: none; background: transparent; color: var(--muted);
+    cursor: pointer; font-size: 12px; font-weight: 700; transition: all 0.2s; font-family: inherit;
+  }
+  .lang-btn:first-child { border-right: 1px solid var(--border); }
+  .lang-btn.active { background: var(--gold); color: #000; }
+  .lang-btn:hover:not(.active) { color: var(--gold); }
 
   @media (max-width: 768px) {
     .app { flex-direction: column; height: auto; }
@@ -220,17 +233,32 @@
   <div class="header-title">
     <span class="trophy">🏆</span>
     <div>
-      <h1>2026 World Cup Guide <span>Melbourne Viewing Guide</span></h1>
+      <h1>2026 World Cup Guide</h1>
     </div>
   </div>
-  <div class="lang-toggle">
-    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
-  </div>
-  <div class="melbourne-time">
-    <div class="time-label">Melbourne AEST</div>
-    <div class="time-display" id="clock">--:--</div>
-    <div class="date-display" id="datedisp">--</div>
+  <div style="display:flex;align-items:center;gap:16px;margin-left:auto">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+    </div>
+    <div class="melbourne-time">
+      <div class="location-wrapper">
+        <svg class="location-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 1 8 8c0 5.25-8 14-8 14S4 15.25 4 10a8 8 0 0 1 8-8z"/>
+        </svg>
+        <span class="location-name" id="locationName">Melbourne / Sydney</span>
+        <select class="location-select" id="locationSelect" onchange="setLocation(this.value)">
+          <option value="Australia/Sydney">🇦🇺 Melbourne / Sydney</option>
+          <option value="Australia/Brisbane">🇦🇺 Brisbane</option>
+          <option value="Australia/Adelaide">🇦🇺 Adelaide</option>
+          <option value="Australia/Darwin">🇦🇺 Darwin</option>
+          <option value="Australia/Perth">🇦🇺 Perth</option>
+          <option value="Asia/Shanghai">🇨🇳 Beijing / Shanghai</option>
+        </select>
+      </div>
+      <div class="time-display" id="clock">--:--</div>
+      <div class="date-display" id="datedisp">--</div>
+    </div>
   </div>
 </header>
 
@@ -841,35 +869,79 @@ const PREDICTIONS = {
 // ══════════════════════════════════════
 //  UTILITY FUNCTIONS
 // ══════════════════════════════════════
-function toAEST(utcStr) {
+// ── Location / Timezone ──────────────────────────────
+const LOCATION_LABELS = {
+  'Australia/Sydney':    'AEST',
+  'Australia/Brisbane':  'AEST',
+  'Australia/Adelaide':  'ACST',
+  'Australia/Darwin':    'ACST',
+  'Australia/Perth':     'AWST',
+  'Asia/Shanghai':       'CST',
+  'Asia/Hong_Kong':      'HKT',
+};
+let currentTZ = 'Australia/Sydney';
+
+
+function setLocation(tz) {
+  currentTZ = tz;
+  // compute UTC offset correctly by comparing tz-local vs UTC locale strings
+  const d = new Date();
+  const totalMin = Math.round(
+    (new Date(d.toLocaleString('en-US', {timeZone: tz})) -
+     new Date(d.toLocaleString('en-US', {timeZone: 'UTC'}))) / 60000
+  );
+  const h = Math.floor(Math.abs(totalMin) / 60);
+  const m = Math.abs(totalMin) % 60;
+  const sign = totalMin >= 0 ? '+' : '-';
+  const offsetStr = m ? `UTC${sign}${h}:${String(m).padStart(2,'0')}` : `UTC${sign}${h}`;
+
+  const sel = document.getElementById('locationSelect');
+  const nameEl = document.getElementById('locationName');
+  if (sel && nameEl) nameEl.textContent = sel.options[sel.selectedIndex].text.replace(/^\S+\s/, '');
+  renderSchedulePanel();
+  if (selectedMatchId) selectMatch(selectedMatchId);
+  updateClock();
+}
+
+function toLocalTZ(utcStr) {
+  // returns a Date shifted so that UTC methods give local-time values
   const d = new Date(utcStr);
-  return new Date(d.getTime() + 10 * 3600000); // UTC+10
+  const localStr = d.toLocaleString('en-US', { timeZone: currentTZ });
+  return new Date(localStr);
 }
 
 function formatAESTDate(utcStr) {
-  const d = toAEST(utcStr);
-  return d.toLocaleDateString('en-AU', { weekday:'short', day:'numeric', month:'short', timeZone:'UTC' });
+  return new Date(utcStr).toLocaleDateString('en-AU', {
+    weekday:'short', day:'numeric', month:'short', timeZone: currentTZ
+  });
 }
 
 function formatAESTTime(utcStr) {
-  const d = toAEST(utcStr);
-  return d.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', hour12:true, timeZone:'UTC' });
+  return new Date(utcStr).toLocaleTimeString('en-AU', {
+    hour:'2-digit', minute:'2-digit', hour12:true, timeZone: currentTZ
+  });
 }
 
 function isToday(utcStr) {
-  const melbNow = new Date(Date.now() + 10 * 3600000);
-  const melbMatch = toAEST(utcStr);
-  return melbNow.toISOString().slice(0,10) === melbMatch.toISOString().slice(0,10);
+  const todayLocal = new Date().toLocaleDateString('en-AU', { timeZone: currentTZ });
+  const matchLocal = new Date(utcStr).toLocaleDateString('en-AU', { timeZone: currentTZ });
+  return todayLocal === matchLocal;
 }
 
-function isLive(utcStr) {
+function isLive(utcStr, matchId) {
+  if (matchId !== undefined && MATCHES.find(m => m.id === matchId)?.isLive) return true;
   const now = new Date();
   const matchTime = new Date(utcStr);
   const diff = (now - matchTime) / 60000;
   return diff >= 0 && diff <= 105;
 }
 
-function isPast(utcStr) {
+function isPast(utcStr, matchId) {
+  if (matchId !== undefined) {
+    const m = MATCHES.find(x => x.id === matchId);
+    if (m?.isFinal) return true;
+    if (m?.isLive) return false;
+  }
   return new Date() > new Date(new Date(utcStr).getTime() + 105*60000);
 }
 
@@ -882,12 +954,14 @@ function stars(n) {
 // ══════════════════════════════════════
 function updateClock() {
   const now = new Date();
-  const melb = new Date(now.toLocaleString('en-US', { timeZone: 'Australia/Melbourne' }));
-  document.getElementById('clock').textContent = melb.toLocaleTimeString('en-AU', { hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false });
-  document.getElementById('datedisp').textContent = melb.toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-AU', {
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false, timeZone: currentTZ
+  });
+  document.getElementById('datedisp').textContent = now.toLocaleDateString('en-AU', {
+    weekday:'long', day:'numeric', month:'long', timeZone: currentTZ
+  });
 }
 setInterval(updateClock, 1000);
-updateClock();
 
 // ══════════════════════════════════════
 //  STATE
@@ -966,14 +1040,15 @@ function renderSchedulePanel() {
       const t1 = getTeam(m.home);
       const t2 = getTeam(m.away);
       if (!t1 || !t2) return;
-      const live = isLive(m.utc);
-      const past = isPast(m.utc);
+      const live = isLive(m.utc, m.id);
+      const past = isPast(m.utc, m.id);
       const card = document.createElement('div');
       card.className = 'match-card' + (live ? ' live' : '') + (selectedMatchId === m.id ? ' selected' : '');
       card.onclick = () => selectMatch(m.id);
 
       const scoreStr = m.score ? `${m.score[0]}–${m.score[1]}` : '';
-      const timeStr = live ? u('live') : (past && m.score ? scoreStr : formatAESTTime(m.utc));
+      const liveMin = live && m.liveMinute ? ` ${m.liveMinute}` : '';
+      const timeStr = live ? `${u('live')}${liveMin}` : (past && m.score ? scoreStr : formatAESTTime(m.utc));
       const timeClass = live ? 'match-time live-time' : 'match-time';
 
       card.innerHTML = `
@@ -1066,8 +1141,9 @@ function selectMatch(id) {
     ? `<div class="hero-status" style="color:var(--muted);border-color:var(--muted)">${u('fullTime')}</div>`
     : `<div class="hero-status" style="color:var(--accent);border-color:var(--accent)">🕐 ${formatAESTDate(m.utc)} ${formatAESTTime(m.utc)} ${u('aest')}</div>`;
 
+  const heroLiveMin = m.isLive && m.liveMinute ? `<div style="font-size:12px;color:var(--accent);font-weight:700;margin-top:4px">🔴 ${m.liveMinute}</div>` : '';
   const scoreHTML = m.score
-    ? `<span class="hero-score">${m.score[0]}–${m.score[1]}</span>`
+    ? `<div style="text-align:center"><span class="hero-score">${m.score[0]}–${m.score[1]}</span>${heroLiveMin}</div>`
     : `<span class="hero-vs">vs</span>`;
 
   dc.innerHTML = `
@@ -1286,13 +1362,13 @@ let lang = 'en';
 const UI = {
   en: {
     tabToday:'⚡ Today', tabSched:'📅 Schedule', tabGroups:'🌍 Groups',
-    todayHdr:'⚡ Today\'s Games', todaySub:'Melbourne time (AEST, UTC+10)',
-    schedHdr:'📅 Full Schedule', schedSub:'All times in Melbourne AEST',
-    noMatches:'No matches scheduled for today in Melbourne time.',
+    todayHdr:'⚡ Today\'s Games', todaySub:'__LOCATION__ time (__TZ__)',
+    schedHdr:'📅 Full Schedule', schedSub:'All times in __LOCATION__ (__TZ__)',
+    noMatches:'No matches scheduled for today in __LOCATION__ time.',
     noMatchesSub:'Switch to Schedule to browse all games.',
     live:'🔴 LIVE', liveNow:'LIVE NOW', fullTime:'⏱ FULL TIME',
     today:'TODAY', group:'Group', mdPre:'Matchday ', mdPost:'',
-    draw:'Draw', watchRating:'Watch Rating', aest:'AEST',
+    draw:'Draw', watchRating:'Watch Rating', aest:'__TZ__',
     preview:'Match Preview', predict:'Prediction', stars:'Star Players to Watch',
     tactics:'How Each Team Plays', stakes:'What\'s at Stake', watchFor:'Things to Watch For',
     keyDuel:'Key Duel:', tacticalBattle:'Tactical battle:', context:'context:',
@@ -1303,13 +1379,13 @@ const UI = {
   },
   zh: {
     tabToday:'⚡ 今天', tabSched:'📅 赛程', tabGroups:'🌍 分组',
-    todayHdr:'⚡ 今日赛事', todaySub:'墨尔本时间（AEST，UTC+10）',
-    schedHdr:'📅 完整赛程', schedSub:'所有时间均为墨尔本时间（AEST）',
-    noMatches:'今天墨尔本时间没有安排比赛。',
+    todayHdr:'⚡ 今日赛事', todaySub:'__LOCATION__时间（__TZ__）',
+    schedHdr:'📅 完整赛程', schedSub:'所有时间均为__LOCATION__时间（__TZ__）',
+    noMatches:'今天__LOCATION__时间没有安排比赛。',
     noMatchesSub:'切换到「赛程」查看所有比赛。',
     live:'🔴 直播中', liveNow:'直播中', fullTime:'⏱ 全场结束',
     today:'今天', group:'小组', mdPre:'第', mdPost:'轮',
-    draw:'平局', watchRating:'观赏指数', aest:'澳东时间',
+    draw:'平局', watchRating:'观赏指数', aest:'__TZ__',
     preview:'赛前预览', predict:'赛果预测', stars:'明星球员',
     tactics:'球队战术风格', stakes:'本场焦点', watchFor:'观赛重点',
     keyDuel:'关键对决：', tacticalBattle:'战术博弈：', context:'背景：',
@@ -1319,7 +1395,32 @@ const UI = {
     selectMsg:'点击比赛查看球员介绍、战术分析和观赛指南'
   }
 };
-function u(k) { return (UI[lang] || UI.en)[k] || UI.en[k]; }
+const LOCATION_NAMES_EN = {
+  'Australia/Sydney':   'Melbourne / Sydney',
+  'Australia/Brisbane': 'Brisbane',
+  'Australia/Adelaide': 'Adelaide',
+  'Australia/Darwin':   'Darwin',
+  'Australia/Perth':    'Perth',
+  'Asia/Shanghai':      'Beijing / Shanghai',
+  'Asia/Hong_Kong':     'Hong Kong',
+};
+const LOCATION_NAMES_ZH = {
+  'Australia/Sydney':   '墨尔本/悉尼',
+  'Australia/Brisbane': '布里斯班',
+  'Australia/Adelaide': '阿德莱德',
+  'Australia/Darwin':   '达尔文',
+  'Australia/Perth':    '珀斯',
+  'Asia/Shanghai':      '北京/上海',
+  'Asia/Hong_Kong':     '香港',
+};
+function locationName() {
+  return (lang === 'zh' ? LOCATION_NAMES_ZH : LOCATION_NAMES_EN)[currentTZ] || currentTZ;
+}
+function tzAbbr() { return LOCATION_LABELS[currentTZ] || ''; }
+function u(k) {
+  const raw = (UI[lang] || UI.en)[k] || UI.en[k];
+  return raw.replace(/__LOCATION__/g, locationName()).replace(/__TZ__/g, tzAbbr());
+}
 
 const VENUES_ZH = {
   'Atlanta':'亚特兰大', 'Boston':'波士顿', 'Dallas':'达拉斯',
@@ -1757,6 +1858,135 @@ TEAMS['KSA'] = { name:"Saudi Arabia", flag:"🇸🇦", group:"H", rank:53,
 TEAMS['SCN'] = TEAMS['SCO']; // alias fix
 TEAMS['CUW'] = TEAMS['CUW']; // already set
 
+// ── ESPN Live Data ──────────────────────────────────────────────────────────
+const ESPN_TEAM_MAP = {
+  'Argentina':'ARG','Australia':'AUS','Belgium':'BEL','Brazil':'BRA',
+  'Cameroon':'CMR','Canada':'CAN','Chile':'CHL','Colombia':'COL',
+  'Croatia':'CRO','Czechia':'CZE','Czech Republic':'CZE',
+  'Denmark':'DEN','Ecuador':'ECU','Egypt':'EGY','England':'ENG',
+  'France':'FRA','Germany':'GER','Ghana':'GHA','Greece':'GRE',
+  'Honduras':'HON','Hungary':'HUN','Indonesia':'IDN','Iran':'IRN',
+  'Israel':'ISR','Italy':'ITA','Ivory Coast':'CIV',"Côte d'Ivoire":'CIV',
+  'Jamaica':'JAM','Japan':'JPN','Kenya':'KEN','Mali':'MLI',
+  'Mexico':'MEX','Morocco':'MAR','Netherlands':'NED','New Zealand':'NZL',
+  'Nigeria':'NGA','Norway':'NOR','Panama':'PAN','Paraguay':'PAR',
+  'Peru':'PER','Poland':'POL','Portugal':'POR','Qatar':'QAT',
+  'Romania':'ROU','Saudi Arabia':'KSA','Senegal':'SEN',
+  'Serbia':'SRB','Slovakia':'SVK','Slovenia':'SVN',
+  'South Korea':'KOR','Korea Republic':'KOR',
+  'Spain':'ESP','Sweden':'SWE','Switzerland':'SUI',
+  'Türkiye':'TUR','Turkey':'TUR','Ukraine':'UKR',
+  'United States':'USA','Uruguay':'URU','Venezuela':'VEN',
+  'Wales':'WAL',
+  // catch-all for any alternate names
+  'Scotland':'SCO','Curaçao':'CUW','Curacao':'CUW',
+  'Cuba':'CUB','Bolivia':'BOL','Costa Rica':'CRC',
+  'El Salvador':'SLV','Guatemala':'GUA','Haiti':'HAI',
+  'Trinidad and Tobago':'TRI','IR Iran':'IRN',
+  'Korea DPR':'PRK','North Korea':'PRK',
+  'Algeria':'ALG','Burkina Faso':'BFA','Cabo Verde':'CPV',
+  'Cape Verde':'CPV','Comoros':'COM','Congo DR':'COD',
+  'Guinea':'GUI','Mozambique':'MOZ','Tanzania':'TAN',
+  'Zambia':'ZAM','Zimbabwe':'ZIM',
+  'Bahrain':'BHR','Iraq':'IRQ','Jordan':'JOR','Kuwait':'KUW',
+  'Lebanon':'LBN','Oman':'OMA','Palestine':'PLE','Syria':'SYR',
+  'UAE':'UAE','United Arab Emirates':'UAE','Uzbekistan':'UZB',
+  'Azerbaijan':'AZE','Bosnia and Herzegovina':'BIH','Bosnia-Herzegovina':'BIH','Bosnia & Herzegovina':'BIH','Bulgaria':'BUL',
+  'Finland':'FIN','Georgia':'GEO','Kosovo':'XKX',
+  'North Macedonia':'MKD','Republic of Ireland':'IRL','Ireland':'IRL',
+  'Scotland':'SCO','Serbia':'SRB','Austria':'AUT',
+  'Belarus':'BLR','Estonia':'EST','Kazakhstan':'KAZ',
+  'Latvia':'LVA','Lithuania':'LTU','Malta':'MLT',
+  'Moldova':'MDA','San Marino':'SMR',
+};
+
+let _pollTimer = null;
+
+async function fetchLiveScores() {
+  try {
+    // Fetch yesterday + today to catch recently finished games
+    const fmtDate = d => d.toISOString().slice(0,10).replace(/-/g,'');
+    const today = new Date();
+    const yesterday = new Date(today - 86400000);
+    const urls = [
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${fmtDate(yesterday)}`,
+      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${fmtDate(today)}`
+    ];
+    const responses = await Promise.all(urls.map(u => fetch(u).then(r => r.json()).catch(() => ({events:[]}))));
+    const events = responses.flatMap(d => d.events || []);
+    console.log('[WCG] ESPN events:', events.length, events.map(e => {
+      const comp = e.competitions?.[0];
+      const teams = comp?.competitors?.map(c => `${c.homeAway}:${c.team?.displayName}(${c.score})`).join(' vs ');
+      return `${teams} [${comp?.status?.type?.state}/${comp?.status?.displayClock}]`;
+    }));
+
+    let anyChange = false;
+    for (const ev of events) {
+      const comp = ev.competitions?.[0];
+      if (!comp) continue;
+
+      const homeTeamName = comp.competitors?.find(c => c.homeAway === 'home')?.team?.displayName || '';
+      const awayTeamName = comp.competitors?.find(c => c.homeAway === 'away')?.team?.displayName || '';
+      const homeCode = ESPN_TEAM_MAP[homeTeamName];
+      const awayCode = ESPN_TEAM_MAP[awayTeamName];
+
+      // Find matching MATCHES entry by team codes
+      const match = MATCHES.find(m =>
+        (m.home === homeCode && m.away === awayCode) ||
+        (m.home === awayCode && m.away === homeCode)
+      );
+      if (!match) continue;
+
+      const status = comp.status?.type;
+      const isInProgress = status?.state === 'in';
+      const isComplete = status?.state === 'post';
+
+      const homeScore = parseInt(comp.competitors?.find(c => c.homeAway === 'home')?.score || '0');
+      const awayScore = parseInt(comp.competitors?.find(c => c.homeAway === 'away')?.score || '0');
+      const clock = comp.status?.displayClock || '';
+
+      const prevIsLive = match.isLive;
+      const prevScore = match.score ? match.score.join('-') : '';
+
+      match.isLive = isInProgress;
+      match.isFinal = isComplete;
+      if (isInProgress || isComplete) {
+        // If teams are swapped, store in correct order (home first)
+        if (match.home === homeCode) {
+          match.score = [homeScore, awayScore];
+        } else {
+          match.score = [awayScore, homeScore];
+        }
+      }
+      match.liveMinute = isInProgress ? clock : '';
+
+      const newScore = match.score ? match.score.join('-') : '';
+      if (prevIsLive !== match.isLive || prevScore !== newScore) anyChange = true;
+    }
+
+    if (anyChange) {
+      renderSchedulePanel();
+      if (selectedMatchId) selectMatch(selectedMatchId);
+    }
+
+    // Speed up polling when a match is live
+    const hasLive = MATCHES.some(m => m.isLive);
+    schedulePoll(hasLive ? 30000 : 60000);
+  } catch (e) {
+    // silently fail, try again in 60s
+    schedulePoll(60000);
+  }
+}
+
+function schedulePoll(ms) {
+  if (_pollTimer) clearTimeout(_pollTimer);
+  _pollTimer = setTimeout(fetchLiveScores, ms);
+}
+
+// Kick off immediately, then poll
+fetchLiveScores();
+
+setLocation('Australia/Sydney'); // init — must run after all let declarations
 renderSchedulePanel();
 </script>
 </body>
