@@ -1068,10 +1068,7 @@ function renderSchedulePanel() {
             <span class="flag">${t2.flag}</span>
           </div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <span class="match-venue">📍 ${venue(m.venue)}</span>
-          <span style="font-size:11px;color:var(--gold)">${stars(m.rating)}</span>
-        </div>`;
+        <div><span class="match-venue">📍 ${venue(m.venue)}</span></div>`;
       dg.appendChild(card);
     });
 
@@ -1166,7 +1163,6 @@ function selectMatch(id) {
       </div>
       <div class="hero-info">
         <div class="hero-info-item">📍 <strong>${venue(m.venue)}</strong></div>
-        <div class="hero-info-item">⭐ ${u('watchRating')}: <strong>${stars(m.rating)}</strong></div>
       </div>
     </div>
 
@@ -1892,9 +1888,9 @@ const ESPN_TEAM_MAP = {
   'Israel':'ISR','Italy':'ITA','Ivory Coast':'CIV',"Côte d'Ivoire":'CIV',
   'Jamaica':'JAM','Japan':'JPN','Kenya':'KEN','Mali':'MLI',
   'Mexico':'MEX','Morocco':'MAR','Netherlands':'NED','New Zealand':'NZL',
-  'Nigeria':'NGA','Norway':'NOR','Panama':'PAN','Paraguay':'PAR',
+  'Nigeria':'NGA','Norway':'NOR','Panama':'PAN','Paraguay':'PRY',
   'Peru':'PER','Poland':'POL','Portugal':'POR','Qatar':'QAT',
-  'Romania':'ROU','Saudi Arabia':'KSA','Senegal':'SEN',
+  'Romania':'ROU','Saudi Arabia':'KSA','Senegal':'SEN','South Africa':'RSA',
   'Serbia':'SRB','Slovakia':'SVK','Slovenia':'SVN',
   'South Korea':'KOR','Korea Republic':'KOR',
   'Spain':'ESP','Sweden':'SWE','Switzerland':'SUI',
@@ -1904,7 +1900,7 @@ const ESPN_TEAM_MAP = {
   // catch-all for any alternate names
   'Scotland':'SCO','Curaçao':'CUW','Curacao':'CUW',
   'Cuba':'CUB','Bolivia':'BOL','Costa Rica':'CRC',
-  'El Salvador':'SLV','Guatemala':'GUA','Haiti':'HAI',
+  'El Salvador':'SLV','Guatemala':'GUA','Haiti':'HTI',
   'Trinidad and Tobago':'TRI','IR Iran':'IRN',
   'Korea DPR':'PRK','North Korea':'PRK',
   'Algeria':'ALG','Burkina Faso':'BFA','Cabo Verde':'CPV',
