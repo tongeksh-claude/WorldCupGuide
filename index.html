@@ -1048,15 +1048,13 @@ function renderSchedulePanel() {
 
       const scoreStr = m.score ? `${m.score[0]}–${m.score[1]}` : '';
       const liveMin = live && m.liveMinute ? m.liveMinute : '';
-      const timeStr = live
-        ? `<span style="background:#fff;color:#111;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;letter-spacing:0.3px">LIVE${liveMin ? ' · ' + liveMin : ''}</span>`
-        : (past && m.score ? scoreStr : formatAESTTime(m.utc));
-      const timeClass = live ? 'match-time' : 'match-time';
+      const timeStr = live ? '' : (past && m.score ? scoreStr : formatAESTTime(m.utc));
+      const livePill = live ? `<span style="margin-left:8px;background:#fff;color:#111;font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;letter-spacing:0.3px;vertical-align:middle">LIVE${liveMin ? ' · ' + liveMin : ''}</span>` : '';
 
       card.innerHTML = `
         <div class="match-meta">
-          <span class="match-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</span>
-          <span class="${timeClass}">${timeStr}</span>
+          <span class="match-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}${livePill}</span>
+          ${timeStr ? `<span class="match-time">${timeStr}</span>` : ''}
         </div>
         <div class="match-teams">
           <div class="team-display">
