@@ -1203,8 +1203,8 @@ function selectMatch(id) {
           </div>
           ${(t1.players || []).map(p => `
             <div class="player-card">
-              <div class="player-name">${p.name}</div>
-              <div class="player-role">${p.role}${p.jersey ? `<span style="font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0">· #${p.jersey}</span>` : ''}</div>
+              <div class="player-name">${p.name}${p.jersey ? `<span style="font-weight:400;font-size:13px;color:var(--muted);margin-left:7px">#${p.jersey}</span>` : ''}</div>
+              <div class="player-role">${p.role}</div>
               <div class="player-desc">${p.desc}</div>
             </div>`).join('')}
         </div>
@@ -1215,8 +1215,8 @@ function selectMatch(id) {
           </div>
           ${(t2.players || []).map(p => `
             <div class="player-card">
-              <div class="player-name">${p.name}</div>
-              <div class="player-role">${p.role}${p.jersey ? `<span style="font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0">· #${p.jersey}</span>` : ''}</div>
+              <div class="player-name">${p.name}${p.jersey ? `<span style="font-weight:400;font-size:13px;color:var(--muted);margin-left:7px">#${p.jersey}</span>` : ''}</div>
+              <div class="player-role">${p.role}</div>
               <div class="player-desc">${p.desc}</div>
             </div>`).join('')}
         </div>
@@ -1858,6 +1858,28 @@ TEAMS['KSA'] = { name:"Saudi Arabia", flag:"🇸🇦", group:"H", rank:53,
 TEAMS['SCN'] = TEAMS['SCO']; // alias fix
 TEAMS['CUW'] = TEAMS['CUW']; // already set
 
+// ── Score persistence ───────────────────────────────────────────────────────
+function saveScoresToStorage() {
+  const data = {};
+  MATCHES.forEach(m => {
+    if (m.score || m.isFinal) {
+      data[m.id] = { score: m.score, isFinal: m.isFinal, isLive: m.isLive, liveMinute: m.liveMinute };
+    }
+  });
+  try { localStorage.setItem('wcg_scores', JSON.stringify(data)); } catch(e) {}
+}
+
+function loadScoresFromStorage() {
+  try {
+    const data = JSON.parse(localStorage.getItem('wcg_scores') || '{}');
+    MATCHES.forEach(m => {
+      if (data[m.id]) {
+        Object.assign(m, data[m.id]);
+      }
+    });
+  } catch(e) {}
+}
+
 // ── ESPN Live Data ──────────────────────────────────────────────────────────
 const ESPN_TEAM_MAP = {
   'Argentina':'ARG','Australia':'AUS','Belgium':'BEL','Brazil':'BRA',
@@ -1904,16 +1926,27 @@ let _pollTimer = null;
 
 async function fetchLiveScores() {
   try {
-    // Fetch yesterday + today to catch recently finished games
+    // Fetch from tournament start through tomorrow (covers all completed + upcoming games)
     const fmtDate = d => d.toISOString().slice(0,10).replace(/-/g,'');
     const today = new Date();
-    const yesterday = new Date(today - 86400000);
-    const urls = [
-      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${fmtDate(yesterday)}`,
-      `https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${fmtDate(today)}`
-    ];
-    const responses = await Promise.all(urls.map(u => fetch(u).then(r => r.json()).catch(() => ({events:[]}))));
-    const events = responses.flatMap(d => d.events || []);
+    const tournamentStart = new Date('2026-06-11'); // day before opening, catches UTC-edge games
+    const days = [];
+    for (let d = new Date(tournamentStart); d <= new Date(today.getTime() + 86400000); d = new Date(d.getTime() + 86400000)) {
+      days.push(fmtDate(d));
+    }
+    // Cap at 10 days to avoid excessive requests during group stage
+    const daysToFetch = days.slice(-10);
+    const responses = await Promise.all(daysToFetch.map(date =>
+      fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${date}`)
+        .then(r => r.json()).catch(() => ({events:[]}))
+    ));
+    // Deduplicate events by id
+    const seen = new Set();
+    const events = responses.flatMap(d => d.events || []).filter(e => {
+      if (seen.has(e.id)) return false;
+      seen.add(e.id);
+      return true;
+    });
     console.log('[WCG] ESPN events:', events.length, events.map(e => {
       const comp = e.competitions?.[0];
       const teams = comp?.competitors?.map(c => `${c.homeAway}:${c.team?.displayName}(${c.score})`).join(' vs ');
@@ -1965,6 +1998,7 @@ async function fetchLiveScores() {
     }
 
     if (anyChange) {
+      saveScoresToStorage();
       renderSchedulePanel();
       if (selectedMatchId) selectMatch(selectedMatchId);
     }
@@ -1986,6 +2020,7 @@ function schedulePoll(ms) {
 // Kick off immediately, then poll
 fetchLiveScores();
 
+loadScoresFromStorage(); // restore previously fetched scores before first render
 setLocation('Australia/Sydney'); // init — must run after all let declarations
 renderSchedulePanel();
 </script>
