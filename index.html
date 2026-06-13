@@ -1970,6 +1970,7 @@ async function fetchLiveScores() {
       const status = comp.status?.type;
       const isInProgress = status?.state === 'in';
       const isComplete = status?.state === 'post';
+      const timePast = new Date() > new Date(new Date(match.utc).getTime() + 105*60000);
 
       const homeScore = parseInt(comp.competitors?.find(c => c.homeAway === 'home')?.score || '0');
       const awayScore = parseInt(comp.competitors?.find(c => c.homeAway === 'away')?.score || '0');
@@ -1979,8 +1980,9 @@ async function fetchLiveScores() {
       const prevScore = match.score ? match.score.join('-') : '';
 
       match.isLive = isInProgress;
-      match.isFinal = isComplete;
-      if (isInProgress || isComplete) {
+      // If ESPN says "pre" but time has clearly passed, treat as final
+      match.isFinal = isComplete || (timePast && !isInProgress);
+      if (isInProgress || isComplete || timePast) {
         // If teams are swapped, store in correct order (home first)
         if (match.home === homeCode) {
           match.score = [homeScore, awayScore];
