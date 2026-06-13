@@ -645,7 +645,7 @@ const MATCHES = [
     preview:"The USA's World Cup opener on home soil. SoFi Stadium will be electric. Pulisic leads the hosts against a stubborn Paraguay side. High stakes, massive atmosphere." },
 
   // Group C — June 13
-  { id:5, group:"C", md:1, utc:"2026-06-13T16:00Z", home:"HTI", away:"SCO", venue:"Philadelphia", score:null, rating:3,
+  { id:5, group:"C", md:1, utc:"2026-06-14T01:00Z", home:"HTI", away:"SCO", venue:"Philadelphia", score:null, rating:3,
     preview:"Haiti's first World Cup since 1974 — a dream scenario for the underdogs. Scotland look to upset the balance in a group with Brazil. A must-win for the Scots." },
   { id:6, group:"C", md:1, utc:"2026-06-13T22:00Z", home:"BRA", away:"MAR", venue:"New York/NJ", score:null, rating:5,
     preview:"The match of Matchday 1. Brazil's explosive attacking trio against the team that shocked Europe in 2022. Vinícius vs Hakimi — a battle of the best in world football." },
@@ -1026,7 +1026,7 @@ function renderSchedulePanel() {
     : `<h2>${u('schedHdr')}</h2><p>${u('schedSub')}</p>`;
   list.appendChild(hdr);
 
-  Object.entries(byDate).sort((a,b) => a[0].localeCompare(b[0])).forEach(([dateKey, dayMatches]) => {
+  Object.entries(byDate).sort((a,b) => new Date(a[1][0].utc) - new Date(b[1][0].utc)).forEach(([dateKey, dayMatches]) => {
     dayMatches.sort((a,b) => new Date(a.utc) - new Date(b.utc));
     const isT = dateKey === todayStr;
     const dg = document.createElement('div');
