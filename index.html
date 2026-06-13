@@ -1989,6 +1989,10 @@ async function fetchLiveScores() {
         } else {
           match.score = [awayScore, homeScore];
         }
+      } else {
+        // ESPN says pre — clear any wrongly stored score
+        match.score = null;
+        match.finalTime = null;
       }
       match.liveMinute = isInProgress ? clock : '';
       if (isComplete) match.finalTime = clock;
