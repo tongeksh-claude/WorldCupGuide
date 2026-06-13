@@ -223,7 +223,47 @@
 
   @media (max-width: 768px) {
     .app { flex-direction: column; height: auto; }
-    .schedule-panel { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
+    .schedule-panel { width: 100%; min-width: 0; border-right: none; border-bottom: none; }
+    .detail-panel { display: none !important; }
+    .detail-empty { display: none !important; }
+  }
+
+  /* Mobile drawer */
+  .drawer-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100;
+  }
+  .drawer-overlay.open { display: block; }
+  .drawer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 85vh;
+    background: var(--bg);
+    border-radius: 16px 16px 0 0;
+    z-index: 101;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+  .drawer.open { transform: translateY(0); }
+  .drawer-handle {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 16px 0;
+    position: sticky; top: 0;
+    background: var(--bg);
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+  }
+  .drawer-close {
+    background: var(--surface); border: none; color: var(--text);
+    width: 28px; height: 28px; border-radius: 50%;
+    font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
   }
 </style>
 </head>
@@ -274,7 +314,7 @@
     <div id="matchList"></div>
   </div>
 
-  <!-- RIGHT: DETAIL PANEL -->
+  <!-- RIGHT: DETAIL PANEL (desktop) -->
   <div class="detail-panel" id="detailPanel">
     <div class="detail-empty" id="detailEmpty">
       <span class="icon">⚽</span>
@@ -282,6 +322,16 @@
     </div>
     <div class="detail-content hidden" id="detailContent"></div>
   </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-handle">
+    <span style="font-size:13px;font-weight:700;color:var(--muted)" id="drawerTitle"></span>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div id="drawerContent"></div>
 </div>
 
 <script>
@@ -969,6 +1019,12 @@ setInterval(updateClock, 1000);
 let activeTab = 'today';
 let selectedMatchId = null;
 
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 function switchTab(tab) {
   activeTab = tab;
   document.querySelectorAll('.tab').forEach((t,i) => {
@@ -1130,6 +1186,7 @@ function selectMatch(id) {
   document.getElementById('detailEmpty').classList.add('hidden');
   const dc = document.getElementById('detailContent');
   dc.classList.remove('hidden');
+  const isMobile = window.innerWidth <= 768;
 
   const live = isLive(m.utc);
   const past = isPast(m.utc);
@@ -1265,6 +1322,15 @@ function selectMatch(id) {
     </div>`;
   dc.scrollTop = 0;
   dc.parentElement.scrollTop = 0;
+
+  if (isMobile) {
+    const t1 = getTeam(m.home), t2 = getTeam(m.away);
+    document.getElementById('drawerTitle').textContent = `${t1.flag} ${t1.name}  vs  ${t2.flag} ${t2.name}`;
+    document.getElementById('drawerContent').innerHTML = dc.innerHTML;
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
   document.getElementById('detailPanel').scrollTop = 0;
 }
 
