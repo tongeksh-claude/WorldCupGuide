@@ -1047,14 +1047,17 @@ function renderSchedulePanel() {
       card.onclick = () => selectMatch(m.id);
 
       const scoreStr = m.score ? `${m.score[0]}–${m.score[1]}` : '';
-      const liveMin = live && m.liveMinute ? ` ${m.liveMinute}` : '';
-      const timeStr = live ? `${u('live')}${liveMin}` : (past && m.score ? scoreStr : formatAESTTime(m.utc));
+      const liveMin = live && m.liveMinute ? m.liveMinute : '';
+      const timeStr = live
+        ? (m.score ? scoreStr : u('live'))
+        : (past && m.score ? scoreStr : formatAESTTime(m.utc));
+      const liveBadge = live ? `<span style="display:block;font-size:10px;color:var(--accent);font-weight:700;margin-top:1px">🔴${liveMin ? ' '+liveMin : ' LIVE'}</span>` : '';
       const timeClass = live ? 'match-time live-time' : 'match-time';
 
       card.innerHTML = `
         <div class="match-meta">
           <span class="match-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</span>
-          <span class="${timeClass}">${timeStr}</span>
+          <span class="${timeClass}" style="text-align:right">${timeStr}${liveBadge}</span>
         </div>
         <div class="match-teams">
           <div class="team-display">
@@ -1968,7 +1971,7 @@ async function fetchLiveScores() {
         (m.home === homeCode && m.away === awayCode) ||
         (m.home === awayCode && m.away === homeCode)
       );
-      if (!match) continue;
+      if (!match) { console.log('[WCG] no match for', homeTeamName, '(' + homeCode + ') vs', awayTeamName, '(' + awayCode + ')'); continue; }
 
       const status = comp.status?.type;
       const isInProgress = status?.state === 'in';
