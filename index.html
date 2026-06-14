@@ -1193,11 +1193,11 @@ function selectMatch(id) {
   const predKey = `${m.home}-${m.away}`;
   const pred = PREDICTIONS[predKey] || [33, 33, 34];
 
-  const statusHTML = live
-    ? `<div class="hero-status"><span class="live-dot"></span> ${u('liveNow')}${m.liveMinute ? ' · ' + m.liveMinute : ''}</div>`
+  const matchStatusInline = live
+    ? `<span style="display:inline-flex;align-items:center;gap:5px;background:rgba(245,166,35,0.15);border:1px solid var(--gold);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--gold)"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;flex-shrink:0"></span>LIVE${m.liveMinute ? ' · ' + m.liveMinute : ''}</span>`
     : past && m.score
-    ? `<div class="hero-status" style="color:var(--muted);border-color:var(--muted)">${m.finalTime || 'FT'}</div>`
-    : `<div class="hero-status" style="color:var(--accent);border-color:var(--accent)">🕐 ${formatAESTDate(m.utc)} ${formatAESTTime(m.utc)} ${u('aest')}</div>`;
+    ? `<span style="font-size:11px;color:var(--muted);font-weight:500">${m.finalTime || 'FT'}</span>`
+    : `<span style="font-size:11px;color:var(--accent)">${formatAESTDate(m.utc)} · ${formatAESTTime(m.utc)} ${u('aest')}</span>`;
 
   const scoreHTML = m.score
     ? `<div style="text-align:center"><span class="hero-score">${m.score[0]}–${m.score[1]}</span></div>`
@@ -1205,8 +1205,7 @@ function selectMatch(id) {
 
   dc.innerHTML = `
     <div class="match-hero">
-      ${statusHTML}
-      <div class="hero-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</div>
+      <div class="hero-group" style="display:flex;align-items:center;justify-content:space-between">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}${matchStatusInline ? `<span>${matchStatusInline}</span>` : ''}</div>
       <div class="hero-matchup">
         <div class="hero-team">
           <span class="hero-flag">${t1.flag}</span>
