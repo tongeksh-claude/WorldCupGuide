@@ -1188,8 +1188,8 @@ function selectMatch(id) {
   dc.classList.remove('hidden');
   const isMobile = window.innerWidth <= 768;
 
-  const live = isLive(m.utc);
-  const past = isPast(m.utc);
+  const live = isLive(m.utc, m.id);
+  const past = isPast(m.utc, m.id);
   const predKey = `${m.home}-${m.away}`;
   const pred = PREDICTIONS[predKey] || [33, 33, 34];
 
