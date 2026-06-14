@@ -343,6 +343,7 @@ const TEAMS = {
   MEX: { name: "Mexico", flag: "🇲🇽", group: "A", rank: 15, manager: "Javier Aguirre",
     formation: "4-3-3",
     style: "Counter-attacking with compact defensive shape. Quick vertical transitions through the midfield, with wingers hugging the touchline to create overloads. Relies on home-crowd energy.",
+    tactics:"Mexico attack through Lozano on the right — his dribbling draws defenders and creates pockets for Gimenez runs in behind. Edson Alvarez shields the back four and recycles possession, enabling wide players to combine with overlapping fullbacks. Defensively they drop into a compact block and look to win the ball high up the pitch. On home soil set pieces from wide areas are a genuine scoring threat.",
     players: [
       { name: "Santiago Giménez", jersey: "9", role: "Striker", desc: "Clinical centre-forward who left Feyenoord for AC Milan. Pure poacher with intelligent movement in the box — Mexico's best finisher in a generation." },
       { name: "Hirving 'Chucky' Lozano", jersey: "22", role: "Right Winger", desc: "Electric pace and trickery. At his best he drags defenders out of position and creates space for runners. Can win a game on his own in 10 minutes." },
@@ -354,6 +355,7 @@ const TEAMS = {
   RSA: { name: "South Africa", flag: "🇿🇦", group: "A", rank: 71,
     formation: "4-4-2",
     style: "Organized and hard-working. Compact defensive block with fast breaks. Not there to make up numbers — proved it by qualifying from Africa's toughest group.",
+    tactics:"South Africa build through a deep-lying playmaker who distributes quickly to the wide men, targeting transitions before opponents can set their shape. Percy Tau operates in pockets between the lines, linking midfield and attack. Defensively they sit in a tight 4-4-2 mid-block, funnelling play wide and relying on physicality to win second balls. They are dangerous at set pieces, with aerial threats from both centre-backs joining the attack.",
     players: [
       { name: "Percy Tau", jersey: "10", role: "Forward", desc: "Al Ahly's creative spark. Comfortable on either wing, combines dribbling with intelligent link-up play." },
       { name: "Ronwen Williams", jersey: "1", role: "Goalkeeper", desc: "One of Africa's best shot-stoppers. His reflexes kept South Africa alive during qualification." }
@@ -364,6 +366,7 @@ const TEAMS = {
   KOR: { name: "South Korea", flag: "🇰🇷", group: "A", rank: 24,
     formation: "4-2-3-1",
     style: "Disciplined and well-organized. Hard-pressing when needed, quick transitions with technically gifted attackers.",
+    tactics:"South Korea system is Son-centric: the wide players and fullbacks isolate him in 1v1s where his left foot is devastating. Lee Jae-sung operates as the engine — pressing relentlessly, winning possession and distributing quickly to Son or the overlapping right back. Defensively they sit in a 4-2-3-1 mid-block that transitions instantly to a high press when the ball goes back to the goalkeeper. Their biggest risk is the space Son vacates when pressing — a disciplined right back is essential.",
     players: [
       { name: "Son Heung-min", jersey: "7", role: "Forward/Captain", desc: "The captain and star. Premier League elite at Tottenham — left foot like a laser, leadership when it matters. Can single-handedly change a game." },
       { name: "Lee Jae-sung", jersey: "14", role: "Midfielder", desc: "The engine in midfield. Press-resistant and a tireless runner." }
@@ -374,6 +377,7 @@ const TEAMS = {
   CZE: { name: "Czech Republic", flag: "🇨🇿", group: "A", rank: 37,
     formation: "4-2-3-1",
     style: "Pragmatic European style. Organized defensively, dangerous from set-pieces. Eliminated Italy in qualifying — no pushover.",
+    tactics:"Czechia set up in a fluid 4-3-3 that morphs into 4-5-1 in defence — the wide forwards tuck in to form a compact midfield line. Soucek arrives late from deep and is difficult to track; Barak connects midfield and attack with incisive through balls. Against pressing teams they build patiently through the goalkeeper and centre-backs, using Schick hold-up play as the target. Their defensive shape is excellent — they force opponents wide and are comfortable winning headers.",
     players: [
       { name: "Tomáš Souček", jersey: "17", role: "Midfielder", desc: "West Ham powerhouse. Exceptional in the air, scores important goals, covers every blade of grass." },
       { name: "Antonín Barák", jersey: "11", role: "Attacking Mid", desc: "Creative link between midfield and attack. Technical ability and vision to open defenses." }
@@ -384,6 +388,7 @@ const TEAMS = {
   CAN: { name: "Canada", flag: "🇨🇦", group: "B", rank: 27, manager: "Jesse Marsch",
     formation: "4-3-3",
     style: "High energy, high press, physical. Jesse Marsch's teams are relentless runners. Attack-minded with overlapping full-backs and direct wingers.",
+    tactics:"Canada attacks with Davies cutting inside from the left while David presses centre-backs and Buchanan pins the opposing fullback wide. Jonathan David drops between the lines, plays the one-two and arrives late into the box. Defensively Canada are aggressive and intense in their press — they force mistakes in the opponent half then counter directly with pace.",
     players: [
       { name: "Alphonso Davies", jersey: "3", role: "Left Back/Winger", desc: "The rocket. Bayern Munich's explosive left back has pace that makes defenders look foolish. Can go from his own box to the opponent's in seconds. Don't blink." },
       { name: "Jonathan David", jersey: "9", role: "Striker", desc: "Prolific scorer who dominated Ligue 1 at Lille. Pure instinct inside the box — one of the most clinical forwards in the world right now." },
@@ -395,6 +400,7 @@ const TEAMS = {
   BIH: { name: "Bosnia & Herzegovina", flag: "🇧🇦", group: "B", rank: 50,
     formation: "4-3-3",
     style: "Physically imposing. Won't be bullied. Direct and aggressive with a strong attacking mindset despite their defensive base.",
+    tactics:"Bosnia build through overlapping fullbacks and wide forwards forming 2v1 overloads, recycled through a technically gifted midfield. Dzeko drifts wide to play teammates through with intelligent lay-offs, before arriving into the box as a second striker. Dead balls are their greatest weapon: crossing from the right into Dzeko and arriving midfielders is the primary goal-scoring route.",
     players: [
       { name: "Edin Džeko", jersey: "9", role: "Striker", desc: "The legend returns — or his replacement era has begun. Bosnia's all-time scorer at 38, still a threat with his clever movement and chest control." },
       { name: "Sead Kolašinac", jersey: "5", role: "Left Back", desc: "Aggressive, physical presence. His overlapping runs give Bosnia width in attack." }
@@ -405,6 +411,7 @@ const TEAMS = {
   QAT: { name: "Qatar", flag: "🇶🇦", group: "B", rank: 58,
     formation: "4-3-3",
     style: "Possession-based, technically sound. The 2022 hosts struggled at home but this squad has now qualified properly, giving them experience.",
+    tactics:"Qatar positional play system uses Al Haydos to create between the lines through short triangles in central areas. The fullbacks invert to create a 3-2-5 shape in possession, flooding the midfield and freeing outside forwards to attack in 1v1. Defensively Qatar press aggressively in the opponent half. Losing the ball in transition is their biggest risk — they must be disciplined when pressing or face dangerous counter-attacks.",
     players: [
       { name: "Akram Afif", jersey: "11", role: "Winger", desc: "Qatar's most dangerous attacker. Quick, direct and can score from outside the box. Won the Golden Ball at the 2023 Asian Cup." },
       { name: "Almoez Ali", jersey: "9", role: "Striker", desc: "Strong and aerially dominant — a handful for any defender in the air." }
@@ -415,6 +422,7 @@ const TEAMS = {
   SUI: { name: "Switzerland", flag: "🇨🇭", group: "B", rank: 17,
     formation: "4-2-3-1",
     style: "Mechanically disciplined, hard to beat. Tactical intelligence is their trademark. Won't let you breathe in midfield.",
+    tactics:"Switzerland 3-4-3 relies on the two wing-backs who function as extra forwards, providing constant width while the three centre-backs hold firm. Granit Xhaka anchors everything — wins the ball, switches play to the wing-backs, and organises the defensive shape. Shaqiri functions as a free 8-to-10, arriving into half-spaces and shooting from range. Their compact 5-4-1 defensive shape is incredibly hard to break through the middle.",
     players: [
       { name: "Granit Xhaka", jersey: "10", role: "Midfielder", desc: "Bayer Leverkusen's relentless midfield engine — reads the game beautifully and passes with precision. The heart of Switzerland." },
       { name: "Breel Embolo", jersey: "7", role: "Striker", desc: "Strong, direct, dangerous in behind. Monaco striker who can hold the ball up and bring others into play." }
@@ -425,6 +433,7 @@ const TEAMS = {
   BRA: { name: "Brazil", flag: "🇧🇷", group: "C", rank: 5, manager: "Carlo Ancelotti",
     formation: "4-2-3-1",
     style: "Reinvented under Ancelotti — no traditional No.9. The Seleção relies on fluid attacking movement, explosive wide play and intense pressing. When the front three click, nobody in the world can stop them.",
+    tactics:"Brazil 4-2-3-1 exploits the Vinicius-Raphinha partnership constantly swapping positions, creating havoc for fullbacks who cannot track both simultaneously. Rodrygo operates as a pure 10, receiving between the lines and playing quick combinations while the wide forwards stretch deep. The double pivot of Casemiro and Bruno Guimaraes recycles possession and protects the back four. Their high press is coordinated: the front three cut passing lanes to trigger it, and transitions into attack are immediate.",
     players: [
       { name: "Vinícius Júnior", jersey: "7", role: "Left Winger", desc: "One of the best players in the world. Terrifying pace, skill and unpredictability — his step-overs and cutting inside are a nightmare for any right back. If he's in form, Brazil become unplayable." },
       { name: "Raphinha", jersey: "11", role: "Right Winger", desc: "Barcelona captain. Technical brilliance, direct running, chips in with goals. The creative force behind Brazil's high-octane attack." },
@@ -437,6 +446,7 @@ const TEAMS = {
   MAR: { name: "Morocco", flag: "🇲🇦", group: "C", rank: 11, manager: "Walid Regragui",
     formation: "4-1-4-1",
     style: "Compact defensive organization, then lightning fast on the counter. Regragui's Morocco are exceptionally hard to break down — and punish you when you try to chase the game.",
+    tactics:"Morocco defend in a compact 4-4-2 mid-block with unrivalled intensity — every player sprints back into a 6-2-2 shape when out of possession. Hakimi is the engine: his lung-busting runs from right-back provide width and crosses that En-Nesyri attacks with his aerial dominance. When winning the ball, Morocco counter devastatingly — Ziyech switches play instantly to Hakimi overlapping run or the left winger 1v1. Preventing Hakimi from getting forward is the primary tactical challenge for any opponent.",
     players: [
       { name: "Achraf Hakimi", jersey: "2", role: "Right Back/Wing", desc: "PSG's wing-back is one of the most attack-minded defenders alive. His overlapping runs create a permanent overload on the right side — genuinely a threat to score in every game." },
       { name: "Hakim Ziyech", jersey: "7", role: "Attacking Mid", desc: "The flair player — his left foot is a magic wand. Creates goals from nothing with clever dribbling and precise through-balls." },
@@ -448,6 +458,7 @@ const TEAMS = {
   HTI: { name: "Haiti", flag: "🇭🇹", group: "C", rank: 84,
     formation: "4-4-2",
     style: "Defensive and disciplined. Work rate over technical quality. Their strength is resilience and making the game ugly.",
+    tactics:"Haiti set up in a defensive 5-3-2, absorbing pressure and hitting on the counter-attack through speedy forwards. The two strikers press in tandem, channelling opposing centre-backs into hurried long balls which the midfield contests. Their organisation and compactness is their primary strength — they deny space between the lines and make life difficult for technical opponents. Set pieces are a key avenue for goals.",
     players: [
       { name: "Frantzdy Pierrot", jersey: "9", role: "Forward", desc: "Athletic and powerful. Can cause problems in the air and with his direct running." }
     ],
@@ -457,6 +468,7 @@ const TEAMS = {
   SCO: { name: "Scotland", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿", group: "C", rank: 36,
     formation: "4-3-3",
     style: "Combative and physical. High pressing when possible, organized defensive shape when not. Set-pieces are a genuine weapon.",
+    tactics:"Scotland 3-5-2 features McTominay as a dynamic box-to-box midfielder who scores crucial goals from late runs into the box. Robertson overlapping runs from left wing-back create consistent overloads — his delivery into the box is world-class. The two strikers press as a unit from the front, targeting opposition centre-backs uncomfortable with ball under pressure. Defensively the back three is solid, but Scotland are vulnerable to pace behind the attacking wing-backs.",
     players: [
       { name: "Scott McTominay", jersey: "8", role: "Midfielder", desc: "Napoli's goal-scoring midfielder who has transformed Scotland's ambitions. Bundled in crucial goals during qualifying and leads by example." },
       { name: "Andy Robertson", jersey: "3", role: "Left Back", desc: "Liverpool's legendary left-back is Scotland's captain. His overlapping runs and deliveries are world-class." }
@@ -467,6 +479,7 @@ const TEAMS = {
   USA: { name: "United States", flag: "🇺🇸", group: "D", rank: 14, manager: "Mauricio Pochettino",
     formation: "4-3-3",
     style: "Athletic, pressing and increasingly technical under Pochettino. The USMNT runs more ground per game than almost any team in the world. Quick vertical passing and dangerous set-pieces.",
+    tactics: "USA press aggressively from the front under Pochettino — Pulisic leads the press and forces mistakes high up the pitch. Tyler Adams is the defensive fulcrum: his positioning and anticipation allow the fullbacks to push high and give USA width. Gio Reyna operates in the half-spaces between the lines, receiving on the turn and creating chances with his technical quality. Pulisic drifts inside from the left and is USA's most dangerous scorer from range. Defensively they sit in a 4-5-1 mid-block that transitions into a high press immediately when possession is lost. Their biggest vulnerability is in wide areas when they are caught out of shape on the counter-attack.",
     players: [
       { name: "Christian Pulisic", jersey: "10", role: "Captain / Attacking Mid", desc: "AC Milan's American hero. The first US player to genuinely star in Europe's elite. Direct, two-footed, brave — when he's in form he's one of the best in the tournament." },
       { name: "Gio Reyna", jersey: "7", role: "Attacking Mid", desc: "Borussia Dortmund's technically gifted playmaker — the most naturally talented American footballer ever. When fit, he's a potential tournament star." },
@@ -478,6 +491,7 @@ const TEAMS = {
   PRY: { name: "Paraguay", flag: "🇵🇾", group: "D", rank: 39,
     formation: "4-4-2",
     style: "South American grit. Combative, physical and defensively organized. Won't roll over for anyone — USA will need to earn every inch.",
+    tactics:"Paraguay defend first in a 4-4-2 mid-block before exploding into counter-attacks through Enciso pace and technique. Enciso is their trump card: he carries the ball at pace from deep and creates chances from nothing with his dribbling. The two central midfielders work as a compact pair, winning second balls and transitioning quickly to the forwards. Paraguay are very well organised at set-piece defence.",
     players: [
       { name: "Miguel Almirón", jersey: "10", role: "Attacking Mid", desc: "Newcastle's energetic midfielder — press resistance, pace, and the ability to pop up with important goals. A genuine threat if given space." },
       { name: "Ángel Romero", jersey: "9", role: "Forward", desc: "Experienced and clever. Knows how to hold the ball up and bring teammates into play." }
@@ -488,6 +502,7 @@ const TEAMS = {
   AUS: { name: "Australia", flag: "🇦🇺", group: "D", rank: 23,
     formation: "4-3-3",
     style: "High energy, physical pressing. Graham Arnold's Socceroos work as a collective unit. Fast and direct when they get the ball forward.",
+    tactics:"Australia 4-3-3 is built around Ryan distribution triggering quick transitions. Ryan pace down the left channel and his ability to cut inside gives Australia width and goal threat simultaneously. The three central midfielders rotate roles dynamically: one presses, one covers the space vacated, one supports the forwards. Defensively they are aggressive in their press but can be exposed in transition when the press is beaten.",
     players: [
       { name: "Mathew Leckie", jersey: "11", role: "Right Winger", desc: "The veteran who scored THAT goal against Denmark in 2022. Relentless running, direct and can produce moments of magic when it counts." },
       { name: "Nestory Irankunda", jersey: "17", role: "Winger", desc: "The exciting youngster — 19 year old Bayern Munich attacker who is Australia's most exciting talent in years." },
@@ -499,6 +514,7 @@ const TEAMS = {
   TUR: { name: "Turkey", flag: "🇹🇷", group: "D", rank: 28,
     formation: "4-2-3-1",
     style: "Dynamic and passionate. Technical midfield combined with direct attacking play. Can switch tempo quickly.",
+    tactics:"Turkey 4-2-3-1 revolves around the Guler-Calhanoglu axis — Guler movement off defenders shoulders combined with Calhanoglu precise long passing creates a direct threat before opponents can set their shape. Guler cuts inside from the right, receives on the half-turn and shoots early — almost impossible to defend. Calhanoglu sits deep, organising possession and covering the space behind the press. Their fullbacks push very high — pace in behind them is the way to hurt Turkey.",
     players: [
       { name: "Hakan Çalhanoğlu", jersey: "8", role: "Midfielder", desc: "Inter Milan's midfield maestro — incredible range of passing, scores from distance and dictates tempo. One of Europe's best midfielders right now." },
       { name: "Arda Güler", jersey: "10", role: "Attacking Mid", desc: "Real Madrid's 20-year-old prodigy — technically gifted with an old head on young shoulders. Could be a breakout star of this tournament." }
@@ -509,6 +525,7 @@ const TEAMS = {
   GER: { name: "Germany", flag: "🇩🇪", group: "E", rank: 12, manager: "Julian Nagelsmann",
     formation: "4-2-3-1",
     style: "Rebuilt under Nagelsmann — more attacking, more creative, less mechanical than the old Germany. High pressing with technical quality through the spine of the team.",
+    tactics:"Germany 4-2-3-1 is built on relentless pressing orchestrated by Musiala who acts as the trigger from his advanced midfield position. Kimmich pushes extremely high on the right playing almost as a winger, allowing Musiala to drift into central areas. Wirtz is the creative hub — his incisive dribbling and passing in tight spaces is decisive. Transitions from defence to attack are immediate and direct.",
     players: [
       { name: "Florian Wirtz", jersey: "10", role: "Attacking Mid", desc: "Bayer Leverkusen's genius. At just 22, he's arguably the most naturally gifted German player in 30 years. His dribbling, vision and finishing are extraordinary. Watch him constantly." },
       { name: "Jamal Musiala", jersey: "10", role: "Attacking Mid", desc: "Bayern's graceful technician — silky dribbling in tight spaces, brave on the ball and scores important goals. Alongside Wirtz, Germany have two of the world's most exciting young players." },
@@ -520,6 +537,7 @@ const TEAMS = {
   CIV: { name: "Ivory Coast", flag: "🇨🇮", group: "E", rank: 42,
     formation: "4-4-2",
     style: "Physical and direct. Dangerous from set-pieces and powerful athletes throughout the side.",
+    tactics:"Ivory Coast build through wide players who beat their man and deliver crosses for a physical striker. Their 4-3-3 has two industrious central midfielders who cover ground aggressively in both directions, while the creative midfielder finds pockets behind the opposition defensive line. Defensively the two central midfielders drop into a 4-5-1 shape, protecting the back four. Their physical forwards are a constant aerial set-piece threat.",
     players: [
       { name: "Sébastien Haller", jersey: "9", role: "Striker", desc: "Dortmund's powerful striker. Survived cancer to return as an elite player — his story is extraordinary. Target man with great technique." },
       { name: "Franck Kessié", jersey: "5", role: "Midfielder", desc: "A box-to-box machine — his power and engine in midfield can overwhelm opponents." }
@@ -530,6 +548,7 @@ const TEAMS = {
   ECU: { name: "Ecuador", flag: "🇪🇨", group: "E", rank: 31,
     formation: "4-4-2",
     style: "Organized, direct, physical. South American fighting spirit with a pragmatic approach.",
+    tactics:"Ecuador 4-4-2 is built around Enner Valencia physical dominance — everything goes through him in the air or as a target for runners beyond. Their wide midfielders press fullbacks high and track back into a compact defensive block. Valencia holds the ball up and plays in arriving midfielders, particularly the second striker. Defensively Ecuador are resolute, protecting a compact central block and winning second balls with aggression.",
     players: [
       { name: "Moisés Caicedo", jersey: "10", role: "Midfielder", desc: "Chelsea's dynamic midfield engine — one of the best young midfielders in the world. His ball-winning and quick distribution make him elite." },
       { name: "Enner Valencia", jersey: "13", role: "Striker", desc: "The veteran captain. Scored at two previous World Cups and his leadership and physicality remain invaluable." }
@@ -540,6 +559,7 @@ const TEAMS = {
   NED: { name: "Netherlands", flag: "🇳🇱", group: "F", rank: 7, manager: "Ronald Koeman",
     formation: "4-3-3",
     style: "Total football heritage meets modern pressing. The Dutch play with technical quality, aggressive pressing and fluid attacking movement. The 4-3-3 is in their DNA.",
+    tactics:"The Netherlands 4-3-3 uses Gakpo cutting inside constantly, creating fluid combinations with the striker and the 10. The double pivot releases Van Dijk to step into midfield to create numerical superiority in build-up. Dumfries on the right provides width and crosses that create the majority of chances. Their biggest weakness is the space behind Van Dijk when he steps out — opponents with pace in behind are their greatest challenge.",
     players: [
       { name: "Virgil van Dijk", jersey: "4", role: "Centre-back / Captain", desc: "Arguably the world's best defender. His reading of the game, aerial dominance and composure make him a pleasure to watch — defenders are rarely this commanding." },
       { name: "Cody Gakpo", jersey: "7", role: "Forward", desc: "Liverpool's left-sided attacker — creative, powerful and scores crucial goals. One of the most dynamic forwards in the tournament." },
@@ -551,6 +571,7 @@ const TEAMS = {
   JPN: { name: "Japan", flag: "🇯🇵", group: "F", rank: 18,
     formation: "4-2-3-1",
     style: "Technical, disciplined and incredibly well-drilled. Japan's collective intelligence is unmatched in Asia — they press in coordinated waves and are technically superb.",
+    tactics:"Japan 4-2-3-1 deploys one of the most sophisticated pressing systems in Asian football — they trigger coordinated waves of pressure that suffocate opponents in their own half. Kubo operates as the creative hub, dropping between the lines to receive and combining quickly with the wide forwards. The double pivot of Endo and Tanaka is relentless in pressing intensity while technically excellent in possession. Their biggest vulnerability is set-piece defence where their lack of height is a structural weakness.",
     players: [
       { name: "Takefusa Kubo", jersey: "8", role: "Attacking Mid", desc: "Real Sociedad's technically gifted creator. Lightning quick, clever in tight spaces and creates goals from nothing." },
       { name: "Kaoru Mitoma", jersey: "9", role: "Left Winger", desc: "Brighton's dribbling machine — his low centre of gravity and skill make him almost impossible to dispossess. A genuine star." }
@@ -561,6 +582,7 @@ const TEAMS = {
   BEL: { name: "Belgium", flag: "🇧🇪", group: "G", rank: 8,
     formation: "4-3-3",
     style: "New generation — the 'Golden Generation' era is over, replaced by younger talent. Fast transitions and technical quality remain.",
+    tactics:"Belgium 4-2-3-1 is built around De Bruyne central position as the creative hub — he receives between the lines, plays incisive passes in behind, and arrives late to shoot from range. Lukaku physical presence holds the ball up and creates space for De Bruyne late arrivals. Doku and Trossard provide pace and directness from wide positions. Defensively Belgium drop into a compact 4-4-2 mid-block — their biggest weakness is when opponents play at high tempo before the block can reorganise.",
     players: [
       { name: "Lois Openda", jersey: "9", role: "Striker", desc: "RB Leipzig's electric striker. His pace behind defenses and clinical finishing have made him one of Europe's most dangerous forwards." },
       { name: "Amadou Onana", jersey: "5", role: "Midfielder", desc: "Aston Villa's physically imposing and technically capable midfielder — covers enormous ground and starts attacks." }
@@ -571,6 +593,7 @@ const TEAMS = {
   ESP: { name: "Spain", flag: "🇪🇸", group: "H", rank: 1, manager: "Luis de la Fuente",
     formation: "4-3-3",
     style: "Positional play mastery — the most technically accomplished team in the tournament. Short passing, intelligent movement, high press. Euro 2024 champions and clear tournament favourites.",
+    tactics:"Spain 4-3-3 is the most sophisticated positional play system in world football — Pedri and Gavi combine as the two interior midfielders, creating numerical superiority in central areas through constant movement and one-touch combinations. Yamal dribbling from the right provides a direct threat while Rodri controls the pace from deep. Defensively Spain press as a unit of ten — they recover the ball in the opponent half within seconds. Their pressing trigger is the long ball: when opponents play long, Spain immediately press the second ball.",
     players: [
       { name: "Lamine Yamal", jersey: "19", role: "Right Winger", desc: "18 years old and already the best young player in the world. Scored the wonder-goal vs France in Euro 2024. His skill, composure and creativity are jaw-dropping — you won't believe he's a teenager." },
       { name: "Pedri", jersey: "8", role: "Central Midfielder", desc: "The midfield maestro — his ability to receive in tight spaces, turn defenders and pick passes is technically breathtaking. Pure joy to watch." },
@@ -583,6 +606,7 @@ const TEAMS = {
   URU: { name: "Uruguay", flag: "🇺🇾", group: "H", rank: 16,
     formation: "4-3-3",
     style: "La Garra Charrúa — the fighting spirit. Tactically sophisticated, defensively ferocious and with world-class attacking talent.",
+    tactics:"Uruguay 4-4-2 features Valverde driving from midfield with the ball at pace, arriving into the box as a third striker. Nunez and Darwin lead the line with fearless directness and high-intensity coordinated pressing from the front. The double pivot protects the back four aggressively. Set pieces at both ends are genuine weapons — Valverde and Nunez both score from dead balls.",
     players: [
       { name: "Federico Valverde", jersey: "15", role: "Midfielder", desc: "Real Madrid's tireless engine — covers every blade of grass, scores long-range goals and has the biggest motor in midfield football. Absolutely elite." },
       { name: "Darwin Núñez", jersey: "9", role: "Striker", desc: "Liverpool's explosive centre-forward. Pacey, powerful and can overwhelm any defence when he's at full throttle." }
@@ -593,6 +617,7 @@ const TEAMS = {
   FRA: { name: "France", flag: "🇫🇷", group: "I", rank: 3, manager: "Didier Deschamps",
     formation: "4-3-3",
     style: "The perfect blend of technical quality and physical power. France can play possession football or destroy teams on the counter. Their depth is unmatched — stars rotate without quality loss.",
+    tactics:"France 4-3-3 is built around Mbappe movement as the central striker — he drops deep to create combinations, then exploits the space left behind with his devastating pace. Griezmann operates as the false-9 or second striker, connecting midfield and attack with intelligent movement. Tchouameni sits deep as the single pivot while Camavinga and Rabiot provide box-to-box energy. Defensively France are very well organised and the transition to attack through Mbappe pace is lethal.",
     players: [
       { name: "Kylian Mbappé", jersey: "10", role: "Centre Forward", desc: "The fastest man in world football and arguably the best. Just 5 goals from breaking the all-time World Cup scoring record. His acceleration, finishing and vision make him different from anyone else. Watch him every single second he has the ball." },
       { name: "Antoine Griezmann", jersey: "7", role: "Attacking Mid", desc: "The creative brain behind France. His clever movement between the lines, creativity and clutch performances in major moments make him one of the most important players in world football." },
@@ -604,6 +629,7 @@ const TEAMS = {
   SEN: { name: "Senegal", flag: "🇸🇳", group: "I", rank: 20,
     formation: "4-3-3",
     style: "Athletic, powerful and technically capable. When the Lions of Teranga press with intensity they're very hard to play through.",
+    tactics:"Senegal 4-3-3 is built around the duality of Mane — he can play as a wide forward or true striker, with movement that makes him almost impossible to mark. Gana Gueye protects the back four aggressively, winning the ball and distributing quickly to the forwards. The wide forwards use width to create 1v1 situations and get crosses into the box. Their biggest challenge is when opponents press their build-up aggressively and win the ball high up the pitch.",
     players: [
       { name: "Sadio Mané", jersey: "10", role: "Forward", desc: "The legendary attacker — 31 years old but still capable of brilliance. His career at Liverpool was extraordinary and he carries the nation's hopes." },
       { name: "Ismaïla Sarr", jersey: "23", role: "Winger", desc: "Crystal Palace's explosive winger. Pure pace and directness — can punish any defence caught flat." }
@@ -614,6 +640,7 @@ const TEAMS = {
   ARG: { name: "Argentina", flag: "🇦🇷", group: "J", rank: 2, manager: "Lionel Scaloni",
     formation: "4-3-3",
     style: "Tactically flexible and hard to beat. Scaloni's Argentina are defensively disciplined and lethal on the break. They grind games out when needed and open up when they must.",
+    tactics:"Argentina 4-3-3 is built entirely around creating conditions for Messi to receive in his favourite positions — between the lines on the right, where he can drive at defenders or play the killer through ball. De Paul relentless running and box-to-box energy protects Messi while Di Maria provides width and direct dribbling threat. Defensively Argentina sit in a 4-4-2 block with Otamendi physicality crucial in the centre. The critical tactical battle is always midfield: if De Paul and MacAllister control it, Argentina are almost impossible to beat.",
     players: [
       { name: "Lionel Messi", jersey: "10", role: "Captain / Forward", desc: "THE greatest player who ever lived — and now a World Cup winner. Possibly his last tournament. At 38 he's playing on another plane, but his passing, vision and set-pieces remain otherworldly. Every touch will be historic. Don't take your eyes off him." },
       { name: "Julián Álvarez", jersey: "9", role: "Striker", desc: "The 2022 tournament's breakout star. Athletic, intelligent movement, clinical finishing. At 24, this is his World Cup to announce himself to the world." },
@@ -625,6 +652,7 @@ const TEAMS = {
   NOR: { name: "Norway", flag: "🇳🇴", group: "I", rank: 29,
     formation: "4-3-3",
     style: "Direct, physical and frightening in front of goal. When Haaland has the ball in dangerous areas, something usually happens.",
+    tactics:"Norway system is built around Haaland as the ultimate focal point — the midfield four create spaces in behind for his runs, playing direct and quick to minimise time in possession. The wide forwards stretch the defensive line while the central midfielders arrive late to support. Defensively Norway 4-4-2 mid-block transitions immediately to attack when the ball is won — their transition speed is elite.",
     players: [
       { name: "Erling Haaland", jersey: "9", role: "Striker", desc: "The scoring machine. Manchester City's goal-scoring robot who has broken every record put in front of him. His athleticism, finishing and sheer physical presence make him the most feared striker in world football. Any time he gets the ball in the box — stand up." }
     ],
@@ -634,6 +662,7 @@ const TEAMS = {
   POR: { name: "Portugal", flag: "🇵🇹", group: "K", rank: 6, manager: "Roberto Martínez",
     formation: "4-3-3",
     style: "Technical quality throughout. Wide attacking play, clever interplay between midfield and attack. Martínez has built a genuine team mentality around more than just Ronaldo.",
+    tactics:"Portugal 4-2-3-1 features Ronaldo as the central striker — his movement, aerial ability and clinical finishing make him dangerous from every kind of chance. Bruno Fernandes operates as the 10, creating with his passing range and arriving into the box himself. Bernardo Silva is the connecting player — his intelligence and technique in tight spaces links midfield and attack. The double pivot of Ruben Neves and Carvalho protects the back four while Neves controls tempo with his passing range.",
     players: [
       { name: "Cristiano Ronaldo", jersey: "7", role: "Captain / Forward", desc: "The most decorated player in football history. At 41, possibly the final chapter of the greatest career ever. Still capable of moments of genius and almost certainly still motivated. His set-piece delivery, movement and finishing remain elite. History watching." },
       { name: "Rafael Leão", jersey: "11", role: "Left Winger", desc: "AC Milan's electric attacker — when he's in full flow he's unplayable. Pace, skill and an eye for goal make him Portugal's most dangerous weapon." },
@@ -645,6 +674,7 @@ const TEAMS = {
   COL: { name: "Colombia", flag: "🇨🇴", group: "K", rank: 13,
     formation: "4-2-3-1",
     style: "Exciting, technical and confident after reaching the Copa América final in 2024. Fast transitions and creative attacking play.",
+    tactics:"Colombia 4-2-3-1 is creative and fluid — James Rodriguez operates as the free 10, drifting between positions and creating through his vision and technical quality. Luis Diaz and Cuadrado combine intelligence and pace to attack in behind, while the central midfielders cover the space James vacates. Colombia attacking play is imaginative and unpredictable — they rely on technical quality and individual creativity rather than a rigid system.",
     players: [
       { name: "Luis Díaz", jersey: "7", role: "Left Winger", desc: "Liverpool's electric winger. His directness, pace and ability to beat defenders creates danger every time he touches the ball." },
       { name: "James Rodríguez", jersey: "10", role: "Attacking Mid", desc: "The 2014 Golden Boot winner makes a potential World Cup return — Colombia's most elegant passer and creator." }
@@ -655,6 +685,7 @@ const TEAMS = {
   ENG: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", group: "L", rank: 4, manager: "Gareth Southgate",
     formation: "4-3-3",
     style: "Defensively solid and well-organized. The strength is in the individual quality — England don't have a rigid playing style but their front three and midfield are world class. Set-pieces are a major weapon.",
+    tactics:"England 4-3-3 features Bellingham arriving from deep into the box with late runs that are almost impossible to defend against. Saka and Foden operate as inside forwards cutting in from wide while the striker holds and links play. Trent Alexander-Arnold deep-lying playmaker role creates overloads in the middle third, using his passing range to switch play and put opponents fullbacks into 1v1s. Defensively England press in coordinated waves — the front three trigger the press by cutting out easy passes.",
     players: [
       { name: "Harry Kane", jersey: "9", role: "Striker / Captain", desc: "England's all-time top scorer at Bayern Munich. His intelligent movement, hold-up play and clinical finishing make him one of the best in world football. Carries enormous pressure with grace." },
       { name: "Jude Bellingham", jersey: "5", role: "Midfielder", desc: "Real Madrid's box-to-box sensation — at 22 he's arguably the best midfielder in the world. Electric in possession, goal-scoring from midfield, relentless pressing. England's heartbeat." },
@@ -666,6 +697,7 @@ const TEAMS = {
   CRO: { name: "Croatia", flag: "🇭🇷", group: "L", rank: 10,
     formation: "4-3-3",
     style: "Technically gifted and tactically disciplined. Modric orchestrates everything from deep — the Croatian way is intelligent, patient possession before decisive moments.",
+    tactics:"Croatia 4-3-3 is built on the Brozovic-Modric axis — Brozovic screens the back four while Modric operates as a free 8, receiving in tight spaces and distributing with incredible precision. Kovacic drives from midfield to support the forwards and provides direct carrying. Defensively Croatia defend in a compact mid-block, making it very difficult to play through their well-organised lines. Going forward they are patient in possession, building through the midfield until the perfect opening presents itself.",
     players: [
       { name: "Luka Modrić", jersey: "10", role: "Midfielder / Captain", desc: "The 39-year-old genius. Ballon d'Or winner, 2018 World Cup Golden Ball winner. Still arguably playing — his touch, vision and reading of the game are timeless. Watching Modrić play is watching a master craftsman. Possibly his final tournament." },
       { name: "Mateo Kovačić", jersey: "8", role: "Midfielder", desc: "Manchester City's technical dynamo — relentless pressing and precise passing make him the perfect complement to Modrić." }
@@ -1283,11 +1315,11 @@ function selectMatch(id) {
       <h3><span>♟️</span> ${u('tactics')}</h3>
       <div class="tactic-item">
         <div class="tactic-label">${t1.flag} ${t1.name} · ${t1.formation || 'N/A'}</div>
-        <div class="tactic-text">${t1.style || 'Tactical information coming soon.'}</div>
+        <div class="tactic-text">${t1.tactics || t1.style || 'Tactical information coming soon.'}</div>
       </div>
       <div class="tactic-item" style="border-left-color:var(--gold)">
         <div class="tactic-label" style="color:var(--gold)">${t2.flag} ${t2.name} · ${t2.formation || 'N/A'}</div>
-        <div class="tactic-text">${t2.style || 'Tactical information coming soon.'}</div>
+        <div class="tactic-text">${t2.tactics || t2.style || 'Tactical information coming soon.'}</div>
       </div>
     </div>
 
@@ -1810,6 +1842,7 @@ const TEAMS_ZH = {
 TEAMS['CUW'] = { name:"Curaçao", flag:"🇨🇼", group:"E", rank:82,
   formation:"4-4-2",
   style:"Physical and hardworking. World Cup debutants bringing Caribbean flair and passion. No tactical pressure — pure joy of being here.",
+  tactics:"Curaçao defend in a compact 4-5-1 block, targeting set pieces and counter-attacks as their route to goals. They look to stay tight and organised, then exploit pace up front when they win the ball. The midfield is the foundation — working as a disciplined unit of five to deny space between the lines. Attacking, they look for the forward to hold up and bring others into play, or to play one-two combinations in wide positions to break the defensive shape. Against Germany and Ivory Coast they will need to be perfectly organised for 90 minutes.",
   players:[{ name:"Leandro Bacuna", role:"Midfielder", desc:"Experienced midfielder who plays in the Netherlands — a leader and the most technically capable player on the squad." }],
   narrative:"Making their World Cup debut! 170,000 people from an island smaller than Melbourne's CBD have a team at the World Cup.",
   stakes:"Every touch is historic. Soak up this story." };
@@ -1817,6 +1850,7 @@ TEAMS['CUW'] = { name:"Curaçao", flag:"🇨🇼", group:"E", rank:82,
 TEAMS['CPV'] = { name:"Cape Verde", flag:"🇨🇻", group:"H", rank:68,
   formation:"4-4-2",
   style:"Compact, defensive, dangerous on set pieces. The islands produce hardworking, physical players.",
+  tactics:"Cape Verde have developed into one of Africa's most organised defensive teams — their 5-3-2 is compact and difficult to break down. Júnior Djaló and Ryan Mendes provide the attacking threat from wide positions, using pace and directness to get in behind defensive lines on the counter-attack. Their midfield three is industrious and covers enormous ground, protecting the back five and enabling quick counter-attacks when possession is won. Defensively they concede very few goals from open play — their biggest vulnerability is quality crosses into the box where their shorter defenders can be targeted.",
   players:[{ name:"Ryan Mendes", role:"Winger", desc:"The most dangerous attacking threat — quick and direct." }],
   narrative:"First World Cup! 500,000 islanders in the Atlantic ocean — a tiny nation on the world's biggest stage.",
   stakes:"Cape Verde vs Spain — one of football's great David vs Goliath stories." };
@@ -1824,6 +1858,7 @@ TEAMS['CPV'] = { name:"Cape Verde", flag:"🇨🇻", group:"H", rank:68,
 TEAMS['COD'] = { name:"DR Congo", flag:"🇨🇩", group:"K", rank:74,
   formation:"4-3-3",
   style:"Athletic and direct. Physical presences throughout who can overwhelm teams with energy.",
+  tactics:"Congo DR set up defensively in a 4-4-2 block and look to use their considerable athleticism and physicality to unsettle opponents. Their attacking threat comes from wide positions — pacy, direct wingers who can beat their fullback in 1v1 situations and create crossing opportunities. The two strikers press aggressively from the front and look for flick-ons and second balls in dangerous areas. Defensively their biggest strength is their physicality and aerial ability — they make life very difficult for technically superior opponents through sheer intensity and work rate.",
   players:[{ name:"Cédric Bakambu", role:"Striker", desc:"Experienced striker who has played across Europe and Asia. Clinical finisher." }],
   narrative:"Back at the World Cup for the first time since 1974 (as Zaire). A sleeping giant of African football.",
   stakes:"Group K with Portugal — facing Ronaldo will be a story for generations." };
@@ -1831,6 +1866,7 @@ TEAMS['COD'] = { name:"DR Congo", flag:"🇨🇩", group:"K", rank:74,
 TEAMS['UZB'] = { name:"Uzbekistan", flag:"🇺🇿", group:"K", rank:66,
   formation:"4-4-2",
   style:"Well-organized Central Asian style. Hard working collective.",
+  tactics:"Uzbekistan are an improving Asian side who defend in a compact 4-4-2 and look to counter-attack through their pacy wide forwards. Their organisation is the foundation — they rarely give space between the lines and make life difficult for technically superior opponents. Going forward they look to play direct and quick, using the wide forwards' pace to exploit space in behind. Set pieces are crucial — they have good aerial ability and are well-drilled from dead-ball situations. Against Portugal and Ghana they will need to be near-perfect defensively and take any chances that come their way.",
   players:[{ name:"Eldor Shomurodov", role:"Striker", desc:"Roma's striker — direct, physical and a finisher." }],
   narrative:"World Cup debutants! The Silk Road nation reaches the biggest stage.",
   stakes:"Drawn into a group with Portugal and Colombia — extraordinary exposure." };
@@ -1838,6 +1874,7 @@ TEAMS['UZB'] = { name:"Uzbekistan", flag:"🇺🇿", group:"K", rank:66,
 TEAMS['NZL'] = { name:"New Zealand", flag:"🇳🇿", group:"G", rank:85,
   formation:"5-4-1",
   style:"Ultra-defensive. The lowest-ranked team in the tournament. Will defend in banks of five and hope to nick something on the break.",
+  tactics:"New Zealand will defend with a 5-4-1 shape and look to frustrate higher-ranked opponents for as long as possible. Their attacking threat comes primarily from Wood's physical presence up front — long balls and crosses into his aerial ability create set piece situations and second-ball opportunities. Midfielders press aggressively when out of possession and work back into the defensive shape quickly. Their tactical discipline and organisation is their strength — they will make life very difficult for technically superior opponents and look to steal moments from dead balls.",
   players:[{ name:"Liberato Cacace", role:"Left Back", desc:"Southampton's tireless left back — New Zealand's best player in Europe." }],
   narrative:"The lowest-ranked team in the tournament. But OFC's qualification spot means they're here legitimately.",
   stakes:"For New Zealand this is the greatest achievement in their football history. Enjoy every moment." };
@@ -1845,6 +1882,7 @@ TEAMS['NZL'] = { name:"New Zealand", flag:"🇳🇿", group:"G", rank:85,
 TEAMS['IRN'] = { name:"Iran", flag:"🇮🇷", group:"G", rank:32,
   formation:"4-1-4-1",
   style:"Defensive and organized. Hard to break down, dangerous on counter-attack with Sardar Azmoun leading the line.",
+  tactics:"Iran's 4-1-4-1 is one of the most disciplined defensive systems in Asian football — they defend in a very compact block and make it almost impossible to play through the middle. Their single pivot protects the back four and the four midfielders work as a compact defensive unit. Going forward they look for Azmoun's aerial ability and hold-up play as the reference point, with wide midfielders arriving to support quickly. Their defensive organisation is elite — but going forward they are limited, relying on set pieces and individual moments of quality rather than sustained attacking play.",
   players:[{ name:"Sardar Azmoun", role:"Striker", desc:"The 'Persian Messi' — technically gifted and clinical. Iran's best player and their main threat." }],
   narrative:"Iran have reached every World Cup since 1998. A passionate footballing nation with a complex political backdrop.",
   stakes:"Group G with Belgium and Egypt is winnable." };
@@ -1852,6 +1890,7 @@ TEAMS['IRN'] = { name:"Iran", flag:"🇮🇷", group:"G", rank:32,
 TEAMS['IRQ'] = { name:"Iraq", flag:"🇮🇶", group:"I", rank:63,
   formation:"4-4-2",
   style:"Organized and physical. Asian football style — collective discipline.",
+  tactics:"Iraq are a 4-4-2 defensive team that relies on organisation and physicality more than technical quality. Their two wide midfielders press aggressively and the two strikers chase every ball — the team's energy and work rate is their defining quality. Going forward they look for direct play into the two strikers, targeting aerial duels and second balls in dangerous areas. Defensively their 4-4-2 mid-block is compact and difficult to break down — they rarely allow space between the lines. Set pieces are their most dangerous attacking moments.",
   players:[{ name:"Aymen Hussein", role:"Striker", desc:"Iraq's prolific striker and team captain." }],
   narrative:"First World Cup since 1986! Iraq shocked Asia by qualifying. A remarkable achievement.",
   stakes:"Drawn in Group I with France and Haaland's Norway — the group of death for them." };
@@ -1859,6 +1898,7 @@ TEAMS['IRQ'] = { name:"Iraq", flag:"🇮🇶", group:"I", rank:63,
 TEAMS['ALG'] = { name:"Algeria", flag:"🇩🇿", group:"J", rank:35,
   formation:"4-3-3",
   style:"Technical, disciplined and hard to beat. Won the Africa Cup of Nations and are no pushovers for Argentina.",
+  tactics:"Algeria's 4-3-3 builds through a strong central midfield — Bennacer and Aouar provide the technical quality to play through pressing systems with clever movement. Mahrez, often operating from the right, is the attacking creative force: his dribbling, cutting inside onto his left foot, and his delivery from wide positions create the majority of chances. Defensively Algeria sit in a 4-5-1 mid-block that transitions aggressively into the press when the ball goes back to the goalkeeper. Set pieces are important — they have aerial threats from multiple positions and are well-drilled at dead balls.",
   players:[{ name:"Riyad Mahrez", role:"Winger", desc:"The magician — Saudi Arabian football's most technically gifted player. His ability to cut inside and score from distance makes him dangerous from any angle." }],
   narrative:"Won AFCON 2019. Given a draw against Argentina — the story writes itself.",
   stakes:"Algeria vs Messi's Argentina — facing the GOAT on the grandest stage. What a group game." };
@@ -1874,6 +1914,7 @@ TEAMS['AUT'] = { name:"Austria", flag:"🇦🇹", group:"J", rank:25,
 TEAMS['JOR'] = { name:"Jordan", flag:"🇯🇴", group:"J", rank:66,
   formation:"4-5-1",
   style:"Ultra-defensive. Will sit deep and hope for set-piece moments or counter-attacks.",
+  tactics:"Jordan defend in a conservative 4-5-1 that barely gives the opposition space to play through the middle — five midfielders across the pitch create an almost impenetrable defensive line. Their attacking moments come from wide — Yazan Al-Naimat and Musa Al-Taamari are direct and quick, creating chances from 1v1 situations in wide positions. The striker holds up the ball as the reference point for the midfield to arrive around. Their organisation and discipline is impressive — they will make life difficult for technically superior opponents and look to steal a goal from a set piece or a moment of individual quality.",
   players:[{ name: "Yazan Al-Naimat", role:"Striker", desc:"Jordan's main attacking threat — mobile and dangerous on the counter." }],
   narrative:"World Cup debut! Jordan's first ever qualification is a historic moment for the Middle East outside Qatar.",
   stakes:"A group including Argentina, Algeria and Austria. Every point is a miracle." };
@@ -1881,6 +1922,7 @@ TEAMS['JOR'] = { name:"Jordan", flag:"🇯🇴", group:"J", rank:66,
 TEAMS['GHA'] = { name:"Ghana", flag:"🇬🇭", group:"L", rank:72,
   formation:"4-2-3-1",
   style:"Athletic and direct. Strong physically, rely on individual quality.",
+  tactics:"Ghana's 4-2-3-1 is direct and attack-minded — Thomas Partey anchors the midfield and distributes with a long passing range that can switch play instantly. The two wide forwards, typically Kudus and Salisu on one side, combine pace and directness with intelligent movement. Kudus is the key creative player — his ability to beat his man in 1v1 situations and cut inside onto his stronger foot creates the majority of chances. Defensively Ghana can be vulnerable in transition when their attacking midfielders are caught high up the pitch — pace in behind is the way to hurt them.",
   players:[{ name:"Mohammed Kudus", role:"Attacking Mid", desc:"West Ham's explosive attacker — one of West Africa's brightest talents. Direct, skillful and scores important goals." }],
   narrative:"Group L with England and Croatia is tough, but Ghana have caused upsets before (beating USA in 2010).",
   stakes:"Kudus could be the breakout African star of this tournament." };
@@ -1888,6 +1930,7 @@ TEAMS['GHA'] = { name:"Ghana", flag:"🇬🇭", group:"L", rank:72,
 TEAMS['PAN'] = { name:"Panama", flag:"🇵🇦", group:"L", rank:30,
   formation:"5-4-1",
   style:"Defensive and hard to break down. CONCACAF warriors who compete with everything they have.",
+  tactics:"Panama set up in a very compact 5-4-1 defensive block — defending is their primary strength and they make it extremely difficult to break down. The five defenders and four midfielders protect two very narrow defensive bands, forcing opponents into wide positions where Panama defend crosses well. Their attacking threat comes from set pieces and moments of individual quality from their direct forwards. Against England, Croatia and Ghana they will defend for long periods and look to exploit any mistake or dead ball situation. Their physicality and aggression is a key weapon — they disrupt technically superior opponents with their intensity.",
   players:[{ name:"Ismael Díaz", role:"Forward", desc:"Energetic forward who can cause problems in behind." }],
   narrative:"Only their second World Cup. Made their debut in 2018 and lost all 3 games — but they're back.",
   stakes:"Group L with England, Croatia and Ghana — every point counts." };
@@ -1895,6 +1938,7 @@ TEAMS['PAN'] = { name:"Panama", flag:"🇵🇦", group:"L", rank:30,
 TEAMS['EGY'] = { name:"Egypt", flag:"🇪🇬", group:"G", rank:34,
   formation:"4-2-3-1",
   style:"Organized and disciplined. Set-piece threat and dangerous on the counter.",
+  tactics:"Egypt's 4-2-3-1 is built around creating the best possible conditions for Mohamed Salah — the entire system is designed to give him the ball in the channels where he is most effective. Salah drops wide right, receives on the turn, and either drives at defenders or plays combinations with the central midfielder arriving in support. Without the ball, Egypt defend in a very compact 4-4-2 block, making it almost impossible to play through the middle. Their biggest challenge is what happens when opponents press high and prevent Salah from receiving — Egypt need their midfield to be calm under pressure to play out.",
   players:[{ name:"Mohamed Salah", role:"Forward/Captain", desc:"Liverpool's legendary forward — if he's playing, Egypt have a chance against anyone. His pace, finishing and creativity are world-class even at 34." }],
   narrative:"Salah's World Cup! Egypt haven't qualified since 1990 — this is massive for African football.",
   stakes:"Salah is one of the world's best — even at 34, watch him every time he has the ball." };
@@ -1902,6 +1946,7 @@ TEAMS['EGY'] = { name:"Egypt", flag:"🇪🇬", group:"G", rank:34,
 TEAMS['TUN'] = { name:"Tunisia", flag:"🇹🇳", group:"F", rank:33,
   formation:"4-3-3",
   style:"Organized and compact. Won't give up space easily.",
+  tactics:"Tunisia set up in a compact 4-3-3 that drops into a 4-5-1 without the ball — five midfielders deny the opponents space in the most dangerous central areas. Their attacking threat comes from quick transitions, with wide forwards Slimane and Ben Romdhane carrying the ball at pace into opposition defensive thirds. The three-man midfield is hard-working and covers huge amounts of ground — their defensive organisation is their primary strength. Against stronger opponents Tunisia will rely on defensive compactness, set pieces, and moments of individual quality to create chances.",
   players:[{ name:"Wahbi Khazri", role:"Forward", desc:"Experienced forward who can create moments from nothing." }],
   narrative:"Regular African qualifier. Tough but limited in attack.",
   stakes:"Group F with Netherlands and Japan — need to beat Sweden." };
@@ -1909,6 +1954,7 @@ TEAMS['TUN'] = { name:"Tunisia", flag:"🇹🇳", group:"F", rank:33,
 TEAMS['SWE'] = { name:"Sweden", flag:"🇸🇪", group:"F", rank:22,
   formation:"4-4-2",
   style:"Organized, compact, disciplined. The post-Ibrahimović era has built something solid if unspectacular.",
+  tactics:"Sweden's post-Ibrahimović era is built around Alexander Isak as the central reference point — a modern striker who combines pace, technical quality and intelligent movement. Isak drops deep to combine with midfielders, then exploits the space in behind with his acceleration. The two central midfielders are disciplined and cover enormous ground, protecting the defensive line. Defensively Sweden are a compact 4-4-2 that defends resolutely — they are very difficult to score against because of their organisation and physicality. Isak's quality can win a game on any given day, and Sweden's strategy is to keep it tight and allow him to create moments.",
   players:[{ name:"Alexander Isak", role:"Striker", desc:"Newcastle's electric striker — intelligent movement, pace and excellent finishing. One of Europe's most dangerous strikers." }],
   narrative:"Missed 2022, now back with Isak leading the line. Could surprise in Group F.",
   stakes:"Isak is sensational — if he fires, Sweden can beat Japan and Netherlands on their day." };
@@ -1916,6 +1962,7 @@ TEAMS['SWE'] = { name:"Sweden", flag:"🇸🇪", group:"F", rank:22,
 TEAMS['KSA'] = { name:"Saudi Arabia", flag:"🇸🇦", group:"H", rank:53,
   formation:"4-5-1",
   style:"Disciplined and defensive. Will sit deep and try to hit on the counter. Remember — they beat Argentina in 2022.",
+  tactics:"Saudi Arabia set up in a 4-5-1 defensive block — the five-man midfield is extremely compact, barely giving any space between their defensive and midfield lines. Their attacking threat comes from quick transitions through Al-Dawsari's dribbling and pace — he carries the ball forward when they win it and creates from seemingly nothing. Al-Shehri's intelligent movement off defenders creates the finishing chances. Defensively they are very well drilled at protecting the central areas and forcing opponents into wide positions where they defend crosses comfortably — the key is their transitional intensity, which is elite.",
   players:[{ name:"Saleh Al-Shehri", role:"Striker", desc:"The striker who scored against Argentina in 2022. Physical, direct and makes intelligent runs." }],
   narrative:"That Argentina result in 2022 is now in World Cup legend. They will try to recreate the magic.",
   stakes:"Group H with Spain and Uruguay — but Saudi Arabia have proven they can beat anyone on a day." };
