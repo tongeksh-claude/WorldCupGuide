@@ -932,6 +932,10 @@ function switchTab(tab) {
     t.classList.toggle('active', tabs[i] === tab);
   });
   renderSchedulePanel();
+  if (tab === 'schedule') {
+    const todaySec = document.getElementById('today-section');
+    if (todaySec) setTimeout(() => todaySec.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
   if (tab === 'groups') {
     document.getElementById('detailPanel').classList.add('hidden');
     document.getElementById('schedulePanel').style.width = '100%';
@@ -987,6 +991,7 @@ function renderSchedulePanel() {
     const isT = dateKey === todayStr;
     const dg = document.createElement('div');
     dg.className = 'date-group';
+    if (isT) dg.id = 'today-section';
 
     const dl = document.createElement('div');
     dl.className = 'date-label' + (isT ? ' today' : '');
