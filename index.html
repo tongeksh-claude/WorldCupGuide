@@ -26,7 +26,7 @@
     background: linear-gradient(135deg, #0a0e1a 0%, #1a2a4a 50%, #0a1628 100%);
     border-bottom: 2px solid var(--gold);
     padding: 16px 24px;
-    display: flex; align-items: center; justify-content: space-between;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
     position: sticky; top: 0; z-index: 100;
   }
   .header-title { display: flex; align-items: center; gap: 14px; }
@@ -242,6 +242,7 @@
     height: 85vh;
     background: var(--bg);
     border-radius: 16px 16px 0 0;
+    border-top: 1px solid var(--border);
     z-index: 101;
     overflow-y: auto;
     transform: translateY(100%);
@@ -276,11 +277,11 @@
       <h1>2026 World Cup Guide</h1>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:16px;margin-left:auto">
-    <div class="lang-toggle">
-      <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
-    </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
+  </div>
+  <div style="display:flex;justify-content:flex-end">
     <div class="melbourne-time">
       <div class="location-wrapper">
         <svg class="location-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -328,7 +329,7 @@
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 <div class="drawer" id="drawer">
   <div class="drawer-handle">
-    <span style="font-size:13px;font-weight:700;color:var(--muted)" id="drawerTitle"></span>
+    <span style="font-size:14px;font-weight:700;color:var(--text)" id="drawerTitle"></span>
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
   <div id="drawerContent"></div>
