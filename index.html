@@ -713,213 +713,80 @@ const TEAMS = {
 // rating: 1-5 "watch rating" for casual viewers
 
 const MATCHES = [
-  // ─── MATCHDAY 1 ───
-  // Group A — June 11
-  { id:1, group:"A", md:1, utc:"2026-06-11T20:00Z", home:"MEX", away:"RSA", venue:"Mexico City", score:[2,0], rating:3,
-    preview:"Mexico's iconic opening at Estadio Azteca. The hosts delivered — Giménez on the scoresheet. A nervy but thrilling opening night for El Tri." },
-  { id:2, group:"A", md:1, utc:"2026-06-12T02:00Z", home:"KOR", away:"CZE", venue:"Guadalajara", score:null, rating:3,
-    preview:"Son Heung-min's World Cup adventure begins. Can the Spurs captain lead South Korea past a Czech side that just eliminated Italy? A tactical battle worth following." },
-
-  // Group B — June 12
-  { id:3, group:"B", md:1, utc:"2026-06-12T19:00Z", home:"CAN", away:"BIH", venue:"Toronto", score:null, rating:4,
-    preview:"Canada's tournament begins on home soil in front of a packed BMO Field. Davies, David and Buchanan against a Bosnia side that killed Italy's dream. Opening ceremony day." },
-  // Group D — June 12
-  { id:4, group:"D", md:1, utc:"2026-06-13T01:00Z", home:"USA", away:"PRY", venue:"Los Angeles", score:null, rating:4,
-    preview:"The USA's World Cup opener on home soil. SoFi Stadium will be electric. Pulisic leads the hosts against a stubborn Paraguay side. High stakes, massive atmosphere." },
-
-  // Group C — June 13
-  { id:5, group:"C", md:1, utc:"2026-06-14T01:00Z", home:"HTI", away:"SCO", venue:"Philadelphia", score:null, rating:3,
-    preview:"Haiti's first World Cup since 1974 — a dream scenario for the underdogs. Scotland look to upset the balance in a group with Brazil. A must-win for the Scots." },
-  { id:6, group:"C", md:1, utc:"2026-06-13T22:00Z", home:"BRA", away:"MAR", venue:"New York/NJ", score:null, rating:5,
-    preview:"The match of Matchday 1. Brazil's explosive attacking trio against the team that shocked Europe in 2022. Vinícius vs Hakimi — a battle of the best in world football." },
-  // Group B extra + Group D extra
-  { id:7, group:"B", md:1, utc:"2026-06-13T19:00Z", home:"QAT", away:"SUI", venue:"San Francisco", score:null, rating:3,
-    preview:"Switzerland's tactical discipline against Qatar's flair. The Swiss are under-hyped — Xhaka in midfield is world class." },
-  { id:8, group:"D", md:1, utc:"2026-06-14T01:00Z", home:"AUS", away:"TUR", venue:"Kansas City", score:null, rating:4,
-    preview:"SOCCEROOS alert! Australia vs Turkey — a defining game for Australian football. If the Socceroos can replicate their 2022 energy here, they can get a result against Turkey's dangerous Çalhanoğlu and Güler." },
-
-  // Group E — June 14
-  { id:9, group:"E", md:1, utc:"2026-06-14T17:00Z", home:"GER", away:"CUW", venue:"Houston", score:null, rating:3,
-    preview:"Germany's opener — Wirtz and Musiala finally get their World Cup. Curaçao making their debut. Watch the German front line click into gear." },
-  { id:10, group:"E", md:1, utc:"2026-06-14T23:00Z", home:"CIV", away:"ECU", venue:"Philadelphia", score:null, rating:3,
-    preview:"West Africa vs South America. Haller vs Caicedo — two of Europe's best in very different positions." },
-
-  // Group F — June 14
-  { id:11, group:"F", md:1, utc:"2026-06-14T20:00Z", home:"NED", away:"JPN", venue:"Dallas", score:null, rating:4,
-    preview:"Dutch Total Football heritage vs Japan's technical collectivism. Van Dijk commanding the back four against Mitoma's electric dribbling — a genuine clash of styles." },
-  { id:12, group:"F", md:1, utc:"2026-06-15T02:00Z", home:"SWE", away:"TUN", venue:"Guadalupe", score:null, rating:2,
-    preview:"Sweden return after missing 2022. Tunisia are well-organized but limited attacking-wise." },
-
-  // Group H — June 15
-  { id:13, group:"H", md:1, utc:"2026-06-15T17:00Z", home:"ESP", away:"CPV", venue:"Atlanta", score:null, rating:3,
-    preview:"Spain's campaign begins. Watch Yamal and Pedri tear apart Cape Verde's compact structure. This is where Spain's possession machine gets into gear." },
-  { id:14, group:"H", md:1, utc:"2026-06-15T22:00Z", home:"KSA", away:"URU", venue:"Miami", score:null, rating:4,
-    preview:"Saudi Arabia shocked Argentina in 2022. Now they face Uruguay — Valverde and Núñez vs an improving Saudi side. Don't be surprised by the result." },
-
-  // Group G — June 15
-  { id:15, group:"G", md:1, utc:"2026-06-15T22:00Z", home:"BEL", away:"EGY", venue:"Seattle", score:null, rating:3,
-    preview:"New Belgium against Egypt. Openda's pace vs Egyptian organization. Belgium are rebuilding but talented." },
-  { id:16, group:"G", md:1, utc:"2026-06-16T04:00Z", home:"IRN", away:"NZL", venue:"Los Angeles", score:null, rating:2,
-    preview:"Iran vs New Zealand — the lowest-ranked team in the tournament. An opportunity for Iran to bank 3 points." },
-
-  // Group I — June 16
-  { id:17, group:"I", md:1, utc:"2026-06-16T19:00Z", home:"FRA", away:"SEN", venue:"New York/NJ", score:null, rating:5,
-    preview:"Mbappé's World Cup begins. France vs Senegal is a blockbuster — Mané vs Mbappé, African flair vs European power. This could be the best group stage match of the tournament." },
-  { id:18, group:"I", md:1, utc:"2026-06-16T22:00Z", home:"IRQ", away:"NOR", venue:"Boston", score:null, rating:5,
-    preview:"Haaland's World Cup debut! Norway's machine vs Iraq — every Haaland touch inside the box could lead to a goal. Watch the world's most ruthless finisher finally on the biggest stage." },
-
-  // Group J — June 16
-  { id:19, group:"J", md:1, utc:"2026-06-17T01:00Z", home:"ARG", away:"ALG", venue:"Kansas City", score:null, rating:5,
-    preview:"MESSI. Argentina's defending champions begin their title defence. Algeria are no pushovers (AFCON winners) but Messi on his potential final World Cup stage is unmissable. Every touch is history." },
-  { id:20, group:"J", md:1, utc:"2026-06-17T01:00Z", home:"AUT", away:"JOR", venue:"San Francisco", score:null, rating:2,
-    preview:"Austria vs Jordan — a chance for Austria to pick up points before facing Argentina." },
-
-  // Group K — June 17
-  { id:21, group:"K", md:1, utc:"2026-06-17T17:00Z", home:"POR", away:"COD", venue:"Houston", score:null, rating:4,
-    preview:"Ronaldo's last World Cup opener. Can the 41-year-old still deliver on the biggest stage? Portugal vs DR Congo — Leão will provide the spark, but all eyes are on CR7." },
-  { id:22, group:"K", md:1, utc:"2026-06-18T02:00Z", home:"UZB", away:"COL", venue:"Mexico City", score:null, rating:3,
-    preview:"Colombia's explosive Díaz and Rodríguez against Uzbekistan in their World Cup debut. Colombia should dominate." },
-
-  // Group L — June 17
-  { id:23, group:"L", md:1, utc:"2026-06-17T20:00Z", home:"ENG", away:"CRO", venue:"Dallas", score:null, rating:5,
-    preview:"A 2018 World Cup semi-final rematch. Croatia beat England in extra time that day — Southgate's greatest wound. Bellingham, Kane and Rice vs Modric's final dance. Tactical masterclass guaranteed." },
-  { id:24, group:"L", md:1, utc:"2026-06-17T23:00Z", home:"GHA", away:"PAN", venue:"Toronto", score:null, rating:2,
-    preview:"Ghana vs Panama — both hoping to spring a surprise in Group L." },
-
-  // ─── MATCHDAY 2 ───
-  // Group A — June 18
-  { id:25, group:"A", md:2, utc:"2026-06-18T17:00Z", home:"MEX", away:"KOR", venue:"Guadalajara", score:null, rating:4,
-    preview:"Mexico vs South Korea — Son Heung-min facing the hosts. A win here effectively sends Mexico through. The home pressure intensifies." },
-  { id:26, group:"A", md:2, utc:"2026-06-18T20:00Z", home:"CZE", away:"RSA", venue:"Kansas City", score:null, rating:3,
-    preview:"Both teams needing points. The Czech Republic will look to control possession; South Africa will look to absorb and counter." },
-  // Group B — June 18
-  { id:27, group:"B", md:2, utc:"2026-06-18T23:00Z", home:"CAN", away:"QAT", venue:"Vancouver", score:null, rating:4,
-    preview:"Canada should win this — but Davies vs Qatar's defence will be a fascinating mismatch in pace and power. Can Canada put the group to bed?" },
-  { id:28, group:"B", md:2, utc:"2026-06-19T02:00Z", home:"SUI", away:"BIH", venue:"Seattle", score:null, rating:3,
-    preview:"Switzerland vs Bosnia — two technically capable European sides in a must-not-lose encounter." },
-
-  // Group C — June 19
-  { id:29, group:"C", md:2, utc:"2026-06-19T17:00Z", home:"BRA", away:"HTI", venue:"Atlanta", score:null, rating:3,
-    preview:"Brazil expected to dominate, but Haiti's resilience could make this interesting for 60 minutes. Watch how Haiti try to make it ugly." },
-  { id:30, group:"C", md:2, utc:"2026-06-19T20:00Z", home:"SCO", away:"MAR", venue:"Los Angeles", score:null, rating:4,
-    preview:"Scotland need a result against Morocco — a replay of the 2022 shock specialists. Robertson vs Hakimi is a full-back battle for the ages." },
-  // Group D — June 19
-  { id:31, group:"D", md:2, utc:"2026-06-19T23:00Z", home:"USA", away:"AUS", venue:"Dallas", score:null, rating:5,
-    preview:"MASSIVE FOR MELBOURNE. USA vs Australia — if both teams won their openers, this is for Group D qualification. Pulisic vs Leckie, two of CONCACAF/OFC's finest. The Socceroos could define Australian football history here." },
-  { id:32, group:"D", md:2, utc:"2026-06-20T02:00Z", home:"TUR", away:"PRY", venue:"Miami", score:null, rating:3,
-    preview:"Turkey vs Paraguay — Güler's skills against South American tenacity." },
-
-  // Group E — June 20
-  { id:33, group:"E", md:2, utc:"2026-06-20T17:00Z", home:"GER", away:"CIV", venue:"Boston", score:null, rating:4,
-    preview:"Germany vs Ivory Coast — a potential classic. Wirtz and Musiala on one side; Haller and Kessié on the other. Germany need the win to stay on course." },
-  { id:34, group:"E", md:2, utc:"2026-06-20T20:00Z", home:"ECU", away:"CUW", venue:"Houston", score:null, rating:2,
-    preview:"Ecuador vs Curaçao — Caicedo should dominate midfield." },
-  // Group F — June 20
-  { id:35, group:"F", md:2, utc:"2026-06-20T23:00Z", home:"NED", away:"SWE", venue:"Philadelphia", score:null, rating:4,
-    preview:"Netherlands vs Sweden — European giants in a crunch game. Van Dijk leading from the back, Gakpo leading from the front." },
-  { id:36, group:"F", md:2, utc:"2026-06-21T02:00Z", home:"TUN", away:"JPN", venue:"Dallas", score:null, rating:3,
-    preview:"Japan need this win to take command of Group F. Mitoma and Kubo on the attack." },
-
-  // Group G — June 21
-  { id:37, group:"G", md:2, utc:"2026-06-21T17:00Z", home:"BEL", away:"IRN", venue:"San Francisco", score:null, rating:3,
-    preview:"Belgium vs Iran — Openda leading the charge, Belgium looking to establish themselves at the top of Group G." },
-  { id:38, group:"G", md:2, utc:"2026-06-21T20:00Z", home:"NZL", away:"EGY", venue:"Toronto", score:null, rating:2,
-    preview:"New Zealand fighting for their World Cup life. Egypt will look to control possession." },
-  // Group H — June 21
-  { id:39, group:"H", md:2, utc:"2026-06-21T23:00Z", home:"ESP", away:"KSA", venue:"Miami", score:null, rating:4,
-    preview:"Spain should dominate but Saudi Arabia love a giant-killing (see: Argentina 2022). Yamal, Pedri and Rodri against a resolute Saudi shape — can they keep Spain quiet?" },
-  { id:40, group:"H", md:2, utc:"2026-06-22T02:00Z", home:"URU", away:"CPV", venue:"Boston", score:null, rating:3,
-    preview:"Uruguay vs Cape Verde — Valverde and Núñez should have too much quality." },
-
-  // Group I — June 22
-  { id:41, group:"I", md:2, utc:"2026-06-22T17:00Z", home:"FRA", away:"IRQ", venue:"Atlanta", score:null, rating:4,
-    preview:"Mbappé vs Iraq. France expected to win but Mbappé's stats — goals, assists, moments of brilliance — will be the story." },
-  { id:42, group:"I", md:2, utc:"2026-06-22T20:00Z", home:"NOR", away:"SEN", venue:"New York/NJ", score:null, rating:5,
-    preview:"Haaland vs Senegal — a cracking match between two contrasting teams. The battle of the big personalities: Haaland's goals vs Mané's experience." },
-  // Group J — June 22
-  { id:43, group:"J", md:2, utc:"2026-06-22T23:00Z", home:"ARG", away:"AUT", venue:"Kansas City", score:null, rating:4,
-    preview:"Argentina vs Austria — Messi and the champions should handle Austria but Çalhanoglu-calibre Austria isn't a walkover. Álvarez and Enzo Fernández will be key." },
-  { id:44, group:"J", md:2, utc:"2026-06-23T02:00Z", home:"JOR", away:"ALG", venue:"Seattle", score:null, rating:3,
-    preview:"Algeria needing a win here to stay in the tournament." },
-
-  // Group K — June 23
-  { id:45, group:"K", md:2, utc:"2026-06-23T17:00Z", home:"POR", away:"UZB", venue:"Houston", score:null, rating:4,
-    preview:"Portugal vs Uzbekistan — Ronaldo on the hunt for goals in his final World Cup. Leão the star but all eyes on CR7." },
-  { id:46, group:"K", md:2, utc:"2026-06-23T20:00Z", home:"COL", away:"COD", venue:"Philadelphia", score:null, rating:3,
-    preview:"Colombia vs DR Congo — Luis Díaz looking to tear apart the defence." },
-  // Group L — June 23
-  { id:47, group:"L", md:2, utc:"2026-06-23T23:00Z", home:"ENG", away:"GHA", venue:"Atlanta", score:null, rating:4,
-    preview:"England vs Ghana — Bellingham and Kane in full swing. England need to win to keep the pressure off. Ghana will defend and counter." },
-  { id:48, group:"L", md:2, utc:"2026-06-24T02:00Z", home:"PAN", away:"CRO", venue:"Los Angeles", score:null, rating:4,
-    preview:"Croatia vs Panama — Modric looking to keep his tournament alive. A must-win for the Croats." },
-
-  // ─── MATCHDAY 3 (simultaneous kickoffs per group) ───
-  // Group A — June 24
-  { id:49, group:"A", md:3, utc:"2026-06-24T20:00Z", home:"CZE", away:"MEX", venue:"Guadalajara", score:null, rating:4,
-    preview:"Mexico must win or draw to advance — the pressure of the host nation in the final group game. Son's South Korea could be watching anxiously." },
-  { id:50, group:"A", md:3, utc:"2026-06-24T20:00Z", home:"RSA", away:"KOR", venue:"Kansas City", score:null, rating:3,
-    preview:"South Africa vs South Korea — both teams needing to win. Son's final chance to carry Korea through." },
-  // Group B — June 24
-  { id:51, group:"B", md:3, utc:"2026-06-24T23:00Z", home:"SUI", away:"CAN", venue:"Vancouver", score:null, rating:4,
-    preview:"Canada need a result to guarantee top spot. Switzerland are always dangerous. A classic." },
-  { id:52, group:"B", md:3, utc:"2026-06-24T23:00Z", home:"BIH", away:"QAT", venue:"Seattle", score:null, rating:3,
-    preview:"Bosnia looking to confirm their place in the knockout rounds." },
-  // Group C — June 24
-  { id:53, group:"C", md:3, utc:"2026-06-25T02:00Z", home:"SCO", away:"BRA", venue:"New York/NJ", score:null, rating:4,
-    preview:"Scotland vs Brazil — the Tartan Army's Everest. McTominay and Robertson vs Vinícius and Raphinha. How many will Brazil score?" },
-  { id:54, group:"C", md:3, utc:"2026-06-25T02:00Z", home:"MAR", away:"HTI", venue:"Philadelphia", score:null, rating:3,
-    preview:"Morocco should advance — but Haiti's defensive resilience could give them moments to cherish." },
-
-  // Group D — June 25
-  { id:55, group:"D", md:3, utc:"2026-06-25T20:00Z", home:"TUR", away:"USA", venue:"Dallas", score:null, rating:5,
-    preview:"USA must avoid defeat. Turkey's Güler and Çalhanoğlu will test Pulisic's leadership. High-pressure group finale." },
-  { id:56, group:"D", md:3, utc:"2026-06-25T20:00Z", home:"PRY", away:"AUS", venue:"Los Angeles", score:null, rating:5,
-    preview:"THE SOCCEROOS DECIDER. If Australia need a win here to advance, every Australian will be watching at whatever ungodly AEST hour. Leckie, Irankunda — deliver." },
-
-  // Group E — June 25
-  { id:57, group:"E", md:3, utc:"2026-06-25T23:00Z", home:"ECU", away:"GER", venue:"Miami", score:null, rating:4,
-    preview:"Ecuador vs Germany — the German machine looking to dominate and advance. Wirtz has a point to prove." },
-  { id:58, group:"E", md:3, utc:"2026-06-25T23:00Z", home:"CUW", away:"CIV", venue:"Kansas City", score:null, rating:2,
-    preview:"Curaçao vs Ivory Coast — Haller targeting goals to give Ivory Coast hope." },
-  // Group F — June 25
-  { id:59, group:"F", md:3, utc:"2026-06-26T02:00Z", home:"TUN", away:"NED", venue:"Boston", score:null, rating:3,
-    preview:"Netherlands should advance. Can Tunisia frustrate them?" },
-  { id:60, group:"F", md:3, utc:"2026-06-26T02:00Z", home:"JPN", away:"SWE", venue:"Houston", score:null, rating:4,
-    preview:"Japan vs Sweden — both could advance. Mitoma vs Sweden's solidity. A genuinely open game." },
-
-  // Group G — June 26
-  { id:61, group:"G", md:3, utc:"2026-06-26T20:00Z", home:"NZL", away:"BEL", venue:"Toronto", score:null, rating:3,
-    preview:"Belgium looking to confirm top spot. New Zealand hoping for a miracle." },
-  { id:62, group:"G", md:3, utc:"2026-06-26T20:00Z", home:"EGY", away:"IRN", venue:"San Francisco", score:null, rating:3,
-    preview:"Battle for second place in Group G." },
-  // Group H — June 26
-  { id:63, group:"H", md:3, utc:"2026-06-26T23:00Z", home:"URU", away:"ESP", venue:"Miami", score:null, rating:5,
-    preview:"Uruguay vs Spain — the group winner at stake. Valverde and Núñez vs Yamal and Pedri. A potential all-time classic group game." },
-  { id:64, group:"H", md:3, utc:"2026-06-26T23:00Z", home:"CPV", away:"KSA", venue:"Atlanta", score:null, rating:3,
-    preview:"Cape Verde vs Saudi Arabia — both chasing a knockout round place." },
-
-  // Group I — June 27
-  { id:65, group:"I", md:3, utc:"2026-06-27T20:00Z", home:"NOR", away:"FRA", venue:"New York/NJ", score:null, rating:5,
-    preview:"Haaland vs Mbappé. The two most devastating finishers in world football meeting in group stage. One of the must-watch matches of the tournament. Get up for this one." },
-  { id:66, group:"I", md:3, utc:"2026-06-27T20:00Z", home:"SEN", away:"IRQ", venue:"Philadelphia", score:null, rating:3,
-    preview:"Senegal vs Iraq — Mané looking to cement second place." },
-  // Group J — June 27
-  { id:67, group:"J", md:3, utc:"2026-06-27T23:00Z", home:"JOR", away:"ARG", venue:"Los Angeles", score:null, rating:4,
-    preview:"Argentina's group finale. Messi and Álvarez looking to finish top — Jordan will try to make history." },
-  { id:68, group:"J", md:3, utc:"2026-06-27T23:00Z", home:"ALG", away:"AUT", venue:"Seattle", score:null, rating:3,
-    preview:"Algeria vs Austria — both fighting for the precious third-placed spots." },
-
-  // Group K — June 27
-  { id:69, group:"K", md:3, utc:"2026-06-28T02:00Z", home:"COL", away:"POR", venue:"Dallas", score:null, rating:5,
-    preview:"Colombia vs Portugal — could decide the group winner. Díaz vs Ronaldo, a mouthwatering South American-European clash. CR7's final group match ever." },
-  { id:70, group:"K", md:3, utc:"2026-06-28T02:00Z", home:"COD", away:"UZB", venue:"Houston", score:null, rating:2,
-    preview:"DR Congo vs Uzbekistan — both hoping to sneak into the knockout rounds." },
-  // Group L — June 27
-  { id:71, group:"L", md:3, utc:"2026-06-28T02:00Z", home:"PAN", away:"ENG", venue:"Boston", score:null, rating:3,
-    preview:"England vs Panama — Kane and Bellingham looking to finish the job." },
-  { id:72, group:"L", md:3, utc:"2026-06-28T02:00Z", home:"CRO", away:"GHA", venue:"Philadelphia", score:null, rating:4,
-    preview:"Croatia vs Ghana — Modric chasing his final World Cup chapter. Croatia need a win to have any hope of advancing." }
+  { id:1, group:"A", md:1, utc:"2026-06-11T19:00Z", home:"MEX", away:"RSA", venue:"Mexico City", score:[2,0], rating:3 },
+  { id:2, group:"A", md:1, utc:"2026-06-12T02:00Z", home:"KOR", away:"CZE", venue:"Guadalajara", score:null, rating:3 },
+  { id:3, group:"B", md:1, utc:"2026-06-12T19:00Z", home:"CAN", away:"BIH", venue:"Toronto", score:null, rating:4 },
+  { id:4, group:"D", md:1, utc:"2026-06-13T01:00Z", home:"USA", away:"PRY", venue:"Inglewood", score:null, rating:4 },
+  { id:5, group:"B", md:1, utc:"2026-06-13T19:00Z", home:"QAT", away:"SUI", venue:"Santa Clara", score:null, rating:3 },
+  { id:6, group:"C", md:1, utc:"2026-06-13T22:00Z", home:"BRA", away:"MAR", venue:"East Rutherford", score:null, rating:5 },
+  { id:7, group:"C", md:1, utc:"2026-06-14T01:00Z", home:"HTI", away:"SCO", venue:"Foxborough", score:null, rating:3 },
+  { id:8, group:"D", md:1, utc:"2026-06-14T16:00Z", home:"AUS", away:"TUR", venue:"Vancouver", score:null, rating:4 },
+  { id:9, group:"E", md:1, utc:"2026-06-14T17:00Z", home:"GER", away:"CUW", venue:"Houston", score:null, rating:3 },
+  { id:10, group:"F", md:1, utc:"2026-06-14T20:00Z", home:"NED", away:"JPN", venue:"Arlington", score:null, rating:4 },
+  { id:11, group:"E", md:1, utc:"2026-06-14T23:00Z", home:"CIV", away:"ECU", venue:"Philadelphia", score:null, rating:3 },
+  { id:12, group:"F", md:1, utc:"2026-06-15T02:00Z", home:"SWE", away:"TUN", venue:"Monterrey", score:null, rating:2 },
+  { id:13, group:"H", md:1, utc:"2026-06-15T16:00Z", home:"ESP", away:"CPV", venue:"Atlanta", score:null, rating:3 },
+  { id:14, group:"G", md:1, utc:"2026-06-15T19:00Z", home:"BEL", away:"EGY", venue:"Seattle", score:null, rating:3 },
+  { id:15, group:"H", md:1, utc:"2026-06-15T22:00Z", home:"KSA", away:"URU", venue:"Miami Gardens", score:null, rating:4 },
+  { id:16, group:"G", md:1, utc:"2026-06-16T01:00Z", home:"IRN", away:"NZL", venue:"Inglewood", score:null, rating:2 },
+  { id:17, group:"I", md:1, utc:"2026-06-16T19:00Z", home:"FRA", away:"SEN", venue:"East Rutherford", score:null, rating:5 },
+  { id:18, group:"I", md:1, utc:"2026-06-16T22:00Z", home:"IRQ", away:"NOR", venue:"Foxborough", score:null, rating:5 },
+  { id:19, group:"J", md:1, utc:"2026-06-17T01:00Z", home:"ARG", away:"ALG", venue:"Kansas City", score:null, rating:5 },
+  { id:20, group:"J", md:1, utc:"2026-06-17T04:00Z", home:"AUT", away:"JOR", venue:"Santa Clara", score:null, rating:2 },
+  { id:21, group:"K", md:1, utc:"2026-06-17T17:00Z", home:"POR", away:"COD", venue:"Houston", score:null, rating:4 },
+  { id:22, group:"L", md:1, utc:"2026-06-17T20:00Z", home:"ENG", away:"CRO", venue:"Arlington", score:null, rating:5 },
+  { id:23, group:"L", md:1, utc:"2026-06-17T23:00Z", home:"GHA", away:"PAN", venue:"Toronto", score:null, rating:2 },
+  { id:24, group:"K", md:1, utc:"2026-06-18T02:00Z", home:"UZB", away:"COL", venue:"Mexico City", score:null, rating:3 },
+  { id:25, group:"A", md:2, utc:"2026-06-18T16:00Z", home:"CZE", away:"RSA", venue:"Atlanta", score:null, rating:3 },
+  { id:26, group:"B", md:2, utc:"2026-06-18T19:00Z", home:"SUI", away:"BIH", venue:"Inglewood", score:null, rating:3 },
+  { id:27, group:"B", md:2, utc:"2026-06-18T22:00Z", home:"CAN", away:"QAT", venue:"Vancouver", score:null, rating:4 },
+  { id:28, group:"A", md:2, utc:"2026-06-19T01:00Z", home:"MEX", away:"KOR", venue:"Guadalajara", score:null, rating:4 },
+  { id:29, group:"D", md:2, utc:"2026-06-19T19:00Z", home:"USA", away:"AUS", venue:"Seattle", score:null, rating:5 },
+  { id:30, group:"C", md:2, utc:"2026-06-19T22:00Z", home:"SCO", away:"MAR", venue:"Foxborough", score:null, rating:4 },
+  { id:31, group:"C", md:2, utc:"2026-06-20T00:30Z", home:"BRA", away:"HTI", venue:"Philadelphia", score:null, rating:3 },
+  { id:32, group:"D", md:2, utc:"2026-06-20T03:00Z", home:"TUR", away:"PRY", venue:"Santa Clara", score:null, rating:3 },
+  { id:33, group:"F", md:2, utc:"2026-06-20T17:00Z", home:"NED", away:"SWE", venue:"Houston", score:null, rating:4 },
+  { id:34, group:"E", md:2, utc:"2026-06-20T20:00Z", home:"GER", away:"CIV", venue:"Toronto", score:null, rating:4 },
+  { id:35, group:"E", md:2, utc:"2026-06-21T00:00Z", home:"ECU", away:"CUW", venue:"Kansas City", score:null, rating:2 },
+  { id:36, group:"F", md:2, utc:"2026-06-21T04:00Z", home:"TUN", away:"JPN", venue:"Monterrey", score:null, rating:3 },
+  { id:37, group:"H", md:2, utc:"2026-06-21T16:00Z", home:"ESP", away:"KSA", venue:"Atlanta", score:null, rating:4 },
+  { id:38, group:"G", md:2, utc:"2026-06-21T19:00Z", home:"BEL", away:"IRN", venue:"Inglewood", score:null, rating:3 },
+  { id:39, group:"H", md:2, utc:"2026-06-21T22:00Z", home:"URU", away:"CPV", venue:"Miami Gardens", score:null, rating:3 },
+  { id:40, group:"G", md:2, utc:"2026-06-22T01:00Z", home:"NZL", away:"EGY", venue:"Vancouver", score:null, rating:2 },
+  { id:41, group:"J", md:2, utc:"2026-06-22T17:00Z", home:"ARG", away:"AUT", venue:"Arlington", score:null, rating:4 },
+  { id:42, group:"I", md:2, utc:"2026-06-22T21:00Z", home:"FRA", away:"IRQ", venue:"Philadelphia", score:null, rating:4 },
+  { id:43, group:"I", md:2, utc:"2026-06-23T00:00Z", home:"NOR", away:"SEN", venue:"East Rutherford", score:null, rating:5 },
+  { id:44, group:"J", md:2, utc:"2026-06-23T03:00Z", home:"JOR", away:"ALG", venue:"Santa Clara", score:null, rating:3 },
+  { id:45, group:"K", md:2, utc:"2026-06-23T17:00Z", home:"POR", away:"UZB", venue:"Houston", score:null, rating:4 },
+  { id:46, group:"L", md:2, utc:"2026-06-23T20:00Z", home:"ENG", away:"GHA", venue:"Foxborough", score:null, rating:4 },
+  { id:47, group:"L", md:2, utc:"2026-06-23T23:00Z", home:"PAN", away:"CRO", venue:"Toronto", score:null, rating:4 },
+  { id:48, group:"K", md:2, utc:"2026-06-24T02:00Z", home:"COL", away:"COD", venue:"Guadalajara", score:null, rating:3 },
+  { id:49, group:"B", md:3, utc:"2026-06-24T19:00Z", home:"SUI", away:"CAN", venue:"Vancouver", score:null, rating:4 },
+  { id:50, group:"B", md:3, utc:"2026-06-24T19:00Z", home:"BIH", away:"QAT", venue:"Seattle", score:null, rating:3 },
+  { id:51, group:"C", md:3, utc:"2026-06-24T22:00Z", home:"SCO", away:"BRA", venue:"Miami Gardens", score:null, rating:4 },
+  { id:52, group:"C", md:3, utc:"2026-06-24T22:00Z", home:"MAR", away:"HTI", venue:"Atlanta", score:null, rating:3 },
+  { id:53, group:"A", md:3, utc:"2026-06-25T01:00Z", home:"CZE", away:"MEX", venue:"Mexico City", score:null, rating:4 },
+  { id:54, group:"A", md:3, utc:"2026-06-25T01:00Z", home:"RSA", away:"KOR", venue:"Monterrey", score:null, rating:3 },
+  { id:55, group:"E", md:3, utc:"2026-06-25T20:00Z", home:"CUW", away:"CIV", venue:"Philadelphia", score:null, rating:2 },
+  { id:56, group:"E", md:3, utc:"2026-06-25T20:00Z", home:"ECU", away:"GER", venue:"East Rutherford", score:null, rating:4 },
+  { id:57, group:"F", md:3, utc:"2026-06-25T23:00Z", home:"JPN", away:"SWE", venue:"Arlington", score:null, rating:4 },
+  { id:58, group:"F", md:3, utc:"2026-06-25T23:00Z", home:"TUN", away:"NED", venue:"Kansas City", score:null, rating:3 },
+  { id:59, group:"D", md:3, utc:"2026-06-26T02:00Z", home:"TUR", away:"USA", venue:"Inglewood", score:null, rating:5 },
+  { id:60, group:"D", md:3, utc:"2026-06-26T02:00Z", home:"PRY", away:"AUS", venue:"Santa Clara", score:null, rating:5 },
+  { id:61, group:"I", md:3, utc:"2026-06-26T19:00Z", home:"NOR", away:"FRA", venue:"Foxborough", score:null, rating:5 },
+  { id:62, group:"I", md:3, utc:"2026-06-26T19:00Z", home:"SEN", away:"IRQ", venue:"Toronto", score:null, rating:3 },
+  { id:63, group:"H", md:3, utc:"2026-06-27T00:00Z", home:"CPV", away:"KSA", venue:"Houston", score:null, rating:3 },
+  { id:64, group:"H", md:3, utc:"2026-06-27T00:00Z", home:"URU", away:"ESP", venue:"Guadalajara", score:null, rating:5 },
+  { id:65, group:"G", md:3, utc:"2026-06-27T03:00Z", home:"EGY", away:"IRN", venue:"Seattle", score:null, rating:3 },
+  { id:66, group:"G", md:3, utc:"2026-06-27T03:00Z", home:"NZL", away:"BEL", venue:"Vancouver", score:null, rating:3 },
+  { id:67, group:"L", md:3, utc:"2026-06-27T21:00Z", home:"PAN", away:"ENG", venue:"East Rutherford", score:null, rating:3 },
+  { id:68, group:"L", md:3, utc:"2026-06-27T21:00Z", home:"CRO", away:"GHA", venue:"Philadelphia", score:null, rating:4 },
+  { id:69, group:"K", md:3, utc:"2026-06-27T23:30Z", home:"COL", away:"POR", venue:"Miami Gardens", score:null, rating:5 },
+  { id:70, group:"K", md:3, utc:"2026-06-27T23:30Z", home:"COD", away:"UZB", venue:"Atlanta", score:null, rating:2 },
+  { id:71, group:"J", md:3, utc:"2026-06-28T02:00Z", home:"ALG", away:"AUT", venue:"Kansas City", score:null, rating:3 },
+  { id:72, group:"J", md:3, utc:"2026-06-28T02:00Z", home:"JOR", away:"ARG", venue:"Arlington", score:null, rating:4 },
 ];
+
 
 // PREDICTION DATA (home win %, draw %, away win %)
 const PREDICTIONS = {
