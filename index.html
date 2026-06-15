@@ -1413,7 +1413,11 @@ function setLang(l) {
 function getTeam(code) {
   const base = TEAMS[code];
   if (!base) return null;
-  if (lang === 'zh' && TEAMS_ZH[code]) return { ...base, ...TEAMS_ZH[code] };
+  if (lang === 'zh' && TEAMS_ZH[code]) {
+    const merged = { ...base, ...TEAMS_ZH[code] };
+    delete merged.tactics; // zh uses 'style' field; drop English tactics so fallback works
+    return merged;
+  }
   return base;
 }
 
