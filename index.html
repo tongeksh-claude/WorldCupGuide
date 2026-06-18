@@ -1035,7 +1035,7 @@ function renderSchedulePanel() {
             <span class="flag">${t2.flag}</span>
           </div>
         </div>
-        <div><span class="match-venue">📍 ${venue(m.venue)}</span></div>`;
+        `;
       dg.appendChild(card);
     });
 
@@ -1116,10 +1116,19 @@ function selectMatch(id) {
     const homeGoals = m.goals.filter(g => g.side === 'home');
     const awayGoals = m.goals.filter(g => g.side === 'away');
     if (!homeGoals.length && !awayGoals.length) return '';
-    const fmt = g => `${g.name}${g.isOG ? ' <span style="opacity:0.6">(og)</span>' : ''} <span style="opacity:0.55">${g.minute}</span>`;
+    const group = goals => {
+      const map = new Map();
+      goals.forEach(g => {
+        const key = g.name + (g.isOG ? '_og' : '');
+        if (!map.has(key)) map.set(key, { name: g.name, minutes: [], isOG: g.isOG });
+        map.get(key).minutes.push(g.minute);
+      });
+      return [...map.values()];
+    };
+    const fmt = g => `${g.name}${g.isOG ? ' <span style="opacity:0.6">(og)</span>' : ''} <span style="opacity:0.55">${g.minutes.join(', ')}</span>`;
     return `<div class="hero-scorers">
-      <div class="hero-scorers-home">${homeGoals.map(fmt).join('<br>')}</div>
-      <div class="hero-scorers-away">${awayGoals.map(fmt).join('<br>')}</div>
+      <div class="hero-scorers-home">${group(homeGoals).map(fmt).join('<br>')}</div>
+      <div class="hero-scorers-away">${group(awayGoals).map(fmt).join('<br>')}</div>
     </div>`;
   })();
 
@@ -1140,9 +1149,6 @@ function selectMatch(id) {
         </div>
       </div>
       ${scorersHTML}
-      <div class="hero-info">
-        <div class="hero-info-item">📍 <strong>${venue(m.venue)}</strong></div>
-      </div>
     </div>
 
     <div class="section">
