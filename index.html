@@ -213,12 +213,16 @@
   .group-team-name { font-size: 13px; font-weight: 600; flex: 1; }
   .group-team-rank { font-size: 11px; color: var(--muted); }
   .group-qualifying { border-left: 3px solid var(--accent); }
-  .group-stat-col { width: 22px; text-align: center; font-size: 13px; }
-  .group-pts-col { width: 28px; text-align: center; font-size: 14px; font-weight: 800; color: var(--gold); }
-  .group-header-row { display: flex; align-items: center; padding: 3px 14px 3px; border-top: 1px solid var(--border); }
-  .group-header-row .group-stat-col,
-  .group-header-row .group-pts-col { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+  .group-team, .group-header-row { display: flex; align-items: center; gap: 8px; padding: 8px 14px; }
+  .group-header-row { padding: 3px 14px; border-top: 1px solid var(--border); }
+  .group-flag-spacer { width: 18px; flex-shrink: 0; }
   .group-header-spacer { flex: 1; }
+  .group-stat-col { width: 20px; text-align: center; flex-shrink: 0; font-size: 11px; color: var(--muted); }
+  .group-pts-col { width: 26px; text-align: center; flex-shrink: 0; font-size: 14px; font-weight: 800; color: var(--gold); }
+  .group-gd-col { width: 28px; text-align: right; flex-shrink: 0; font-size: 11px; color: var(--muted); }
+  .group-header-row .group-stat-col,
+  .group-header-row .group-pts-col,
+  .group-header-row .group-gd-col { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
 
   .hidden { display: none !important; }
 
@@ -1085,7 +1089,7 @@ function renderGroupsView(container) {
     gc.className = 'group-card';
     // Column headers when standings exist
     const hdr = hasStandings
-      ? `<div class="group-header-row"><span class="group-header-spacer"></span><span class="group-stat-col">W</span><span class="group-stat-col">D</span><span class="group-stat-col">L</span><span class="group-pts-col">Pts</span></div>`
+      ? `<div class="group-header-row"><span class="group-flag-spacer"></span><span class="group-header-spacer"></span><span class="group-stat-col">W</span><span class="group-stat-col">D</span><span class="group-stat-col">L</span><span class="group-pts-col">Pts</span><span class="group-gd-col">GD</span></div>`
       : '';
     gc.innerHTML = `<div class="group-title">Group ${grp}</div>${hdr}`;
 
@@ -1097,8 +1101,9 @@ function renderGroupsView(container) {
         gc.innerHTML += `<div class="group-team${qualClass}"><span class="flag">🏳️</span><span class="group-team-name">${code}</span></div>`;
         return;
       }
+      const gdStr = s ? (s.gd > 0 ? '+' + s.gd : String(s.gd)) : '';
       const rightCol = s
-        ? `<span class="group-stat-col">${s.w}</span><span class="group-stat-col">${s.d}</span><span class="group-stat-col">${s.l}</span><span class="group-pts-col">${s.pts}</span>`
+        ? `<span class="group-stat-col">${s.w}</span><span class="group-stat-col">${s.d}</span><span class="group-stat-col">${s.l}</span><span class="group-pts-col">${s.pts}</span><span class="group-gd-col">${gdStr}</span>`
         : `<span class="group-team-rank">${t.rank ? '#'+t.rank : ''}</span>`;
       gc.innerHTML += `<div class="group-team${qualClass}" onclick="viewTeam('${code}')">
         <span class="flag">${t.flag}</span>
