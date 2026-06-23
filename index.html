@@ -212,6 +212,13 @@
   .group-team .flag { font-size: 18px; }
   .group-team-name { font-size: 13px; font-weight: 600; flex: 1; }
   .group-team-rank { font-size: 11px; color: var(--muted); }
+  .group-team-pts-col { text-align: right; min-width: 36px; }
+  .group-team-pts-val { font-size: 15px; font-weight: 800; color: var(--gold); }
+  .group-team-pts-rec { font-size: 10px; color: var(--muted); margin-top: 1px; }
+  .group-qualifying { border-left: 3px solid var(--accent); }
+  .group-header-row { display: flex; padding: 4px 14px 2px; border-top: 1px solid var(--border); }
+  .group-header-row span { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+  .group-header-spacer { flex: 1; }
 
   .hidden { display: none !important; }
 
@@ -1062,19 +1069,45 @@ function renderGroupsView(container) {
   const panel = document.createElement('div');
   panel.className = 'groups-grid';
   Object.entries(GROUP_TEAMS).forEach(([grp, codes]) => {
+    // Sort by standings if available: pts → gd → gf
+    const hasStandings = codes.some(c => STANDINGS[c]);
+    const sorted = hasStandings
+      ? [...codes].sort((a, b) => {
+          const sa = STANDINGS[a] || { pts:-1, gd:-99, gf:-99 };
+          const sb = STANDINGS[b] || { pts:-1, gd:-99, gf:-99 };
+          if (sb.pts !== sa.pts) return sb.pts - sa.pts;
+          if (sb.gd !== sa.gd) return sb.gd - sa.gd;
+          return (sb.gf || 0) - (sa.gf || 0);
+        })
+      : codes;
+
     const gc = document.createElement('div');
     gc.className = 'group-card';
-    gc.innerHTML = `<div class="group-title">Group ${grp}</div>`;
-    codes.forEach(code => {
+    // Column headers when standings exist
+    const hdr = hasStandings
+      ? `<div class="group-header-row"><span class="group-header-spacer"></span><span>Pts</span>&nbsp;&nbsp;<span style="min-width:32px;text-align:right">GD</span></div>`
+      : '';
+    gc.innerHTML = `<div class="group-title">Group ${grp}</div>${hdr}`;
+
+    sorted.forEach((code, idx) => {
       const t = getTeam(code);
+      const s = STANDINGS[code];
+      const qualClass = hasStandings && idx < 2 ? ' group-qualifying' : '';
       if (!t) {
-        gc.innerHTML += `<div class="group-team"><span class="flag">🏳️</span><span class="group-team-name">${code}</span></div>`;
+        gc.innerHTML += `<div class="group-team${qualClass}"><span class="flag">🏳️</span><span class="group-team-name">${code}</span></div>`;
         return;
       }
-      gc.innerHTML += `<div class="group-team" onclick="viewTeam('${code}')">
+      const rightCol = s
+        ? `<div class="group-team-pts-col">
+             <div class="group-team-pts-val">${s.pts}</div>
+             <div class="group-team-pts-rec">${s.w}-${s.d}-${s.l}</div>
+           </div>
+           <div style="min-width:32px;text-align:right;font-size:11px;color:var(--muted)">${s.gd > 0 ? '+' : ''}${s.gd}</div>`
+        : `<span class="group-team-rank">${t.rank ? '#'+t.rank : ''}</span>`;
+      gc.innerHTML += `<div class="group-team${qualClass}" onclick="viewTeam('${code}')">
         <span class="flag">${t.flag}</span>
         <span class="group-team-name">${t.name}</span>
-        <span class="group-team-rank">${t.rank ? '#'+t.rank : ''}</span>
+        ${rightCol}
       </div>`;
     });
     panel.appendChild(gc);
@@ -2078,8 +2111,47 @@ function schedulePoll(ms) {
   _pollTimer = setTimeout(fetchLiveScores, ms);
 }
 
+// ── Group Standings ─────────────────────────────────────────────────────────
+const STANDINGS = {}; // code → { p, w, d, l, pts, gd, gf, ga }
+let _standingsTimer = null;
+
+async function fetchStandings() {
+  try {
+    const r = await fetch('https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings');
+    const data = await r.json();
+    const groups = data.children || [];
+    let anyChange = false;
+
+    for (const group of groups) {
+      const entries = group.standings?.entries || [];
+      for (const entry of entries) {
+        const teamName = entry.team?.displayName || '';
+        const code = ESPN_TEAM_MAP[teamName];
+        if (!code) { console.log('[WCG] standings: no code for', teamName); continue; }
+        const getStat = name => entry.stats?.find(s => s.name === name)?.value ?? 0;
+        const w = getStat('wins');
+        const l = getStat('losses');
+        const d = getStat('ties');
+        const gf = getStat('pointsFor');
+        const ga = getStat('pointsAgainst');
+        const pts = w * 3 + d;
+        const gd = gf - ga;
+        const prev = STANDINGS[code];
+        if (!prev || prev.pts !== pts || prev.gd !== gd) anyChange = true;
+        STANDINGS[code] = { p: w + d + l, w, d, l, pts, gd, gf, ga };
+      }
+    }
+
+    if (anyChange && activeTab === 'groups') renderSchedulePanel();
+  } catch(e) {
+    console.warn('[WCG] standings fetch failed:', e);
+  }
+  _standingsTimer = setTimeout(fetchStandings, 3 * 60 * 1000);
+}
+
 // Kick off immediately, then poll
 fetchLiveScores();
+fetchStandings();
 
 loadScoresFromStorage(); // restore previously fetched scores before first render
 setLocation('Australia/Sydney'); // init — must run after all let declarations
