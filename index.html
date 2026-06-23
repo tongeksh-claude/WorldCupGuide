@@ -212,12 +212,12 @@
   .group-team .flag { font-size: 18px; }
   .group-team-name { font-size: 13px; font-weight: 600; flex: 1; }
   .group-team-rank { font-size: 11px; color: var(--muted); }
-  .group-team-pts-col { text-align: right; min-width: 36px; }
-  .group-team-pts-val { font-size: 15px; font-weight: 800; color: var(--gold); }
-  .group-team-pts-rec { font-size: 10px; color: var(--muted); margin-top: 1px; }
   .group-qualifying { border-left: 3px solid var(--accent); }
-  .group-header-row { display: flex; padding: 4px 14px 2px; border-top: 1px solid var(--border); }
-  .group-header-row span { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+  .group-stat-col { width: 22px; text-align: center; font-size: 13px; }
+  .group-pts-col { width: 28px; text-align: center; font-size: 14px; font-weight: 800; color: var(--gold); }
+  .group-header-row { display: flex; align-items: center; padding: 3px 14px 3px; border-top: 1px solid var(--border); }
+  .group-header-row .group-stat-col,
+  .group-header-row .group-pts-col { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
   .group-header-spacer { flex: 1; }
 
   .hidden { display: none !important; }
@@ -1085,7 +1085,7 @@ function renderGroupsView(container) {
     gc.className = 'group-card';
     // Column headers when standings exist
     const hdr = hasStandings
-      ? `<div class="group-header-row"><span class="group-header-spacer"></span><span>Pts</span>&nbsp;&nbsp;<span style="min-width:32px;text-align:right">GD</span></div>`
+      ? `<div class="group-header-row"><span class="group-header-spacer"></span><span class="group-stat-col">W</span><span class="group-stat-col">D</span><span class="group-stat-col">L</span><span class="group-pts-col">Pts</span></div>`
       : '';
     gc.innerHTML = `<div class="group-title">Group ${grp}</div>${hdr}`;
 
@@ -1098,11 +1098,7 @@ function renderGroupsView(container) {
         return;
       }
       const rightCol = s
-        ? `<div class="group-team-pts-col">
-             <div class="group-team-pts-val">${s.pts}</div>
-             <div class="group-team-pts-rec">${s.w}-${s.d}-${s.l}</div>
-           </div>
-           <div style="min-width:32px;text-align:right;font-size:11px;color:var(--muted)">${s.gd > 0 ? '+' : ''}${s.gd}</div>`
+        ? `<span class="group-stat-col">${s.w}</span><span class="group-stat-col">${s.d}</span><span class="group-stat-col">${s.l}</span><span class="group-pts-col">${s.pts}</span>`
         : `<span class="group-team-rank">${t.rank ? '#'+t.rank : ''}</span>`;
       gc.innerHTML += `<div class="group-team${qualClass}" onclick="viewTeam('${code}')">
         <span class="flag">${t.flag}</span>
