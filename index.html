@@ -224,6 +224,22 @@
   .group-header-row .group-pts-col,
   .group-header-row .group-gd-col { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
 
+  /* KNOCKOUT BRACKET */
+  .bk-outer { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .bk-round-hdr { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); font-weight: 700; text-align: center; padding: 0 2px 6px; height: 24px; display: flex; align-items: flex-end; justify-content: center; white-space: nowrap; }
+  .bk-card { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; width: 130px; flex-shrink: 0; }
+  .bk-card:not(.bk-tbd) { cursor: pointer; transition: border-color 0.15s; }
+  .bk-card:not(.bk-tbd):hover { border-color: var(--gold); }
+  .bk-card.live-m { border-color: var(--green); }
+  .bk-tbd { opacity: 0.28; }
+  .bk-card-date { font-size: 8px; color: var(--muted); text-align: center; padding: 2px 4px; background: var(--surface2); border-bottom: 1px solid var(--border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bk-row { display: flex; align-items: center; gap: 4px; padding: 4px 6px; }
+  .bk-row + .bk-row { border-top: 1px solid var(--border); }
+  .bk-row.won { color: var(--gold); font-weight: 700; }
+  .bk-fl { font-size: 13px; flex-shrink: 0; }
+  .bk-nm { flex: 1; font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bk-sc { font-size: 11px; font-weight: 800; color: var(--gold); min-width: 12px; text-align: right; }
+
   .hidden { display: none !important; }
 
   /* LANGUAGE TOGGLE */
@@ -323,7 +339,7 @@
   <nav>
     <div class="tab active" id="tab-today" onclick="switchTab('today')">⚡ Today</div>
     <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">📅 Schedule</div>
-    <div class="tab" id="tab-groups" onclick="switchTab('groups')">🌍 Groups</div>
+    <div class="tab" id="tab-groups" onclick="switchTab('groups')"><span id="tab-groups-label">⚽ Round of 32</span></div>
   </nav>
 </div>
 
@@ -803,6 +819,24 @@ const MATCHES = [
   { id:70, group:"K", md:3, utc:"2026-06-27T23:30Z", home:"COD", away:"UZB", venue:"Atlanta", score:null, rating:2 },
   { id:71, group:"J", md:3, utc:"2026-06-28T02:00Z", home:"ALG", away:"AUT", venue:"Kansas City", score:null, rating:3 },
   { id:72, group:"J", md:3, utc:"2026-06-28T02:00Z", home:"JOR", away:"ARG", venue:"Arlington", score:null, rating:4 },
+
+  // ── ROUND OF 32 ──────────────────────────────────────────────────────────
+  { id:73, round:'r32', slot:0,  utc:"2026-06-28T19:00Z", home:"RSA", away:"CAN" },
+  { id:74, round:'r32', slot:1,  utc:"2026-06-29T16:00Z", home:"GER", away:"PRY" },
+  { id:75, round:'r32', slot:2,  utc:"2026-06-29T19:00Z", home:"NED", away:"MAR" },
+  { id:76, round:'r32', slot:3,  utc:"2026-06-29T22:00Z", home:"BRA", away:"JPN" },
+  { id:77, round:'r32', slot:4,  utc:"2026-06-30T16:00Z", home:"FRA", away:"SWE" },
+  { id:78, round:'r32', slot:5,  utc:"2026-06-30T19:00Z", home:"CIV", away:"NOR" },
+  { id:79, round:'r32', slot:6,  utc:"2026-06-30T22:00Z", home:"MEX", away:"ECU" },
+  { id:80, round:'r32', slot:7,  utc:"2026-07-01T16:00Z", home:"ENG", away:"COD" },
+  { id:81, round:'r32', slot:8,  utc:"2026-07-01T19:00Z", home:"USA", away:"BIH" },
+  { id:82, round:'r32', slot:9,  utc:"2026-07-01T22:00Z", home:"BEL", away:"SEN" },
+  { id:83, round:'r32', slot:10, utc:"2026-07-02T16:00Z", home:"POR", away:"CRO" },
+  { id:84, round:'r32', slot:11, utc:"2026-07-02T19:00Z", home:"ESP", away:"AUT" },
+  { id:85, round:'r32', slot:12, utc:"2026-07-02T22:00Z", home:"SUI", away:"ALG" },
+  { id:86, round:'r32', slot:13, utc:"2026-07-03T16:00Z", home:"ARG", away:"CPV" },
+  { id:87, round:'r32', slot:14, utc:"2026-07-03T19:00Z", home:"COL", away:"GHA" },
+  { id:88, round:'r32', slot:15, utc:"2026-07-03T22:00Z", home:"AUS", away:"EGY" },
 ];
 
 
@@ -973,7 +1007,12 @@ function renderSchedulePanel() {
   list.innerHTML = '';
 
   if (activeTab === 'groups') {
-    renderGroupsView(list);
+    const hasKnockout = MATCHES.some(m => m.round);
+    if (hasKnockout) {
+      renderBracketView(list);
+    } else {
+      renderGroupsView(list);
+    }
     return;
   }
 
@@ -1036,7 +1075,7 @@ function renderSchedulePanel() {
 
       card.innerHTML = `
         <div class="match-meta">
-          <span class="match-group">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}</span>
+          <span class="match-group">${m.round ? getRoundLabel(m.round) : u('group')+' '+m.group+' · '+u('mdPre')+m.md+u('mdPost')}</span>
           <span class="match-time">${timeStr}</span>
         </div>
         <div class="match-teams">
@@ -1118,6 +1157,122 @@ function renderGroupsView(container) {
 }
 
 // ══════════════════════════════════════
+//  KNOCKOUT BRACKET
+// ══════════════════════════════════════
+function getRoundLabel(round) {
+  const map = { r32:'Round of 32', r16:'Round of 16', qf:'Quarter-final', sf:'Semi-final', f:'Final' };
+  return map[round] || round;
+}
+
+function getCurrentRoundName() {
+  const r32 = MATCHES.filter(m => m.round === 'r32');
+  if (!r32.length) return '🌍 Groups';
+  const done = r32.every(m => m.isFinal);
+  return done ? '⚽ Round of 16' : '⚽ Round of 32';
+}
+
+function updateKnockoutTabLabel() {
+  const el = document.getElementById('tab-groups-label');
+  if (el) el.textContent = getCurrentRoundName();
+}
+
+function bkMatchCard(m) {
+  const TBD = `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
+  if (!m) return TBD;
+  const t1 = getTeam(m.home), t2 = getTeam(m.away);
+  if (!t1 || !t2) return TBD;
+  const live = m.isLive;
+  const sc = m.score;
+  const w = sc && m.isFinal ? (sc[0] > sc[1] ? 0 : sc[0] < sc[1] ? 1 : -1) : -1;
+  const dateStr = formatAESTDate(m.utc) + ' ' + formatAESTTime(m.utc);
+  const label = live
+    ? `<span style="color:var(--green);font-weight:700">LIVE${m.liveMinute?' '+m.liveMinute:''}</span>`
+    : sc && m.isFinal ? `FT · ${sc[0]}–${sc[1]}` : dateStr;
+  return `<div class="bk-card${live?' live-m':''}" onclick="bkMatchClick(${m.id})">
+    <div class="bk-card-date">${label}</div>
+    <div class="bk-row${w===0?' won':''}"><span class="bk-fl">${t1.flag}</span><span class="bk-nm">${t1.name}</span>${sc?`<span class="bk-sc">${sc[0]}</span>`:''}</div>
+    <div class="bk-row${w===1?' won':''}"><span class="bk-fl">${t2.flag}</span><span class="bk-nm">${t2.name}</span>${sc?`<span class="bk-sc">${sc[1]}</span>`:''}</div>
+  </div>`;
+}
+
+function bkConn(pairs, slotH, dir) {
+  const W = 18, mid = 10, H = pairs * 2 * slotH;
+  let p = '';
+  for (let i = 0; i < pairs; i++) {
+    const y1 = i*2*slotH + slotH/2;
+    const y2 = i*2*slotH + slotH*1.5;
+    const ym = (y1+y2)/2;
+    if (dir === 'r') {
+      p += `<line x1="0" y1="${y1}" x2="${mid}" y2="${y1}"/><line x1="${mid}" y1="${y1}" x2="${mid}" y2="${y2}"/><line x1="0" y1="${y2}" x2="${mid}" y2="${y2}"/><line x1="${mid}" y1="${ym}" x2="${W}" y2="${ym}"/>`;
+    } else {
+      p += `<line x1="${W}" y1="${y1}" x2="${W-mid}" y2="${y1}"/><line x1="${W-mid}" y1="${y1}" x2="${W-mid}" y2="${y2}"/><line x1="${W}" y1="${y2}" x2="${W-mid}" y2="${y2}"/><line x1="${W-mid}" y1="${ym}" x2="0" y2="${ym}"/>`;
+    }
+  }
+  return `<div style="flex-shrink:0"><div style="height:24px"></div><svg width="${W}" height="${H}" style="display:block" xmlns="http://www.w3.org/2000/svg"><g stroke="#2a3550" stroke-width="1.5" fill="none">${p}</g></svg></div>`;
+}
+
+function bkRoundCol(matches, label, slotH) {
+  const TBD = `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
+  const slots = matches.map(m =>
+    `<div style="height:${slotH}px;display:flex;align-items:center;justify-content:center;padding:2px 3px">${m ? bkMatchCard(m) : TBD}</div>`
+  ).join('');
+  return `<div style="display:flex;flex-direction:column;flex-shrink:0"><div class="bk-round-hdr">${label}</div>${slots}</div>`;
+}
+
+function renderBracketView(container) {
+  const SH = 72;
+  const tbds = n => Array(n).fill(null);
+  const r32 = MATCHES.filter(m => m.round === 'r32').sort((a,b) => a.slot - b.slot);
+  const left = r32.filter(m => m.slot < 8);
+  const right = r32.filter(m => m.slot >= 8);
+
+  const leftHalf = [
+    bkRoundCol(left, 'Round of 32', SH),
+    bkConn(4, SH, 'r'),
+    bkRoundCol(tbds(4), 'Round of 16', SH*2),
+    bkConn(2, SH*2, 'r'),
+    bkRoundCol(tbds(2), 'Quarter-finals', SH*4),
+    bkConn(1, SH*4, 'r'),
+    bkRoundCol(tbds(1), 'Semi-finals', SH*8),
+  ].join('');
+
+  const rightHalf = [
+    bkRoundCol(tbds(1), 'Semi-finals', SH*8),
+    bkConn(1, SH*4, 'l'),
+    bkRoundCol(tbds(2), 'Quarter-finals', SH*4),
+    bkConn(2, SH*2, 'l'),
+    bkRoundCol(tbds(4), 'Round of 16', SH*2),
+    bkConn(4, SH, 'l'),
+    bkRoundCol(right, 'Round of 32', SH),
+  ].join('');
+
+  const TBD_FINAL = `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
+  const finalH = SH*8 + 24;
+
+  container.innerHTML = `
+    <div class="bk-outer">
+      <div style="display:inline-flex;padding:8px 8px 32px;align-items:flex-start;gap:0">
+        <div style="display:flex">${leftHalf}</div>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:${finalH}px;flex-shrink:0;min-width:76px;padding:0 2px">
+          <div style="font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:700;margin-top:24px;margin-bottom:6px;text-align:center">🏆 Final</div>
+          ${TBD_FINAL}
+        </div>
+        <div style="display:flex">${rightHalf}</div>
+      </div>
+    </div>
+  `;
+}
+
+function bkMatchClick(id) {
+  if (window.innerWidth > 768) {
+    switchTab('schedule');
+    setTimeout(() => selectMatch(id), 50);
+  } else {
+    selectMatch(id);
+  }
+}
+
+// ══════════════════════════════════════
 //  MATCH DETAIL
 // ══════════════════════════════════════
 function selectMatch(id) {
@@ -1172,7 +1327,7 @@ function selectMatch(id) {
 
   dc.innerHTML = `
     <div class="match-hero">
-      <div class="hero-group" style="display:flex;align-items:center;justify-content:space-between">${u('group')} ${m.group} · ${u('mdPre')}${m.md}${u('mdPost')}${matchStatusInline ? `<span>${matchStatusInline}</span>` : ''}</div>
+      <div class="hero-group" style="display:flex;align-items:center;justify-content:space-between">${m.round ? getRoundLabel(m.round) : u('group')+' '+m.group+' · '+u('mdPre')+m.md+u('mdPost')}<span>${matchStatusInline}</span></div>
       <div class="hero-matchup">
         <div class="hero-team">
           <span class="hero-flag">${t1.flag}</span>
@@ -2095,6 +2250,7 @@ async function fetchLiveScores() {
 
     if (anyChange) {
       saveScoresToStorage();
+      updateKnockoutTabLabel();
       renderSchedulePanel();
       if (selectedMatchId) selectMatch(selectedMatchId);
     }
@@ -2157,6 +2313,7 @@ fetchStandings();
 
 loadScoresFromStorage(); // restore previously fetched scores before first render
 setLocation('Australia/Sydney'); // init — must run after all let declarations
+updateKnockoutTabLabel();
 renderSchedulePanel();
 </script>
 </body>
