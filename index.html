@@ -1065,7 +1065,7 @@ function renderSchedulePanel() {
       card.className = 'match-card' + (live ? ' live' : '') + (selectedMatchId === m.id ? ' selected' : '');
       card.onclick = () => selectMatch(m.id);
 
-      const scoreStr = m.score ? `${m.score[0]}–${m.score[1]}` : '';
+      const scoreStr = m.score ? (m.pen ? `${m.score[0]}(${m.pen[0]})–${m.score[1]}(${m.pen[1]})` : `${m.score[0]}–${m.score[1]}`) : '';
       const liveMin = live && m.liveMinute ? m.liveMinute : '';
       const timeStr = live
         ? `<span style="display:inline-flex;align-items:center;gap:5px;background:rgba(245,166,35,0.15);border:1px solid var(--gold);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:700;color:var(--gold)"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;flex-shrink:0"></span>LIVE${liveMin ? ' · ' + liveMin : ''}</span>`
@@ -1083,7 +1083,7 @@ function renderSchedulePanel() {
             <span class="flag">${t1.flag}</span>
             <span class="team-name">${t1.name}</span>
           </div>
-          ${m.score ? `<span class="score-display">${m.score[0]}–${m.score[1]}</span>` : `<span class="vs">vs</span>`}
+          ${m.score ? `<span class="score-display">${m.pen ? `${m.score[0]}<span style="font-size:12px;font-weight:600;opacity:0.8">(${m.pen[0]})</span>–${m.score[1]}<span style="font-size:12px;font-weight:600;opacity:0.8">(${m.pen[1]})</span>` : `${m.score[0]}–${m.score[1]}`}</span>` : `<span class="vs">vs</span>`}
           <div class="team-display right">
             <span class="team-name">${t2.name}</span>
             <span class="flag">${t2.flag}</span>
@@ -1301,7 +1301,7 @@ function selectMatch(id) {
     : `<span style="font-size:11px;color:var(--accent)">${formatAESTDate(m.utc)} · ${formatAESTTime(m.utc)} ${u('aest')}</span>`;
 
   const scoreHTML = m.score
-    ? `<div style="text-align:center"><span class="hero-score">${m.score[0]}–${m.score[1]}</span></div>`
+    ? `<div style="text-align:center"><span class="hero-score">${m.pen ? `${m.score[0]}<span style="font-size:22px;font-weight:700;opacity:0.8">(${m.pen[0]})</span>–${m.score[1]}<span style="font-size:22px;font-weight:700;opacity:0.8">(${m.pen[1]})</span>` : `${m.score[0]}–${m.score[1]}`}</span></div>`
     : `<span class="hero-vs">vs</span>`;
 
   const scorersHTML = (() => {
