@@ -821,14 +821,14 @@ const MATCHES = [
   { id:72, group:"J", md:3, utc:"2026-06-28T02:00Z", home:"JOR", away:"ARG", venue:"Arlington", score:null, rating:4 },
 
   // ── ROUND OF 32 ──────────────────────────────────────────────────────────
-  { id:73, round:'r32', slot:0,  utc:"2026-06-28T19:00Z", home:"RSA", away:"CAN" },  // 3pm ET Jun 28 → 5am AEST Jun 29
+  { id:73, round:'r32', slot:0,  utc:"2026-06-28T19:00Z", home:"RSA", away:"CAN", score:[0,1], isFinal:true },  // 3pm ET Jun 28 → 5am AEST Jun 29
   { id:74, round:'r32', slot:1,  utc:"2026-06-29T20:30Z", home:"GER", away:"PRY", score:[1,1], pen:[3,4], isFinal:true, finalTime:'AET' },  // 4:30pm ET Jun 29 → 6:30am AEST Jun 30
   { id:75, round:'r32', slot:2,  utc:"2026-06-30T01:00Z", home:"NED", away:"MAR", score:[1,1], pen:[2,3], isFinal:true, finalTime:'AET' },  // 9pm ET Jun 29 → 11am AEST Jun 30
-  { id:76, round:'r32', slot:3,  utc:"2026-06-29T17:00Z", home:"BRA", away:"JPN" },  // 1pm ET Jun 29 → 3am AEST Jun 30
-  { id:77, round:'r32', slot:4,  utc:"2026-06-30T21:00Z", home:"FRA", away:"SWE" },  // 5pm ET Jun 30 → 7am AEST Jul 1
-  { id:78, round:'r32', slot:5,  utc:"2026-06-30T17:00Z", home:"CIV", away:"NOR" },  // 1pm ET Jun 30 → 3am AEST Jul 1
-  { id:79, round:'r32', slot:6,  utc:"2026-07-01T01:00Z", home:"MEX", away:"ECU" },  // 9pm ET Jun 30 → 11am AEST Jul 1
-  { id:80, round:'r32', slot:7,  utc:"2026-07-01T16:00Z", home:"ENG", away:"COD" },  // 12pm ET Jul 1 → 2am AEST Jul 2
+  { id:76, round:'r32', slot:3,  utc:"2026-06-29T17:00Z", home:"BRA", away:"JPN", score:[2,1], isFinal:true },  // 1pm ET Jun 29 → 3am AEST Jun 30
+  { id:77, round:'r32', slot:4,  utc:"2026-06-30T21:00Z", home:"FRA", away:"SWE", score:[3,0], isFinal:true },  // 5pm ET Jun 30 → 7am AEST Jul 1
+  { id:78, round:'r32', slot:5,  utc:"2026-06-30T17:00Z", home:"CIV", away:"NOR", score:[1,2], isFinal:true },  // 1pm ET Jun 30 → 3am AEST Jul 1
+  { id:79, round:'r32', slot:6,  utc:"2026-07-01T01:00Z", home:"MEX", away:"ECU", score:[2,0], isFinal:true },  // 9pm ET Jun 30 → 11am AEST Jul 1
+  { id:80, round:'r32', slot:7,  utc:"2026-07-01T16:00Z", home:"ENG", away:"COD", score:[2,1], isFinal:true },  // 12pm ET Jul 1 → 2am AEST Jul 2
   { id:81, round:'r32', slot:8,  utc:"2026-07-02T00:00Z", home:"USA", away:"BIH" },  // 8pm ET Jul 1 → 10am AEST Jul 2
   { id:82, round:'r32', slot:9,  utc:"2026-07-01T20:00Z", home:"BEL", away:"SEN" },  // 4pm ET Jul 1 → 6am AEST Jul 2
   { id:83, round:'r32', slot:10, utc:"2026-07-02T23:00Z", home:"POR", away:"CRO" },  // 7pm ET Jul 2 → 9am AEST Jul 3
@@ -837,6 +837,35 @@ const MATCHES = [
   { id:86, round:'r32', slot:13, utc:"2026-07-03T22:00Z", home:"ARG", away:"CPV" },  // 6pm ET Jul 3 → 8am AEST Jul 4
   { id:87, round:'r32', slot:14, utc:"2026-07-04T01:30Z", home:"COL", away:"GHA" },  // 9:30pm ET Jul 3 → 11:30am AEST Jul 4
   { id:88, round:'r32', slot:15, utc:"2026-07-03T18:00Z", home:"AUS", away:"EGY" },  // 2pm ET Jul 3 → 4am AEST Jul 4
+
+  // ── ROUND OF 16 ──────────────────────────────────────────────────────────
+  // Bracket slot = visual position (0-3 left half → SF101 Dallas; 4-7 right half → SF102 Atlanta)
+  // Within each half: slots 0+1 → QF97/QF99; slots 2+3 → QF98/QF100
+  { id:90, round:'r16', slot:0, utc:"2026-07-04T17:00Z", home:"CAN",  away:"MAR",  venue:"NRG Stadium, Houston" },                // 1pm ET Jul 4 → 3am AEST Jul 5
+  { id:89, round:'r16', slot:1, utc:"2026-07-04T21:00Z", home:"PRY",  away:"FRA",  venue:"Lincoln Financial Field, Philadelphia" }, // 5pm ET Jul 4 → 7am AEST Jul 5
+  { id:94, round:'r16', slot:2, utc:"2026-07-07T00:00Z", home:"USA",  away:"BEL",  venue:"Lumen Field, Seattle" },                 // 8pm ET Jul 6 → 10am AEST Jul 7
+  { id:93, round:'r16', slot:3, utc:"2026-07-06T19:00Z", home:null,   away:null,   venue:"AT&T Stadium, Dallas" },                 // 3pm ET Jul 6 → 5am AEST Jul 7  (W83 vs W84)
+  { id:91, round:'r16', slot:4, utc:"2026-07-05T20:00Z", home:"BRA",  away:"NOR",  venue:"MetLife Stadium, East Rutherford" },     // 4pm ET Jul 5 → 6am AEST Jul 6
+  { id:92, round:'r16', slot:5, utc:"2026-07-06T00:00Z", home:"MEX",  away:"ENG",  venue:"Estadio Azteca, Mexico City" },          // 8pm ET Jul 5 → 10am AEST Jul 6
+  { id:96, round:'r16', slot:6, utc:"2026-07-07T20:00Z", home:null,   away:null,   venue:"BC Place, Vancouver" },                  // 4pm ET Jul 7 → 6am AEST Jul 8  (W85 vs W87)
+  { id:95, round:'r16', slot:7, utc:"2026-07-07T16:00Z", home:null,   away:null,   venue:"Mercedes-Benz Stadium, Atlanta" },       // 12pm ET Jul 7 → 2am AEST Jul 8 (W86 vs W88)
+
+  // ── QUARTER-FINALS ───────────────────────────────────────────────────────
+  // Slots 0-1 = left bracket (→ SF101 Dallas) | Slots 2-3 = right bracket (→ SF102 Atlanta)
+  { id:97,  round:'qf', slot:0, utc:"2026-07-09T20:00Z", home:null, away:null, venue:"Gillette Stadium, Boston" },         // 4pm ET Jul 9  → 6am AEST Jul 10
+  { id:98,  round:'qf', slot:1, utc:"2026-07-10T19:00Z", home:null, away:null, venue:"SoFi Stadium, Los Angeles" },        // 3pm ET Jul 10 → 5am AEST Jul 11
+  { id:99,  round:'qf', slot:2, utc:"2026-07-11T21:00Z", home:null, away:null, venue:"Hard Rock Stadium, Miami" },         // 5pm ET Jul 11 → 7am AEST Jul 12
+  { id:100, round:'qf', slot:3, utc:"2026-07-12T01:00Z", home:null, away:null, venue:"Arrowhead Stadium, Kansas City" },   // 9pm ET Jul 11 → 11am AEST Jul 12
+
+  // ── SEMI-FINALS ──────────────────────────────────────────────────────────
+  { id:101, round:'sf', slot:0, utc:"2026-07-14T19:00Z", home:null, away:null, venue:"AT&T Stadium, Dallas" },             // 3pm ET Jul 14 → 5am AEST Jul 15
+  { id:102, round:'sf', slot:1, utc:"2026-07-15T19:00Z", home:null, away:null, venue:"Mercedes-Benz Stadium, Atlanta" },   // 3pm ET Jul 15 → 5am AEST Jul 16
+
+  // ── THIRD PLACE ──────────────────────────────────────────────────────────
+  { id:103, round:'3rd',   slot:0, utc:"2026-07-18T19:00Z", home:null, away:null, venue:"Hard Rock Stadium, Miami" },      // 3pm ET Jul 18 → 5am AEST Jul 19
+
+  // ── FINAL ────────────────────────────────────────────────────────────────
+  { id:104, round:'final', slot:0, utc:"2026-07-19T19:00Z", home:null, away:null, venue:"MetLife Stadium, East Rutherford" }, // 3pm ET Jul 19 → 5am AEST Jul 20
 ];
 
 
@@ -865,7 +894,9 @@ const PREDICTIONS = {
   "NZL-BEL": [12, 18, 70], "EGY-IRN": [38, 32, 30], "URU-ESP": [28, 25, 47],
   "CPV-KSA": [32, 30, 38], "NOR-FRA": [32, 25, 43], "SEN-IRQ": [62, 22, 16],
   "JOR-ARG": [8, 12, 80], "ALG-AUT": [35, 30, 35], "COL-POR": [35, 28, 37],
-  "COD-UZB": [42, 30, 28], "PAN-ENG": [12, 18, 70], "CRO-GHA": [55, 25, 20]
+  "COD-UZB": [42, 30, 28], "PAN-ENG": [12, 18, 70], "CRO-GHA": [55, 25, 20],
+  // Round of 16 predictions
+  "CAN-MAR": [45, 25, 30], "FRA-PRY": [72, 18, 10], "BRA-NOR": [60, 22, 18], "MEX-ENG": [38, 27, 35]
 };
 
 // ══════════════════════════════════════
@@ -1056,8 +1087,9 @@ function renderSchedulePanel() {
     dg.appendChild(dl);
 
     dayMatches.forEach(m => {
-      const t1 = getTeam(m.home);
-      const t2 = getTeam(m.away);
+      const TBD_TEAM = { flag:'⬜', name:'TBD', abbr:'TBD' };
+      const t1 = getTeam(m.home) || (m.round ? TBD_TEAM : null);
+      const t2 = getTeam(m.away) || (m.round ? TBD_TEAM : null);
       if (!t1 || !t2) return;
       const live = isLive(m.utc, m.id);
       const past = isPast(m.utc, m.id);
@@ -1073,11 +1105,14 @@ function renderSchedulePanel() {
           ? `<span style="font-size:11px;color:var(--muted);font-weight:500">${m.finalTime || 'FT'}</span>`
           : formatAESTTime(m.utc);
 
+      const venueHtml = m.venue && m.round ? `<div style="font-size:10px;color:var(--muted);text-align:center;padding:0 8px 4px">📍 ${m.venue}</div>` : '';
+
       card.innerHTML = `
         <div class="match-meta">
           <span class="match-group">${m.round ? getRoundLabel(m.round) : u('group')+' '+m.group+' · '+u('mdPre')+m.md+u('mdPost')}</span>
           <span class="match-time">${timeStr}</span>
         </div>
+        ${venueHtml}
         <div class="match-teams">
           <div class="team-display">
             <span class="flag">${t1.flag}</span>
@@ -1160,7 +1195,7 @@ function renderGroupsView(container) {
 //  KNOCKOUT BRACKET
 // ══════════════════════════════════════
 function getRoundLabel(round) {
-  const map = { r32:'Round of 32', r16:'Round of 16', qf:'Quarter-final', sf:'Semi-final', f:'Final' };
+  const map = { r32:'Round of 32', r16:'Round of 16', qf:'Quarter-final', sf:'Semi-final', '3rd':'3rd Place Play-off', final:'🏆 Final' };
   return map[round] || round;
 }
 
@@ -1177,10 +1212,17 @@ function updateKnockoutTabLabel() {
 }
 
 function bkMatchCard(m) {
-  const TBD = `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
-  if (!m) return TBD;
+  const TBD_ROW = `<div class="bk-row"><span class="bk-nm">TBD</span></div>`;
+  if (!m) return `<div class="bk-card bk-tbd">${TBD_ROW}${TBD_ROW}</div>`;
   const t1 = getTeam(m.home), t2 = getTeam(m.away);
-  if (!t1 || !t2) return TBD;
+  if (!t1 || !t2) {
+    // Show TBD card with confirmed date/time
+    const dateStr = formatAESTDate(m.utc) + ' ' + formatAESTTime(m.utc);
+    return `<div class="bk-card bk-tbd" onclick="bkMatchClick(${m.id})">
+      <div class="bk-card-date">${dateStr}</div>
+      ${TBD_ROW}${TBD_ROW}
+    </div>`;
+  }
   const live = m.isLive;
   const sc = m.score;
   const w = sc && m.isFinal ? (sc[0] > sc[1] ? 0 : sc[0] < sc[1] ? 1 : -1) : -1;
@@ -1221,33 +1263,66 @@ function bkRoundCol(matches, label, slotH) {
 
 function renderBracketView(container) {
   const SH = 72;
-  const tbds = n => Array(n).fill(null);
-  const r32 = MATCHES.filter(m => m.round === 'r32').sort((a,b) => a.slot - b.slot);
-  const left = r32.filter(m => m.slot < 8);
-  const right = r32.filter(m => m.slot >= 8);
+
+  // ── R32 display order ────────────────────────────────────────────────────
+  // Adjacent pairs become R16 opponents; each group-of-4 feeds one QF; each group-of-8 feeds one SF.
+  // LEFT bracket half (→ QF97 Boston + QF98 LA → SF101 Dallas):
+  //   rows 0,1: slot0(CAN),slot2(MAR) → R16 M90   rows 2,3: slot1(PRY),slot4(FRA) → R16 M89
+  //   rows 4,5: slot8(USA),slot9(BEL) → R16 M94   rows 6,7: slot10(POR),slot11(ESP) → R16 M93
+  // RIGHT bracket half (→ QF99 Miami + QF100 KC → SF102 Atlanta):
+  //   rows 0,1: slot3(BRA),slot5(NOR) → R16 M91   rows 2,3: slot6(MEX),slot7(ENG)  → R16 M92
+  //   rows 4,5: slot12(SUI),slot14(COL)→ R16 M96  rows 6,7: slot13(ARG),slot15(AUS)→ R16 M95
+  const r32 = MATCHES.filter(m => m.round === 'r32');
+  const r32s = {};
+  r32.forEach(m => r32s[m.slot] = m);
+  const left  = [r32s[0], r32s[2], r32s[1], r32s[4],  r32s[8],  r32s[9],  r32s[10], r32s[11]];
+  const right = [r32s[3], r32s[5], r32s[6], r32s[7],  r32s[12], r32s[14], r32s[13], r32s[15]];
+
+  // ── R16 / QF / SF data ─────────────────────────────────────────────────
+  const r16 = MATCHES.filter(m => m.round === 'r16');
+  const r16s = {};
+  r16.forEach(m => r16s[m.slot] = m);
+  // Left: slot 0=M90(CAN/MAR), 1=M89(PRY/FRA), 2=M94(USA/BEL), 3=M93(TBD)
+  const leftR16  = [r16s[0], r16s[1], r16s[2], r16s[3]];
+  // Right: slot 4=M91(BRA/NOR), 5=M92(MEX/ENG), 6=M96(TBD), 7=M95(TBD)
+  const rightR16 = [r16s[4], r16s[5], r16s[6], r16s[7]];
+
+  const qf = MATCHES.filter(m => m.round === 'qf');
+  const qfs = {};
+  qf.forEach(m => qfs[m.slot] = m);
+  const leftQF  = [qfs[0], qfs[1]]; // slot 0=QF97 Boston, 1=QF98 LA
+  const rightQF = [qfs[2], qfs[3]]; // slot 2=QF99 Miami, 3=QF100 KC
+
+  const sf = MATCHES.filter(m => m.round === 'sf');
+  const sfs = {};
+  sf.forEach(m => sfs[m.slot] = m);
+  const leftSF  = [sfs[0] || null]; // slot 0 = SF101 Dallas
+  const rightSF = [sfs[1] || null]; // slot 1 = SF102 Atlanta
+
+  const finalM = MATCHES.find(m => m.round === 'final') || null;
 
   const leftHalf = [
-    bkRoundCol(left, 'Round of 32', SH),
-    bkConn(4, SH, 'r'),
-    bkRoundCol(tbds(4), 'Round of 16', SH*2),
-    bkConn(2, SH*2, 'r'),
-    bkRoundCol(tbds(2), 'Quarter-finals', SH*4),
-    bkConn(1, SH*4, 'r'),
-    bkRoundCol(tbds(1), 'Semi-finals', SH*8),
+    bkRoundCol(left,    'Round of 32',    SH),
+    bkConn(4, SH,    'r'),
+    bkRoundCol(leftR16, 'Round of 16',    SH*2),
+    bkConn(2, SH*2,  'r'),
+    bkRoundCol(leftQF,  'Quarter-finals', SH*4),
+    bkConn(1, SH*4,  'r'),
+    bkRoundCol(leftSF,  'Semi-finals',    SH*8),
   ].join('');
 
   const rightHalf = [
-    bkRoundCol(tbds(1), 'Semi-finals', SH*8),
-    bkConn(1, SH*4, 'l'),
-    bkRoundCol(tbds(2), 'Quarter-finals', SH*4),
-    bkConn(2, SH*2, 'l'),
-    bkRoundCol(tbds(4), 'Round of 16', SH*2),
-    bkConn(4, SH, 'l'),
-    bkRoundCol(right, 'Round of 32', SH),
+    bkRoundCol(rightSF,  'Semi-finals',    SH*8),
+    bkConn(1, SH*4,  'l'),
+    bkRoundCol(rightQF,  'Quarter-finals', SH*4),
+    bkConn(2, SH*2,  'l'),
+    bkRoundCol(rightR16, 'Round of 16',    SH*2),
+    bkConn(4, SH,    'l'),
+    bkRoundCol(right,    'Round of 32',    SH),
   ].join('');
 
-  const TBD_FINAL = `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
   const finalH = SH*8 + 24;
+  const finalCard = finalM ? bkMatchCard(finalM) : `<div class="bk-card bk-tbd"><div class="bk-row"><span class="bk-nm">TBD</span></div><div class="bk-row"><span class="bk-nm">TBD</span></div></div>`;
 
   container.innerHTML = `
     <div class="bk-outer">
@@ -1255,7 +1330,7 @@ function renderBracketView(container) {
         <div style="display:flex">${leftHalf}</div>
         <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:${finalH}px;flex-shrink:0;min-width:76px;padding:0 2px">
           <div style="font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:700;margin-top:24px;margin-bottom:6px;text-align:center">🏆 Final</div>
-          ${TBD_FINAL}
+          ${finalCard}
         </div>
         <div style="display:flex">${rightHalf}</div>
       </div>
