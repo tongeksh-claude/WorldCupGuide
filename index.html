@@ -339,7 +339,7 @@
   <nav>
     <div class="tab active" id="tab-today" onclick="switchTab('today')">⚡ Today</div>
     <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">📅 Schedule</div>
-    <div class="tab" id="tab-groups" onclick="switchTab('groups')"><span id="tab-groups-label">⚽ Round of 32</span></div>
+    <div class="tab" id="tab-groups" onclick="switchTab('groups')"><span id="tab-groups-label">🏆 Knockout</span></div>
   </nav>
 </div>
 
@@ -1200,15 +1200,11 @@ function getRoundLabel(round) {
 }
 
 function getCurrentRoundName() {
-  const r32 = MATCHES.filter(m => m.round === 'r32');
-  if (!r32.length) return '🌍 Groups';
-  const done = r32.every(m => m.isFinal);
-  return done ? '⚽ Round of 16' : '⚽ Round of 32';
+  return '🏆 Knockout';
 }
 
 function updateKnockoutTabLabel() {
-  const el = document.getElementById('tab-groups-label');
-  if (el) el.textContent = getCurrentRoundName();
+  // Tab label is fixed as "🏆 Knockout" — no dynamic update needed.
 }
 
 function bkMatchCard(m) {
@@ -1620,7 +1616,7 @@ let lang = 'en';
 
 const UI = {
   en: {
-    tabToday:'⚡ Today', tabSched:'📅 Schedule', tabGroups:'🌍 Groups',
+    tabToday:'⚡ Today', tabSched:'📅 Schedule', tabGroups:'🏆 Knockout',
     todayHdr:'⚡ Today\'s Games', todaySub:'__LOCATION__ time (__TZ__)',
     schedHdr:'📅 Full Schedule', schedSub:'All times in __LOCATION__ (__TZ__)',
     noMatches:'No matches scheduled for today in __LOCATION__ time.',
@@ -1637,7 +1633,7 @@ const UI = {
     selectMsg:'Select a match to see players, tactics & what to watch'
   },
   zh: {
-    tabToday:'⚡ 今天', tabSched:'📅 赛程', tabGroups:'🌍 分组',
+    tabToday:'⚡ 今天', tabSched:'📅 赛程', tabGroups:'🏆 淘汰赛',
     todayHdr:'⚡ 今日赛事', todaySub:'__LOCATION__时间（__TZ__）',
     schedHdr:'📅 完整赛程', schedSub:'所有时间均为__LOCATION__时间（__TZ__）',
     noMatches:'今天__LOCATION__时间没有安排比赛。',
