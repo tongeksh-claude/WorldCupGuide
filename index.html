@@ -1105,14 +1105,11 @@ function renderSchedulePanel() {
           ? `<span style="font-size:11px;color:var(--muted);font-weight:500">${m.finalTime || 'FT'}</span>`
           : formatAESTTime(m.utc);
 
-      const venueHtml = m.venue && m.round ? `<div style="font-size:10px;color:var(--muted);text-align:center;padding:0 8px 4px">📍 ${m.venue}</div>` : '';
-
       card.innerHTML = `
         <div class="match-meta">
           <span class="match-group">${m.round ? getRoundLabel(m.round) : u('group')+' '+m.group+' · '+u('mdPre')+m.md+u('mdPost')}</span>
           <span class="match-time">${timeStr}</span>
         </div>
-        ${venueHtml}
         <div class="match-teams">
           <div class="team-display">
             <span class="flag">${t1.flag}</span>
@@ -2228,16 +2225,16 @@ let _pollTimer = null;
 
 async function fetchLiveScores() {
   try {
-    // Fetch from tournament start through tomorrow (covers all completed + upcoming games)
+    // Fetch recent completed games + the next 10 days (captures upcoming R16/QF/SF/Final)
     const fmtDate = d => d.toISOString().slice(0,10).replace(/-/g,'');
     const today = new Date();
-    const tournamentStart = new Date('2026-06-11'); // day before opening, catches UTC-edge games
+    const tournamentStart = new Date('2026-06-11');
     const days = [];
-    for (let d = new Date(tournamentStart); d <= new Date(today.getTime() + 86400000); d = new Date(d.getTime() + 86400000)) {
+    for (let d = new Date(tournamentStart); d <= new Date(today.getTime() + 10*86400000); d = new Date(d.getTime() + 86400000)) {
       days.push(fmtDate(d));
     }
-    // Cap at 10 days to avoid excessive requests during group stage
-    const daysToFetch = days.slice(-10);
+    // Keep last 14 days of the window (past results + next 10 days)
+    const daysToFetch = days.slice(-14);
     const responses = await Promise.all(daysToFetch.map(date =>
       fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=${date}`)
         .then(r => r.json()).catch(() => ({events:[]}))
@@ -2266,10 +2263,30 @@ async function fetchLiveScores() {
       const awayCode = ESPN_TEAM_MAP[awayTeamName];
 
       // Find matching MATCHES entry by team codes
-      const match = MATCHES.find(m =>
+      let match = MATCHES.find(m =>
         (m.home === homeCode && m.away === awayCode) ||
         (m.home === awayCode && m.away === homeCode)
       );
+
+      // Fallback: match by kickoff time for TBD slots (QF/SF/Final where home=null)
+      if (!match && homeCode && awayCode) {
+        const evTime = new Date(ev.date || comp.date || '').getTime();
+        if (evTime) {
+          match = MATCHES.find(m =>
+            (!m.home || !m.away) && m.utc &&
+            Math.abs(new Date(m.utc).getTime() - evTime) < 4 * 3600000 // within 4hrs
+          );
+          if (match) {
+            // Resolve team codes into the slot — ESPN home→match.home
+            const espnHomeCode = homeCode;
+            const espnAwayCode = awayCode;
+            match.home = espnHomeCode;
+            match.away = espnAwayCode;
+            console.log('[WCG] resolved TBD slot by time:', match.id, match.round, espnHomeCode, 'vs', espnAwayCode);
+          }
+        }
+      }
+
       if (!match) { console.log('[WCG] no match for', homeTeamName, '(' + homeCode + ') vs', awayTeamName, '(' + awayCode + ')'); continue; }
 
       const status = comp.status?.type;
@@ -2326,9 +2343,9 @@ async function fetchLiveScores() {
       if (selectedMatchId) selectMatch(selectedMatchId);
     }
 
-    // Speed up polling when a match is live
+    // Poll every 30s when a match is live, every 5min otherwise (scores + new team assignments)
     const hasLive = MATCHES.some(m => m.isLive);
-    schedulePoll(hasLive ? 30000 : 60000);
+    schedulePoll(hasLive ? 30000 : 5 * 60000);
   } catch (e) {
     // silently fail, try again in 60s
     schedulePoll(60000);
